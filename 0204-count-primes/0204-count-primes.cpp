@@ -8,10 +8,10 @@ public:
             if(!v[i]){
                 res++;
                 v[i] = 1;
-            }
-            for (int j = i; j < n; j += i)
-            {
-                v[j] = 1;
+                for (int j = 2; i*j < n; j++)
+                {
+                    v[i*j] = 1;
+                }
             }
         }
         return res;
