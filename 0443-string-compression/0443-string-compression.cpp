@@ -19,9 +19,7 @@ public:
                     }
                 }
                 c = 1;
-                if(i == chars.size() - 2){
-                    chars[j] = chars[i+1];
-                }
+                chars[j] = chars[i+1];
             }
         }
         if(c>1){
