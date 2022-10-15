@@ -129,17 +129,23 @@ struct Node
 */
 
 //Function to return a list containing the preorder traversal of the tree.
-void Preorder(Node *root, vector <int> &res){
+vector<int> preorder(Node *root){
+    vector<int> res;
     if(root == NULL){
-        return;
+        return res;
     }
-    res.push_back(root->data);
-    Preorder(root->left, res);
-    Preorder(root->right, res);
-}
-vector <int> preorder(Node* root)
-{
-    vector <int> res;
-    Preorder(root, res);
+    stack<Node*> st;
+    st.push(root);
+    while(!st.empty()){
+        root = st.top();
+        st.pop();
+        res.push_back(root->data);
+        if(root->right){
+            st.push(root->right);
+        }
+        if(root->left){
+            st.push(root->left);
+        }
+    }
     return res;
 }
