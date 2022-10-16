@@ -7,11 +7,11 @@ public:
         }
 
         // hypothesis
-        int lHeight = maxPathSumNLeaf(root->left, res);
-        int rHeight = maxPathSumNLeaf(root->right, res);
+        int lHeight = max(0, maxPathSumNLeaf(root->left, res)); // want maximum
+        int rHeight = max(0, maxPathSumNLeaf(root->right, res)); // want maximum
 
         // induction
-        int temp = max(root->val, max(lHeight, rHeight) + root->val); // root->val = +ve, lHeight = -ve, rHeight = -ve || root->val = +ve, lHeight/rHeight = +ve
+        int temp = max(lHeight, rHeight) + root->val; // assuming root->val to be +ve. parent node will check whether or not
         int ans = max(temp, lHeight + rHeight + root->val); // current node may be the root of the path which gives the maximum sum
         res = max(res, ans);
 
