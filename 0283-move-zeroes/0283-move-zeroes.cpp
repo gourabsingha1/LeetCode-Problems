@@ -6,13 +6,11 @@ public:
         {
             if(!nums[i]){
                 zero++;
-                nums.erase(nums.begin()+i, nums.begin()+i+1);
-                i--;
             }
-        }
-
-        while(zero--){
-            nums.push_back(0);
+            else if(zero){
+                nums[i - zero] = nums[i];
+                nums[i] = 0;
+            }
         }
         return;        
     }
