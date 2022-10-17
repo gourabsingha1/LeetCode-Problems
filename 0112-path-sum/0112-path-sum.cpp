@@ -5,13 +5,13 @@ public:
         if(!root){
             return;
         }
-        
-        // induction
-        targetSum -= root->val;
-        if(!root->left && !root->right && !targetSum){
+        if(!root->left && !root->right && targetSum == root->val){
             res = 1;
             return;
         }
+        
+        // induction
+        targetSum -= root->val;
 
         // hypothesis
         Preorder(root->left, targetSum, res);
