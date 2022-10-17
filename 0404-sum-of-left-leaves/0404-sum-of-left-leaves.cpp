@@ -1,32 +1,19 @@
 class Solution {
 public:
-    int levelorderTraversal(TreeNode *root){
-        int res = 0;
-        if(root == NULL){ // base case
-            return res;
+    int res = 0;
+    void Preorder(TreeNode *root, int direction){
+        if(root == NULL){
+            return;
         }
-
-        queue<TreeNode*> q;
-        q.push(root);
-        while (q.size()) { // in second loop, q = 2,3
-            int n = q.size(); // 2
-            for (int i = 0; i < n; i++) {
-                TreeNode* node = q.front(); // 2
-                q.pop();
-                
-                // check for left and right subtree
-                if (node->left){
-                    if(!node->left->left && !node->left->right){
-                        res += node->left->val;
-                    }
-                    q.push(node->left); // q = 3,4
-                }
-                if (node->right) q.push(node->right); // q = 3,4,5
-            }
+        if(!direction && !root->left && !root->right){
+            res += root->val;
         }
-        return res;
+        
+        Preorder(root->left, 0);
+        Preorder(root->right, 1);
     }
     int sumOfLeftLeaves(TreeNode* root) {
-        return levelorderTraversal(root);
+        Preorder(root, -1);
+        return res;
     }
 };
