@@ -1,16 +1,21 @@
 class Solution {
 public:
     void Preorder(TreeNode *root, int targetSum, bool &res){
-        if(root == NULL){
+        // base condition
+        if(!root){
             return;
         }
         targetSum -= root->val;
+
+        // hypothesis
+        Preorder(root->left, targetSum, res);
+        Preorder(root->right, targetSum, res);
+        
+        // induction
         if(!root->left && !root->right && !targetSum){
             res = 1;
             return;
         }
-        Preorder(root->left, targetSum, res);
-        Preorder(root->right, targetSum, res);
     }
 
     bool hasPathSum(TreeNode* root, int targetSum) {
