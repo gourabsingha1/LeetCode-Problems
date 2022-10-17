@@ -2,6 +2,9 @@ class Solution {
 public:
     void Preorder(TreeNode *root, int targetSum, bool &res){
         // base condition
+        if(res){
+            return;
+        }
         if(!root){
             return;
         }
