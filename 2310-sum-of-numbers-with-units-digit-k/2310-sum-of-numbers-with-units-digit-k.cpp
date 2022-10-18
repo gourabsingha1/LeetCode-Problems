@@ -4,21 +4,9 @@ public:
         if(!num){
             return 0;
         }
-        else if(!k && num%10){
-            return -1;
-        }
-        
-        int K = k, Num = num, res = 0;
-        while(k <= num){
-            res++;
-            if(k == num%10){
-                return res;
-            }
-            num -= k;
-            if(num <= 0){
-                num = Num;
-                k += K;
-                res = 0;
+        for(int i = 1; i <= 10; i++){
+            if(i*k <= num && (i*k)%10 == num%10){
+                return i;
             }
         }
         return -1;
