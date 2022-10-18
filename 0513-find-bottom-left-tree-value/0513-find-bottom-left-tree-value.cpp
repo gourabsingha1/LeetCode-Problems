@@ -1,16 +1,30 @@
 class Solution {
 public:
-    int findBottomLeftValue(TreeNode* root) {
+    int levelorderTraversal(TreeNode *root){
+        int res;
+        if(!root){
+            return res;
+        }
 
         queue<TreeNode*> q;
         q.push(root);
-        TreeNode* curr;
-        while(!q.empty()){
-            curr = q.front();
-            q.pop();
-            if(curr->right) q.push(curr->right);
-            if(curr->left) q.push(curr->left);
+        while (q.size()) {
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                if(!i){
+                    res = node->val;
+                }
+                
+                // check for left and right subtree
+                if (node->left) q.push(node->left);
+                if (node->right) q.push(node->right);
+            }
         }
-        return curr->val;
+        return res;
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        return levelorderTraversal(root);
     }
 };
