@@ -38,23 +38,15 @@ struct Node
 class Solution
 {
     public:
-    bool res = 1;
-    void dfs(Node *r1, Node *r2){
-        if(!r1 && !r2){
-            return;
-        }
-        if(r1 && !r2 || r2 && !r1 || r1->data != r2->data){
-            res = 0;
-            return;
-        }
-        
-        dfs(r1->left, r2->left);
-        dfs(r1->right, r2->right);
-    }
     bool isIdentical(Node *r1, Node *r2)
     {
-        dfs(r1, r2);
-        return res;
+        if(!r1 && !r2){
+            return 1;
+        }
+        if(r1 && !r2 || r2 && !r1 || r1->data != r2->data){
+            return 0;
+        }
+        return isIdentical(r1->left, r2->left) && isIdentical(r1->right, r2->right);
     }
 };
 
