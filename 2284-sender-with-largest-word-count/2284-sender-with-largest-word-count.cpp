@@ -3,6 +3,7 @@ public:
     string largestWordCount(vector<string>& messages, vector<string>& senders) {
         unordered_map<string, int> m;
         int ma = 0;
+        string res;
         for (int i = 0; i < senders.size(); i++)
         {
             int cnt = 1;
@@ -12,15 +13,13 @@ public:
                 }
             }
             m[senders[i]] += cnt;
-            ma = max(ma, m[senders[i]]);
-        }
 
-        priority_queue<string> res;
-        for(auto &x : m){
-            if(ma == x.second){
-                res.push(x.first);
+            if(m[senders[i]] > ma || m[senders[i]] == ma && senders[i] > res){
+                res = senders[i];
+                ma = m[senders[i]];
             }
         }
-        return res.top();
+
+        return res;
     }
 };
