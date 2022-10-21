@@ -1,15 +1,14 @@
 class Solution {
 public:
     string removeOccurrences(string s, string part) {
-        string p;
         for (int i = 0; i < s.size(); i++)
         {
-            p += s[i];
-            int ub = p.size() - part.size(), lb = part.size();
-            if(p.size() >= part.size() && p.substr(ub, lb) == part){
-                p.erase(ub, lb);
+            int ub = i + 1 - part.size(), lb = part.size();
+            if(ub >= 0 && s.substr(ub, lb) == part){
+                s.erase(ub, lb);
+                i -= part.size();
             }
         }
-        return p;
+        return s;
     }
 };
