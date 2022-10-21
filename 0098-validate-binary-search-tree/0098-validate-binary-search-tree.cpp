@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool res = 1;
-    void dfs(TreeNode* root, int64_t left, int64_t right){
+    void dfs(TreeNode* root, long long int left, long long int right){
         if(!root){
             return;
         }
