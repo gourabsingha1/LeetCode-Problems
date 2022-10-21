@@ -8,7 +8,6 @@ public:
         if(root->val >= rootVal){
             res++;
         }
-        rootVal = max(rootVal, root->val);
         dfs(root->left, max(rootVal, root->val));
         dfs(root->right, max(rootVal, root->val));
     }
