@@ -1,19 +1,21 @@
 class Solution {
 public:
-    bool validateBST(TreeNode* root, long min, long max)
-    {
+    bool res = 1;
+    void dfs(TreeNode* root, int64_t left, int64_t right){
         if(!root){
-            return 1;
+            return;
+        }
+        if(!(left < (long long int)root->val && (long long int)root->val < right)){
+            res = 0;
+            return;
         }
 
-        if(root->val <= min || root->val >= max){
-            return 0;
-        }
-        
-        return validateBST(root->left, min, root->val) && validateBST(root->right, root->val, max);
+        dfs(root->left, left, root->val);
+        dfs(root->right, root->val, right);
     }
 
     bool isValidBST(TreeNode* root) {
-        return validateBST(root, LONG_MIN, LONG_MAX);
+        dfs(root, LONG_LONG_MIN, LONG_LONG_MAX);
+        return res;
     }
 };
