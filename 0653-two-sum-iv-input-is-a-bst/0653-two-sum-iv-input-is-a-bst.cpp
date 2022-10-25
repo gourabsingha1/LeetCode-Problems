@@ -1,27 +1,58 @@
-class Solution {
+class BSTIterator {
 public:
-    vector<int> nums;
-    void dfs(TreeNode *root){
-        if(!root){
-            return;
+    stack<TreeNode*> st;
+    bool reverse; // reverse = 1, descending order
+    BSTIterator(TreeNode* root, bool isReverse) {
+        reverse = isReverse;
+        inputStack(root);
+    }
+    
+    int next() {
+        TreeNode *curr = st.top();
+        st.pop();
+        if(reverse){
+            inputStack(curr->left); // go to left and push all the rights
         }
-        dfs(root->left);
-        nums.push_back(root->val);
-        dfs(root->right);
+        else{
+            inputStack(curr->right); // go to right and push all the lefts
+        }
+        return curr->val;
     }
 
-    bool findTarget(TreeNode* root, int k) {
-        dfs(root);
-        int high = nums.size()-1, low = 0;
-        while(low<high){
-            if(nums[low] + nums[high] == k){
-                return 1;
-            }
-            else if(nums[low] + nums[high] > k){
-                high--;
+    void inputStack(TreeNode* curr){
+        while(curr){
+            st.push(curr);
+            if(reverse){
+                curr = curr->right;
             }
             else{
-                low++;
+                curr = curr->left;
+            }
+        }
+    }
+    
+    bool hasNext() {
+        return !st.empty();
+    }
+};
+
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        BSTIterator l(root, 0); // low
+        BSTIterator r(root, 1); // high
+        int low = l.next();
+        int high = r.next();
+
+        while(low < high){
+            if(low + high == k){
+                return 1;
+            }
+            else if(low + high > k){
+                high = r.next();
+            }
+            else{
+                low = l.next();
             }
         }
         return 0;
