@@ -14,6 +14,9 @@ public:
                 cnt--;
                 sum -= i;
             }
+            if(cnt > 4){
+                break;
+            }
         }
         if(cnt == 4){
             res += sum;
