@@ -1,20 +1,30 @@
 class Solution {
 public:
-    int cnt = 0, res = 0;
-    void dfs(TreeNode* root, int k){
-        if(!root){
-            return;
+    int inorderTraversal(TreeNode *root, int k){
+        int cnt = 0;
+        stack<TreeNode*> st;
+        TreeNode *curr = root;
+        while(1){
+            if(curr){
+                st.push(curr);
+                curr = curr->left;
+            }
+            else{
+                if(st.empty()){
+                    break;
+                }
+                curr = st.top();
+                st.pop();
+                cnt++;
+                if(cnt == k){
+                    return curr->val;
+                }
+                curr = curr->right;
+            }
         }
-        dfs(root->left, k);
-        cnt++;
-        if(cnt == k){
-            res = root->val;
-            return;
-        }
-        dfs(root->right, k);
+        return -1;
     }
     int kthSmallest(TreeNode* root, int k) {
-        dfs(root, k);
-        return res;
+        return inorderTraversal(root, k);
     }
 };
