@@ -8,22 +8,16 @@ public:
                 if(head->next){
                     st.push(head->next);
                 }
+                head->child->prev = head;
                 head->next = head->child;
                 head->child = NULL;
             }
             if(!head->next && st.size()){
                 head->next = st.top();
+                st.top()->prev = head;
                 st.pop();
             }
             head = head->next;
-        }
-        head = dummy;
-        while(head){
-            Node* nex = head->next;
-            if(nex){
-                nex->prev = head;
-            }
-            head = nex;
         }
         return dummy;
     }
