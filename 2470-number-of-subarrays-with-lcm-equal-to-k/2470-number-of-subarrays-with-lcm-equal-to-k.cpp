@@ -4,18 +4,10 @@ public:
         int n = nums.size(), res = 0;
         for (int i = 0; i < n; i++)
         {
-            int lcm = nums[i];
-            for (int j = i; j < n; j++)
+            for (int j = i; j < n && k%nums[j] == 0; j++)
             {
-                if(k%nums[j] == 0){
-                    lcm = (lcm*nums[j])/__gcd(lcm, nums[j]);
-                    if(lcm == k){
-                        res++;
-                    }
-                }
-                else{
-                    break;
-                }
+                nums[i] = lcm(nums[i], nums[j]);
+                res += (nums[i] == k);
             }
         }
         return res;
