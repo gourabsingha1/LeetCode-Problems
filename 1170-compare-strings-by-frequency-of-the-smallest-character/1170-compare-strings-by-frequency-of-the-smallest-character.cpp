@@ -1,13 +1,32 @@
 class Solution {
 public:
     vector<int> numSmallerByFrequency(vector<string>& queries, vector<string>& words) {
-      auto f = [](string& s) {
-        return count(begin(s), end(s), *min_element(begin(s), end(s)));
-      };
-      vector<int> cnt(11, 0), res;
-      for (auto& w : words)
-        for (int i = f(w) - 1; i >= 0; --i) ++cnt[i];
-      for (auto& q : queries) res.push_back(cnt[f(q)]);
-      return res;
+        vector<int> res;
+        unordered_map<string,int> ms;
+        for(auto &x : words){
+            vector<int> m(26, 0);
+            int mi = 'z';
+            for(auto &y : x){
+                m[y-'a']++;
+                mi = min(mi, y-'a');
+            }
+            ms[x] = m[mi];
+        }
+        for(auto &x : queries){
+            vector<int> m(26, 0);
+            int mi = 'z';
+            for(auto &y : x){
+                m[y-'a']++;
+                mi = min(mi, y-'a');
+            }
+            int c = 0;
+            for(auto y : words){
+                if(ms[y] > m[mi]){
+                    c++;
+                }
+            }
+            res.push_back(c);
+        }
+        return res;
     }
 };
