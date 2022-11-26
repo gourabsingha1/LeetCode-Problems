@@ -7,19 +7,17 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 class Solution{
-public:	
-	int i = 0;
-	int recurr(int n, string &s, char &a, char &b){
-        if(i == n/2) return 1;
-        if(a != b){
+public:
+	int recurr(int i, int j, string &s){
+        if(i >= j) return 1;
+        if(s[i] != s[j]){
             return 0;
         }
-        i++;
-        return recurr(n, s, s[i], s[n-1-i]);
+        return recurr(i+1, j-1, s);
     }
 	int isPalindrome(string S)
 	{
-	    return recurr(S.size(), S, S[0], S[S.size()-1]);
+	    return recurr(0, S.size()-1, S);
 	}
 };
 
