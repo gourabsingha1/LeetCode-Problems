@@ -4,24 +4,24 @@ public:
         vector<int> res;
         unordered_map<string,int> ms;
         for(auto &x : words){
-            unordered_map<char,int> m;
+            vector<int> m(26, 0);
             int mi = 'z';
             for(auto &y : x){
-                m[y]++;
-                mi = min(mi, (int)y);
+                m[y-'a']++;
+                mi = min(mi, y-'a');
             }
-            ms[x] = m[(char)mi];
+            ms[x] = m[mi];
         }
         for(auto &x : queries){
-            unordered_map<char,int> m;
-            int mi = INT_MAX;
+            vector<int> m(26, 0);
+            int mi = 'z';
             for(auto &y : x){
-                m[y]++;
-                mi = min(mi, (int)y);
+                m[y-'a']++;
+                mi = min(mi, y-'a');
             }
             int c = 0;
             for(auto y : words){
-                if(ms[y] > m[(char)mi]){
+                if(ms[y] > m[mi]){
                     c++;
                 }
             }
