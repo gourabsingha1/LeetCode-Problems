@@ -16,9 +16,9 @@ public:
                 q.pop();
                 temp.push_back(node->val);
                 
-                for (auto &child : node->children)
+                for (int j = 0; j < node->children.size(); j++)
                 {
-                    q.push(child);
+                    q.push(node->children[j]);
                 }
             }
             res.push_back(temp);
