@@ -1,15 +1,20 @@
 class Solution {
 public:
-    vector<int> res;
     vector<int> preorder(Node* root) {
-        if(!res.size() && root) res.push_back(root->val);
+        vector<int> res;
         if(!root){
             return res;
         }
-        for (int i = 0; i < root->children.size(); i++)
-        {
-            res.push_back(root->children[i]->val);
-            preorder(root->children[i]);
+        stack<Node*> st;
+        st.push(root);
+        while(!st.empty()){
+            root = st.top();
+            st.pop();
+            res.push_back(root->val);
+            for (int i = root->children.size()-1; i >= 0; i--)
+            {
+                st.push(root->children[i]);
+            }
         }
         return res;
     }
