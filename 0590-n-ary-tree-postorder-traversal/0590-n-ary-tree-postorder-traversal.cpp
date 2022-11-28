@@ -1,19 +1,18 @@
 class Solution {
 public:
     vector<int> res;
-    void Postorder(Node *root){
+    int c = 0;
+    vector<int> postorder(Node* root) {
         if(root == NULL){
-            return;
+            return res;
         }
-        for (int i = 0; i < root->children.size(); i++)
+        for (int i = 0 ; i < root->children.size(); i++)
         {
-            Postorder(root->children[i]);
+            c++;
+            postorder(root->children[i]);
             res.push_back(root->children[i]->val);
         }
-    }
-    vector<int> postorder(Node* root) {
-        Postorder(root);
-        if(root) res.push_back(root->val);
+        if(c == res.size() && root) res.push_back(root->val);
         return res;
     }
 };
