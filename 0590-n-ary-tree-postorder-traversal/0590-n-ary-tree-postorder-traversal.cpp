@@ -1,19 +1,25 @@
 class Solution {
 public:
-    vector<int> res;
-    void Postorder(Node *root){
-        if(root == NULL){
-            return;
-        }
-        for (int i = 0; i < root->children.size(); i++)
-        {
-            Postorder(root->children[i]);
-            res.push_back(root->children[i]->val);
-        }
-    }
     vector<int> postorder(Node* root) {
-        Postorder(root);
-        if(root) res.push_back(root->val);
+        vector<int> res;
+        if(!root){
+            return res;
+        }
+        stack<Node*> st1, st2;
+        st1.push(root);
+        while(!st1.empty()){
+            root = st1.top();
+            st1.pop();
+            st2.push(root);
+            for (int i = 0; i < root->children.size(); i++)
+            {
+                st1.push(root->children[i]);
+            }
+        }
+        while(!st2.empty()){
+            res.push_back(st2.top()->val);
+            st2.pop();
+        }
         return res;
     }
 };
