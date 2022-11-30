@@ -5,16 +5,14 @@ public:
         int a = INT_MAX, c = 0;
         for(auto &v : matrix){
             for(auto &x : v){
-                res += abs(x);
-                if(x < 0){
-                    c++;
-                }
-                a = min(a, abs(x));
+                if(x < 0) c++;
+                x = abs(x);
+                res += x;
+                a = min(a, x);
             }
         }
-        if(c&1){
-            res -= 2*a;
-        }
+        if(c&1) res -= 2*a;
+        
         return res;
     }
 };
