@@ -10,9 +10,9 @@ public:
             if(!x) return res;
             bucket[y].append(y, x);
         }
-        for (int i = n; i >= 0; i--)
+        for (int i = n; i > 0; i--)
         {
-            if(bucket[i] != "") res += bucket[i];
+            if(!bucket[i].empty()) res.append(bucket[i]);
         }
         return res;
     }
