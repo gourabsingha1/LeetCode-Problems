@@ -11,8 +11,12 @@ public:
             }
             else{
                 if(!c){
-                    head->next = new ListNode(temp->val);
+                    head->next = temp;
                     head = head->next;
+                    temp = temp->next;
+                    head->next = NULL;
+                    c = 0;
+                    continue;
                 }
                 c = 0;
             }
