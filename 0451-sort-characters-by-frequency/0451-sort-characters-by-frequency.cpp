@@ -8,8 +8,7 @@ public:
         for(char &c : s) m[c]++;
         for(auto &[x,y] : m){
             if(!x) return res;
-            int c = y;
-            while(c--) bucket[y].push_back(x);
+            bucket[y].append(y, x);
         }
         for (int i = n; i >= 0; i--)
         {
