@@ -1,20 +1,19 @@
 class Solution {
 public:
-    int minEatingSpeed(vector<int>& piles, int h) {
-        int low = 1, high = *max_element(piles.begin(), piles.end());
-        while(low <= high){
-            int k = high + (low-high)/2;
-            int dH = 0;
+    int minEatingSpeed(vector<int>& piles, int n) {
+        int l = 1, h = 1e9;
+        while(l <= h){
+            int m = h + (l-h)/2, sum = 0;
             for(int &x : piles){
-                dH += (x + k - 1)/k;
+                sum += ((x+m-1)/m);
             }
-            if(dH > h){
-                low = k + 1;
+            if(sum > n){
+                l = m + 1;
             }
             else{
-                high = k - 1;
+                h = m - 1;
             }
         }
-        return low;
+        return l;
     }
 };
