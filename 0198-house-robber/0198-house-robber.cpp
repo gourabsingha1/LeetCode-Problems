@@ -1,15 +1,13 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        if(n < 3){
-            return *max_element(nums.begin(), nums.end());
-        }
-        nums[2] += nums[0];
-        for (int i = 3; i < n; i++)
+        int rob1 = 0, rob2  = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            nums[i] += max(nums[i-2], nums[i-3]);
+            int temp = max(rob1 + nums[i], rob2);
+            rob1 = rob2;
+            rob2 = temp;
         }
-        return max(nums[n-1], nums[n-2]);
+        return rob2;
     }
 };
