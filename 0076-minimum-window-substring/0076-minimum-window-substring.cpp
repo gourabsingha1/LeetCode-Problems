@@ -19,9 +19,8 @@ public:
                     }
                     j++;
                 }
-                string p = s.substr(j-1, i-j+2);
-                if(!res.size() || res.size() > p.size()){
-                    res = p;
+                if(!res.size() || res.size() > i-j+2){
+                    res = s.substr(j-1, i-j+2);
                 }
             }
         }
