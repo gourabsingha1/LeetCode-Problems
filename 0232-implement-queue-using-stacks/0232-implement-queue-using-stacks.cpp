@@ -5,25 +5,24 @@ public:
         
     }
     void push(int x) {
-        while(p.size()){
-            q.push(pop());
-        }
         p.push(x);
-        while(q.size()){
-            p.push(q.top());
-            q.pop();
-        }
         return;
     }
     int pop() {
-        int a = p.top();
-        p.pop();
-        return a;
+        int x = peek();
+        q.pop();
+        return x;
     }
     int peek() {
-        return p.top();
+        if(q.empty()){
+            while(p.size()){
+                q.push(p.top());
+                p.pop();
+            }
+        }
+        return q.top();
     }
     bool empty() {
-        return p.empty();
+        return p.empty() && q.empty();
     }
 };
