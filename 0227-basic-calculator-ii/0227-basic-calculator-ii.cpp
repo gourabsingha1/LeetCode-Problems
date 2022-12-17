@@ -1,47 +1,40 @@
 class Solution {
 public:
     int calculate(string s) {
-        int res = 0, i = 0;
-        stack<string> st;
+        int i = 0;
+        deque<int> dq;
+        deque<char> ch;
         while(i < s.size())
         {
             while(i < s.size() && s[i] == ' ') i++;
-            string temp;
+            int temp = 0;
             while(i<s.size() && isdigit(s[i])){
-                temp += s[i++];
+                temp = temp*10 + (s[i++] - '0');
             }
 
-            if(st.size() && st.top() == "*" || st.size() && st.top() == "/"){
+            if(ch.size() && ch.back() == '*' || ch.size() && ch.back() == '/'){
                 int into = 0;
-                if(st.top() == "*") into = 1;
-                st.pop();
-                int x = stoi(st.top());
-                if(into) x *= stoi(temp);
-                else x /= stoi(temp);
-                st.top() = to_string(x);
+                if(ch.back() == '*') into = 1;
+                ch.pop_back();
+                if(into) dq.back() *= temp;
+                else dq.back() /= temp;
             }
-            else if(temp.size()){
-                st.push(temp);
-            }
+            else if(temp || s[i-1] == '0') dq.push_back(temp);
             
             if(i<s.size() && s[i] != ' '){
-                string p(1, s[i++]);
-                st.push(p);
+                ch.push_back(s[i++]);
             }
         }
-        stack<string> p;
-        while(st.size()){
-            p.push(st.top());
-            st.pop();
+        for (i = 1; i < dq.size(); i++)
+        {
+            if(ch.front() == '+'){
+                dq[i] += dq[i-1];
+            }
+            else{
+                dq[i] = dq[i-1] - dq[i];
+            }
+            ch.pop_front();
         }
-        while(p.size() > 1){
-            int x = stoi(p.top()), add = 0;
-            p.pop();
-            if(p.top() == "+") add = 1;
-            p.pop();
-            if(add) p.top() = to_string(x + stoi(p.top()));
-            else p.top() = to_string(x - stoi(p.top()));
-        }
-        return stoi(p.top());
+        return dq[dq.size()-1];
     }
 };
