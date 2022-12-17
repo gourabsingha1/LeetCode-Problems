@@ -27,13 +27,12 @@ public:
         }
         for (i = 1; i < dq.size(); i++)
         {
-            if(ch.front() == '+'){
+            if(ch[i-1] == '+'){
                 dq[i] += dq[i-1];
             }
             else{
                 dq[i] = dq[i-1] - dq[i];
             }
-            ch.pop_front();
         }
         return dq[dq.size()-1];
     }
