@@ -1,27 +1,19 @@
 class Solution {
 public:
+    stack<long long int> st;
+    void operation(string &s){
+        long long int x = st.top();
+        st.pop();
+        if(s == "+") st.top() += x;
+        else if(s == "-") st.top() -= x;
+        else if(s == "*") st.top() *= x;
+        else st.top() /= x;
+    }
+
     int evalRPN(vector<string>& tokens) {
-        stack<long long int> st;
         for(string &s : tokens){
-            if(s == "+"){
-                long long int x = st.top();
-                st.pop();
-                st.top() += x;
-            }
-            else if(s == "-"){
-                long long int x = st.top();
-                st.pop();
-                st.top() -= x;
-            }
-            else if(s == "*"){
-                long long int x = st.top();
-                st.pop();
-                st.top() *= x;
-            }
-            else if(s == "/"){
-                long long int x = st.top();
-                st.pop();
-                st.top() /= x;
+            if(s == "+" || s == "-" || s == "*" || s == "/"){
+                operation(s);
             }
             else{
                 st.push(stoi(s));
