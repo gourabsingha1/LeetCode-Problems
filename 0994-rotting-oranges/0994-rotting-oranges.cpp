@@ -1,16 +1,7 @@
 class Solution {
 public:
-    void check(int i, int j, int n, int m, vector<vector<int>> &grid, queue<pair<int,int>> &q, int &fresh){
-        if(i < 0 || j < 0 || i == n || j == m || !grid[i][j]){
-            return;
-        }
-        q.push({i, j});
-        grid[i][j] = 0;
-        fresh--;
-    }
-
     int orangesRotting(vector<vector<int>>& grid) {
-        int n = grid.size(), m = grid[0].size(), res = -1, fresh = 0;
+        int n = grid.size(), m = grid[0].size(), res = 0, fresh = 0;
         queue<pair<int,int>> q;
         for (int i = 0; i < n; i++)
         {
@@ -25,17 +16,21 @@ public:
                 }
             }
         }
-        if(!fresh) return 0;
-
-        while(q.size()){
+        vector<int> directions = {-1, 0, 1, 0, -1}; 
+        while(q.size() && fresh){
             int size = q.size();
             while(size--){
                 int x = q.front().first, y = q.front().second;
                 q.pop();
-                check(x-1, y, n, m, grid, q, fresh);
-                check(x, y-1, n, m, grid, q, fresh);
-                check(x+1, y, n, m, grid, q, fresh);
-                check(x, y+1, n, m, grid, q, fresh);
+                for (int i = 0; i < 4; i++){
+                    int r = x + directions[i], c = y + directions[i+1];
+                    if(r < 0 || c < 0 || r == n || c == m || !grid[r][c]){
+                        continue;
+                    }
+                    q.push({r, c});
+                    grid[r][c] = 0;
+                    fresh--;
+                }
             }
             res++;
         }
