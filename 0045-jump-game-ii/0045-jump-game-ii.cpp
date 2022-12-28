@@ -1,25 +1,15 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int n = nums.size(), res = 0;
-        if(n == 1) return 0;
-        for (int i = 0; i < n; i++)
+        int res = 0, curr = 0, ma = 0;
+        for (int i = 0; i < nums.size()-1; i++)
         {
-            res++;
-            int j = i, x = nums[i], ma = nums[i] + i;
-            if(ma >= n-1){
-                return res;
+            ma = max(ma, nums[i] + i);
+            if(i == curr){
+                res++;
+                curr = ma;
             }
-            i++;
-            while(i<n && x--){
-                if(nums[i] + i >= ma){
-                    ma = nums[i] + i;
-                    j = i;
-                }
-                i++;
-            }
-            i = j - 1;
         }
-        return -1;
+        return res;
     }
 };
