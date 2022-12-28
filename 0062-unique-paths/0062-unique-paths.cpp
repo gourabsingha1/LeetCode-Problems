@@ -1,18 +1,18 @@
+#define ll long long int
+
 class Solution {
 public:
-    int uniquePaths(int m, int n) {
-        int res = 1;
-        int dp[m][n];
-        for (int i = 0; i < m; i++) dp[i][0] = 1;
-        for (int i = 0; i < n; i++) dp[0][i] = 1;
-        for (int i = 1; i < m; i++)
+    ll nCr(ll n, ll r){
+        r = min(r, n-r);
+        ll res = 1;
+        for (int i = 1; i <= r; i++)
         {
-            for (int j = 1; j < n; j++)
-            {
-                dp[i][j] = dp[i-1][j] + dp[i][j-1];
-            }
+            res = res*(n-r+i)/i;
         }
-        
-        return dp[m-1][n-1];
+        return res;
+    }
+    int uniquePaths(int m, int n) {
+        if(m > n) swap(n, m);
+        return nCr(n+m-2, m-1);
     }
 };
