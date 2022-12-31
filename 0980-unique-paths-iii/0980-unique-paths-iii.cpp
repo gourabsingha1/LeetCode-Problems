@@ -1,17 +1,18 @@
 class Solution {
 public:
-    int dfs(int i, int j, vector<vector<int>>& grid, int currSteps, int &steps) {
+    int dfs(int i, int j, vector<vector<int>>& grid, int steps) {
         if(i < 0 || j < 0 || i == grid.size() || j == grid[0].size() || grid[i][j] == -1){
             return 0;
         }
         if(grid[i][j] == 2){
-            return currSteps == steps;
+            return steps == -1;
         }
         grid[i][j] = -1;
-        int paths = dfs(i - 1, j, grid, currSteps + 1, steps) +
-        dfs(i, j - 1, grid, currSteps + 1, steps) +
-        dfs(i + 1, j, grid, currSteps + 1, steps) +
-        dfs(i, j + 1, grid, currSteps + 1, steps);
+        steps--;
+        int paths = dfs(i - 1, j, grid, steps) +
+        dfs(i, j - 1, grid, steps) +
+        dfs(i + 1, j, grid, steps) +
+        dfs(i, j + 1, grid, steps);
         grid[i][j] = 0;
 
         return paths;
@@ -22,10 +23,10 @@ public:
         {
             for (int j = 0; j < grid[0].size(); j++)
             {
-                if(grid[i][j] != -1) steps++;
+                if(!grid[i][j]) steps++;
                 if(grid[i][j] == 1) x = i, y = j;
             }
         }
-        return dfs(x, y, grid, 1, steps);
+        return dfs(x, y, grid, steps);
     }
 };
