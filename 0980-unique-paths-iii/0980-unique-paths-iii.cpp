@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dfs(int i, int j, vector<vector<int>>& grid, int steps) {
+    int dfs(int i, int j, vector<vector<int>>& grid, int &steps) {
         if(i < 0 || j < 0 || i == grid.size() || j == grid[0].size() || grid[i][j] == -1){
             return 0;
         }
@@ -14,6 +14,7 @@ public:
         dfs(i + 1, j, grid, steps) +
         dfs(i, j + 1, grid, steps);
         grid[i][j] = 0;
+        steps++;
 
         return paths;
     }
