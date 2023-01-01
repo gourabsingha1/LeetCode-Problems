@@ -1,17 +1,20 @@
 class Solution {
 public:
-    void helper(int target, int i, vector<int>& candidates, vector<int> v, vector<vector<int>> &res){
-        if(target <= 0 || i == candidates.size()){
+    void helper(int target, int currInd, vector<int>& candidates, vector<int> v, vector<vector<int>> &res){
+        int n = candidates.size();
+        if(target <= 0){
             if(!target) res.push_back(v);
             return;
         }
-        v.push_back(candidates[i]);
-        helper(target - candidates[i], i+1, candidates, v, res);
-        v.pop_back();
-        while(i < candidates.size()-1 && candidates[i] == candidates[i+1]){
-            i++;
+        for (int i = currInd; i < n; i++)
+        {
+            if(i != currInd && candidates[i] == candidates[i-1]) continue;
+            v.push_back(candidates[i]);
+            target -= candidates[i];
+            helper(target, i+1, candidates, v, res);
+            v.pop_back();
+            target += candidates[i];
         }
-        helper(target, i+1, candidates, v, res);
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
