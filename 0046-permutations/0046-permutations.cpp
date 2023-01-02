@@ -1,20 +1,26 @@
 class Solution {
 public:
-    vector<vector<int>> PerAll2(int i, vector<vector<int>> &s, vector<int> &a){
-        if(i==a.size()){
-            s.push_back(a);
-            return s;
+    void helper(int currInd, vector<int>& nums, unordered_map<int, int> &m, vector<int> v, vector<vector<int>> &res){
+        int n = nums.size();
+        if(v.size() == n){
+            res.push_back(v);
+            return;
         }
-        for (int j = i; j < a.size(); j++)
+        for (int i = 0; i < nums.size(); i++)
         {
-            swap(a[i],a[j]);
-            PerAll2(i+1, s, a);
-            swap(a[i],a[j]);
+            if(m[i]) continue;
+            v.push_back(nums[i]);
+            m[i] = 1;
+            helper(i + 1, nums, m, v, res);
+            v.pop_back();
+            m[i] = 0;
         }
-        return s;
     }
+
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> res;
-        return PerAll2(0, res, nums);
+        unordered_map<int, int> m;
+        helper(0, nums, m, {}, res);
+        return res;
     }
 };
