@@ -1,22 +1,22 @@
 class Solution {
 public:
-    set<vector<int>> SubND(int i, vector<int> v, set<vector<int>> &s, vector<int> &a){
-        if(i == a.size()){
-            sort(v.begin(), v.end());
-            s.insert(v);
-            return s;
+    void helper(int currInd, vector<int>& nums, vector<int> v, vector<vector<int>> &res){
+        int n = nums.size();
+        if(currInd == n){
+            res.push_back(v);
+            return;
         }
-        v.push_back(a[i]);
-        SubND(i+1, v, s, a); // pick
+        v.push_back(nums[currInd]);
+        helper(currInd + 1, nums, v, res);
         v.pop_back();
-        SubND(i+1, v, s, a); // not pick
-        return s;
+        while(currInd < n-1 && nums[currInd] == nums[currInd+1]) currInd++;
+        helper(currInd + 1, nums, v, res);
     }
+
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        set<vector<int>> st;
-        st = SubND(0, {}, st, nums);
+        sort(nums.begin(), nums.end());
         vector<vector<int>> res;
-        res.assign(st.begin(), st.end());
+        helper(0, nums, {}, res);
         return res;
     }
 };
