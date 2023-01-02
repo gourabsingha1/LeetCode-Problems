@@ -2,15 +2,14 @@ class Solution {
 public:
     void helper(int currInd, vector<int>& nums, vector<int> v, vector<vector<int>> &res){
         int n = nums.size();
-        if(currInd == n){
-            res.push_back(v);
-            return;
+        res.push_back(v);
+        for (int i = currInd; i < n; i++)
+        {
+            if(i != currInd && nums[i-1] == nums[i]) continue;
+            v.push_back(nums[i]);
+            helper(i + 1, nums, v, res);
+            v.pop_back();
         }
-        v.push_back(nums[currInd]);
-        helper(currInd + 1, nums, v, res);
-        v.pop_back();
-        while(currInd < n-1 && nums[currInd] == nums[currInd+1]) currInd++;
-        helper(currInd + 1, nums, v, res);
     }
 
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
