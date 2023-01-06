@@ -4,18 +4,15 @@ public:
         if(!root) return;
         
         if(!root->left && !root->right){
-            string temp = s + (char)(root->val + 'a');
-            reverse(temp.begin(), temp.end());
-            if(res == "") res = temp;
-            else res = min(res, temp);
+            res = min(res, (char)(root->val + 'a') + s);
             return;
         }
-        dfs(root->left, s + (char)(root->val + 'a'), res);
-        dfs(root->right, s + (char)(root->val + 'a'), res);
+        dfs(root->left, (char)(root->val + 'a') + s, res);
+        dfs(root->right, (char)(root->val + 'a') + s, res);
     }
 
     string smallestFromLeaf(TreeNode* root) {
-        string res = "";
+        string res = "{";
         dfs(root, "", res);
         return res;
     }
