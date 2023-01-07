@@ -1,14 +1,20 @@
 class Solution {
 public:
-    void dfs(int i, int &res, vector<int> &color, vector<vector<int>> &adj){
-        for(auto &it : adj[i]){
-            if(color[it] == -1){
-                color[it] = 1 - color[i];
-                dfs(it, res, color, adj);
-            }
-            else if(color[it] == color[i]){
-                res = 0;
-                return;
+    void bfs(int i, int &res, vector<int> &color, vector<vector<int>> &adj){
+        queue<int> q;
+        q.push(i);
+        while(q.size()){
+            int t = q.front();
+            q.pop();
+            for(auto &it : adj[t]){
+                if(color[it] == -1){
+                    color[it] = 1 - color[t];
+                    q.push(it); 
+                }
+                else if(color[it] == color[t]){
+                    res = 0;
+                    return;
+                }
             }
         }
     }
@@ -19,7 +25,7 @@ public:
         for(int i = 0; i < n; i++){
             if(color[i] == -1){
                 color[i] = 0;
-                dfs(i, res, color, graph);
+                bfs(i, res, color, graph);
                 if(!res) return 0;
             }
         }
