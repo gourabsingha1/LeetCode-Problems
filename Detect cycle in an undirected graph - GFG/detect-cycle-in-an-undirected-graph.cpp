@@ -5,26 +5,34 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool dfs(int i, int parent, vector<bool> &vis, vector<int> adj[]){
+    void bfs(int i, int V, bool &res, vector<bool> &vis, vector<int>adj[]){
+        queue<pair<int, int>> q;
         vis[i] = 1;
-        for(auto &it : adj[i]){
-            if(!vis[it]){
-                if(dfs(it, i, vis, adj)){
-                    return 1;
+        q.push({i, -1}); // first node doesn't have a parent node. so, -1
+        
+        while(!q.empty()){
+            int node = q.front().first;
+            int parent = q.front().second;
+            q.pop();
+            for(auto &it : adj[node]){
+                if(!vis[it]){
+                    vis[it] = 1;
+                    q.push({it, node}); // it = node, node = parent node
+                }
+                else if(parent != it){ // the node is marked visited by some other way. this means that a cycle is formed
+                    res = 1;
+                    return;
                 }
             }
-            else if(it != parent){
-                return 1;
-            }
         }
-        return 0;
     }
     bool isCycle(int V, vector<int>adj[]){
+        bool res = 0;
         vector<bool> vis(V, 0);
-        for (int i = 0; i < V; i++)
-        {
-            if(!vis[i] && dfs(i, -1, vis, adj)){ // first node doesn't have a parent node. so, -1
-                return 1;
+        for(int i = 0; i < V; i++){
+            if(!vis[i]){
+                bfs(i, V, res, vis, adj);
+                if(res) return 1;
             }
         }
         return 0;
