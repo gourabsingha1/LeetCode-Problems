@@ -5,28 +5,29 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    void dfs(int i, int parent, bool &res, vector<bool> &vis, vector<int> adj[]){
+    bool dfs(int i, int parent, vector<bool> &vis, vector<int> adj[]){
         vis[i] = 1;
         for(auto &it : adj[i]){
             if(!vis[it]){
-                dfs(it, i, res, vis, adj);
+                if(dfs(it, i, vis, adj)){
+                    return 1;
+                }
             }
             else if(it != parent){
-                res = 1;
-                return;
+                return 1;
             }
         }
+        return 0;
     }
-    bool isCycle(int V, vector<int> adj[]) {
-        bool res = 0;
+    bool isCycle(int V, vector<int>adj[]){
         vector<bool> vis(V, 0);
         for (int i = 0; i < V; i++)
         {
-            if(!vis[i]){
-                dfs(i, -1, res, vis, adj);
+            if(!vis[i] && dfs(i, -1, vis, adj)){ // first node doesn't have a parent node. so, -1
+                return 1;
             }
         }
-        return res;
+        return 0;
     }
 };
 
