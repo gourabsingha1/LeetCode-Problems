@@ -38,8 +38,8 @@ public:
                 j = LPS[j-1];
             }
             if(j == pat.size()){
-                j = 0, i = i + 1 - pat.size();
-                res.push_back(i);
+                res.push_back(i + 1 - pat.size());
+                j = LPS[j-1];
             }
         }
         return res;
