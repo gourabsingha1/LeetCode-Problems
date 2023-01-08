@@ -1,20 +1,17 @@
+#define ll long long int
+ll M = 1e11 + 7;
 class Solution {
 public:
-    int catalanNumber(int n){
-        int dp[n + 1];
-        dp[0] = 1, dp[1] = 1;
-        for (int i = 2; i <= n; i++)
+    ll nCr(ll n, ll r, ll m = M){
+        r = min(r, n-r);
+        ll res = 1;
+        for (int i = 1; i <= r; i++)
         {
-            dp[i] = 0;
-            for (int j = 1; j <= i; j++)
-            {
-                int left = j - 1, right = i - j;
-                dp[i] += dp[left] * dp[right];
-            }
+            res = (res*(n-r+i) / i) % m;
         }
-        return dp[n];
+        return res;
     }
     int numTrees(int n) {
-        return catalanNumber(n);
+        return nCr(2*n, n)/(n+1);
     }
 };
