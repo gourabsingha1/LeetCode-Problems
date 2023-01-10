@@ -1,17 +1,17 @@
 class Solution {
 public:
-    void helper(int n, int prev, unordered_map<int, int> &m, vector<int> v, vector<vector<int>> &res){
-        if(v.size() == n){
-            res.push_back(v);
+    void helper(int currInd, vector<int> nums, int &res){
+        int n = nums.size();
+        if(currInd == n){
+            res++;
             return;
         }
-        for(auto &[x, y] : m){
-            if(!y || v.size() && !isSquare(prev + x)) continue;
-            v.push_back(x);
-            y--;
-            helper(n, x, m, v, res);
-            v.pop_back();
-            y++;
+        for (int i = currInd; i < n; i++)
+        {
+            if(i != currInd && nums[i] == nums[currInd]) continue;
+            swap(nums[i], nums[currInd]);
+            if(currInd > 0 && !isSquare(nums[currInd - 1] + nums[currInd])) continue;
+            helper(currInd + 1, nums, res);
         }
     }
     bool isSquare(int n){
@@ -19,21 +19,9 @@ public:
         return sq*sq == n;
     }
     int numSquarefulPerms(vector<int>& nums) {
-        int ans = 0;
-        vector<vector<int>> res;
-        unordered_map<int, int> m;
-        for(auto &x : nums) m[x]++;
-        helper(nums.size(), 0, m, {}, res);
-        for(auto &v : res){
-            ans++;
-            for (int i = 1; i < v.size(); i++)
-            {
-                if(!isSquare(v[i - 1] + v[i])){
-                    ans--;
-                    break;
-                }
-            }
-        }
-        return ans;
+        int res = 0;
+        sort(nums.begin(), nums.end());
+        helper(0, nums, res);
+        return res;
     }
 };
