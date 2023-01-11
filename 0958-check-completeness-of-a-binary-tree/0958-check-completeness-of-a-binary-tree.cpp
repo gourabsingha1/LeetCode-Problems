@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool levelorderTraversal(TreeNode *root){
-        int level = 0;
+        bool res = 1;
         queue<TreeNode*> q;
         q.push(root);
         while (q.size()) {
@@ -10,23 +10,15 @@ public:
             for (int i = 0; i < n; i++) {
                 TreeNode* node = q.front();
                 q.pop();
-                if (node->left){
-                    if(check1 || check2) return 0;
-                    q.push(node->left);
+                if(!node){
+                    res = 0;
                 }
                 else{
-                    check1 = 1;
-                }
-                if (node->right){
-                    if(check1 || check2) return 0;
+                    if(!res) return 0;
+                    q.push(node->left);
                     q.push(node->right);
                 }
-                else{
-                    check2 = 1;
-                }
             }
-            if(pow(2, level) != n && q.size()) return 0;
-            level++;
         }
         return 1;
     }
