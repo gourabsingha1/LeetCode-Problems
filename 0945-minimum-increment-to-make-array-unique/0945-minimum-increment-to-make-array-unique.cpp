@@ -3,7 +3,6 @@ public:
     int minIncrementForUnique(vector<int>& nums) {
         sort(nums.begin(), nums.end());
         int res = 0, prev = nums[0];
-        for(auto &x : nums) cout<<x<<" ";
         for (int i = 1; i < nums.size(); i++)
         {
             if(nums[i] <= prev){
