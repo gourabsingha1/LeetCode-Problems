@@ -1,11 +1,11 @@
 class Solution {
 public:
-    vector<int> dfs(int &res, TreeNode* root){
+    pair<int, int> dfs(int &res, TreeNode* root){
         if(!root) return {0, 0};
         auto left = dfs(res, root->left);
         auto right = dfs(res, root->right);
-        int sum = left[0] + right[0] + root->val;
-        int n = left[1] + right[1] + 1;
+        int sum = left.first + right.first + root->val;
+        int n = left.second + right.second + 1;
         if(sum / n == root->val){
             res++;
         }
