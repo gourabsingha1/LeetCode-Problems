@@ -1,43 +1,67 @@
-class Solution
-{
+class Solution {
 public:
-    int find(vector<int> &y, int i)
-    {
-        if (i == y[i])
-            return i;
-        y[i] = find(y, y[i]);
-        return y[i];
+    int parent[100001], rank[100001];
+    void makeSet(int n){
+        for (int i = 1; i <= n; i++)
+        {
+            parent[i] = i;
+            rank[i] = 0;
+        }
     }
-    int numberOfGoodPaths(vector<int> &vals, vector<vector<int>> &edges)
-    {
-        int n = vals.size(), m = edges.size(), ans = 0;
-        vector<vector<int>> x(n);
-        vector<int> y(n);
+    int findParent(int node){
+        if(node == parent[node]){
+            return node;
+        }
+        return parent[node] = findParent(parent[node]); // path compression
+    }
+    void Union(int u, int v){
+        u = findParent(u);
+        v = findParent(v);
+        if(rank[u] < rank[v]){
+            parent[u] = v;
+        }
+        else if(rank[u] > rank[v]){
+            parent[v] = u;
+        }
+        else{
+            parent[v] = u;
+            rank[u]++;
+        }
+    }
+    vector<vector<int>> createGraph(int n, vector<vector<int>>& edges){
+        vector<vector<int>> adj(n);
+        for (int i = 0; i < edges.size(); i++)
+        {
+            int u = edges[i][0], v = edges[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        return adj;
+    }
+    int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
+        int res = 0, n = vals.size();
+        vector<vector<int>> adj = createGraph(n, edges);
+        makeSet(n);
+        map<int, vector<int>> m;
         for (int i = 0; i < n; i++)
         {
-            y[i] = i;
-            x[i] = {vals[i], 1};
+            m[vals[i]].push_back(i);
         }
-        sort(edges.begin(), edges.end(), [&](vector<int> &a, vector<int> &b)
-             { return max(vals[a[0]], vals[a[1]]) < max(vals[b[0]], vals[b[1]]); });
-        for (int i = 0; i < m; i++)
-        {
-            int a = find(y, edges[i][0]);
-            int b = find(y, edges[i][1]);
-            if (x[a][0] != x[b][0])
-            {
-                if (x[a][0] > x[b][0])
-                    y[b] = a;
-                else
-                    y[a] = b;
+        for(auto& [x, y] : m){
+            for(int& node : y){
+                for(int& neighbour : adj[node]){
+                    if(vals[neighbour] > x) continue;
+                    Union(node, neighbour);
+                }
             }
-            else
-            {
-                y[a] = b;
-                ans += x[a][1] * x[b][1];
-                x[b][1] += x[a][1];
+            unordered_map<int, int> count;
+            for(int& node : y){
+                int it = findParent(node);
+                count[it]++;
+                res += count[it];
             }
         }
-        return ans + n;
+
+        return res;
     }
 };
