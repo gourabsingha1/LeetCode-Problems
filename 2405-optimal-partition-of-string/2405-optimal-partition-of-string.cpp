@@ -1,16 +1,14 @@
 class Solution {
 public:
     int partitionString(string s) {
-        int res = 1;
-        vector<int> m(26, 0), mp(26, 0);
+        int res = 0, m[26] = {}, last = 0;
         for (int i = 0; i < s.size(); i++)
         {
-            m[s[i] - 'a']++;
-            if(m[s[i] - 'a'] == 2){
-                m = mp;
-                m[s[i] - 'a']++;
+            if(m[s[i] - 'a'] >= last){
                 res++;
+                last = i + 1;
             }
+            m[s[i] - 'a'] = i + 1;
         }
         return res;
     }
