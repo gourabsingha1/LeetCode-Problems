@@ -9,9 +9,7 @@ public:
             if(pre == k){
                 res++;
             }
-            if(m[pre - k]){
-                res += m[pre - k];
-            }
+            res += m[pre - k];
             m[pre]++;
         }
         return res;
