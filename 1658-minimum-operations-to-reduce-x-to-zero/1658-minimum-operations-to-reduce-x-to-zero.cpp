@@ -2,11 +2,10 @@ class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
         int n = nums.size(), j = 0, res = INT_MAX, curr = 0, sum = accumulate(nums.begin(), nums.end(), 0) - x;
-        if(!sum) return n;
         for (int i = 0; i < n; i++)
         {
             curr += nums[i];
-            while(j < i && curr > sum){
+            while(j <= i && curr > sum){
                 curr -= nums[j++];
             }
             if(curr == sum){
