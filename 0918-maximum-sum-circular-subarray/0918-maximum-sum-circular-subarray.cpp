@@ -14,10 +14,7 @@ public:
             pre += nums[i];
             sum -= nums[i];
             pq.push(pre);
-            if(!sum && i == n - 1){
-                sum = -3*1e4;
-            }
-            res = max({res, pq.top() + sum, sum, pq.top(), kadanes});
+            res = max({res, pq.top() + sum, kadanes});
         }
         return res;
     }
