@@ -5,18 +5,9 @@ public:
         for (int i = 0; i < n; i++)
         {
             sum += nums[i];
-            if(nums[i] + currMax > nums[i]){
-                currMax += nums[i];
-            }
-            else{
-                currMax = nums[i];
-            }
-            if(nums[i] + currMin < nums[i]){
-                currMin += nums[i];
-            }
-            else{
-                currMin = nums[i];
-            }
+            currMax = max(nums[i], currMax + nums[i]);
+            currMin = min(nums[i], currMin + nums[i]);
+
             maxSum = max(maxSum, currMax);
             minSum = min(minSum, currMin);
         }
