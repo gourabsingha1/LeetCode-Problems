@@ -1,22 +1,20 @@
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-        int n = nums.size(), pre = 0, res = 0, cnt = 0;
+        int n = nums.size(), pre = 0, res = 0, cnt = 0, rem;
         unordered_map<int, int> m;
         for (int i = 0; i < n; i++)
         {
             pre += nums[i];
-            if(pre % k == 0){
+            rem = pre % k;
+            if(rem < 0){
+                rem += k;
+            }
+            if(rem == 0){
                 res++;
             }
-            if(pre % k < 0){
-                res += m[pre % k + k];
-                m[pre % k + k]++;
-            }
-            else{
-                res += m[pre % k];
-                m[pre % k]++;
-            }
+            res += m[rem];
+            m[rem]++;
         }
         return res;
     }
