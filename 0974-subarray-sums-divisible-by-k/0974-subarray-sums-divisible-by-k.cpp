@@ -6,14 +6,17 @@ public:
         for (int i = 0; i < n; i++)
         {
             pre += nums[i];
-            int x = pre % k;
-            if(x < 0){
-                x += k;
-            }
             if(pre % k == 0){
                 res++;
             }
-            res += m[x]++;
+            if(pre % k < 0){
+                res += m[pre % k + k];
+                m[pre % k + k]++;
+            }
+            else{
+                res += m[pre % k];
+                m[pre % k]++;
+            }
         }
         return res;
     }
