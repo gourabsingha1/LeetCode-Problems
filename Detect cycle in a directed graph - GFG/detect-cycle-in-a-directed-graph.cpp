@@ -5,12 +5,12 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool checkForCycle(int i, vector<bool> &vis, vector<bool> &dfsVis, vector<int> adj[]){
+    bool dfs(int i, vector<bool> &vis, vector<bool> &dfsVis, vector<int> adj[]){
         vis[i] = 1;
         dfsVis[i] = 1;
         for(auto &it : adj[i]){
             if(!vis[it]){
-                if(checkForCycle(it, vis, dfsVis, adj)){
+                if(dfs(it, vis, dfsVis, adj)){
                     return 1;
                 }
             }
@@ -27,7 +27,7 @@ class Solution {
         for (int i = 0; i < V; i++)
         {
             if(!vis[i]){
-                if(checkForCycle(i, vis, dfsVis, adj)){
+                if(dfs(i, vis, dfsVis, adj)){
                     return 1;
                 }
             }
