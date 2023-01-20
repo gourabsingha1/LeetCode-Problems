@@ -30,12 +30,11 @@ public:
         return 0;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        if(prerequisites.size() == 1) return 1;
         vector<vector<int>> adj(numCourses);
         for (int i = 0; i < prerequisites.size(); i++)
         {
             int u = prerequisites[i][0], v = prerequisites[i][1];
-            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
         return !isCyclic(numCourses, adj);
     }
