@@ -1,9 +1,9 @@
 class Solution {
 public:
-    void helper(int currInd, vector<int>& subs, vector<vector<int>> &res, vector<int>& nums){
+    void helper(int currInd, vector<int>& subs, set<vector<int>> &res, vector<int>& nums){
         if(currInd == nums.size()){
             if(subs.size() > 1){
-                res.push_back(subs);
+                res.insert(subs);
             }
             return;
         }
@@ -16,10 +16,8 @@ public:
     }
     vector<vector<int>> findSubsequences(vector<int>& nums) {
         vector<int> subs;
-        vector<vector<int>> res, ans;
+        set<vector<int>> res;
         helper(0, subs, res, nums);
-        set<vector<int>> s(res.begin(), res.end());
-        ans.assign(s.begin(), s.end());
-        return ans;
+        return vector(res.begin(), res.end());
     }
 };
