@@ -10,23 +10,23 @@ public:
             res++;
             int t = q.size();
             while(t--){
-                string s = q.front(), p = s;
+                string s = q.front();
                 q.pop();
                 m[s] = 0;
                 for (int i = 0; i < n; i++)
                 {
                     for (int j = 0; j < 26; j++)
                     {
-                        int temp = p[i];
-                        p[i] = 'a' + j;
-                        if(m[p]){
-                            if(p == endWord){
+                        char temp = s[i];
+                        s[i] = 'a' + j;
+                        if(m[s]){
+                            if(s == endWord){
                                 return res;
                             }
-                            q.push(p);
-                            m[p] = 0;
+                            q.push(s);
+                            m[s] = 0;
                         }
-                        p[i] = temp;
+                        s[i] = temp;
                     }
                 }
             }
