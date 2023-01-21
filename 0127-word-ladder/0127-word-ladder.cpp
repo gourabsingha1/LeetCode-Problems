@@ -15,9 +15,9 @@ public:
                 m[s] = 0;
                 for (int i = 0; i < n; i++)
                 {
+                    char temp = s[i];
                     for (int j = 0; j < 26; j++)
                     {
-                        char temp = s[i];
                         s[i] = 'a' + j;
                         if(m[s]){
                             if(s == endWord){
@@ -26,8 +26,8 @@ public:
                             q.push(s);
                             m[s] = 0;
                         }
-                        s[i] = temp;
                     }
+                    s[i] = temp;
                 }
             }
         }
