@@ -25,7 +25,7 @@ public:
                     if(!res.size() || res[0].size() == v.size()){
                         res.push_back(v);
                     }
-                    else if(v.size() > res[0].size()){
+                    else{
                         return res;
                     }
                 }
