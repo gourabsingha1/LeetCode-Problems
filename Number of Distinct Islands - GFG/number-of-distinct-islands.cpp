@@ -22,8 +22,7 @@ public:
         dfs(i, j+1, v, grid);
     }
     int countDistinctIslands(vector<vector<int>>& grid) {
-        int n = grid.size(), m = grid[0].size(), ans = 0;
-        vector<pair<int,int>> v;
+        int n = grid.size(), m = grid[0].size();
         set<vector<pair<int,int>>> s;
         for (int i = 0; i < n; i++)
         {
