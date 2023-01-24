@@ -18,7 +18,7 @@ public:
                 }
             }
             if(flag){
-                res += s + " ";
+                res.append(s + " ");
             }
         }
         res.pop_back();
