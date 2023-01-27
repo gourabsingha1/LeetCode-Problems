@@ -1,7 +1,9 @@
 class Solution {
 public:
     bool dfs(int i, string curr, string &s, unordered_map<string, bool> &m){
-        if(i == s.size()) return m[curr] && curr != s;
+        if(i == s.size()){
+            return m[curr] && curr != s;
+        }
         bool again = 0;
         if(m[curr]){
             again = dfs(i, "", s, m);
