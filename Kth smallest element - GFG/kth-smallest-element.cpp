@@ -10,15 +10,11 @@ using namespace std;
 class Solution{
     public:
     int kthSmallest(int arr[], int l, int r, int k) {
-        k = r + 2 - k;
-        priority_queue<int, vector<int>, greater<int>> pq;
+        priority_queue<int> pq;
         for (int i = l; i <= r; i++) {
             pq.push(arr[i]);
-            if (k <= 0) {
+            if (pq.size() > k) {
                 pq.pop();
-            }
-            else{
-                k--;
             }
         }
         return pq.top();
