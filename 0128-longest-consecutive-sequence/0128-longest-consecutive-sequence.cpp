@@ -1,14 +1,14 @@
 class Solution {
 public:
     unordered_map<int, int> m;
-    int dfs(int n){
+    int findParent(int n){
         if(!m[n]){
             return 0;
         }
-        if(m[n] > 1){
+        else if(m[n] > 1){
             return m[n];
         }
-        return m[n] = dfs(n + 1) + 1;
+        return m[n] = findParent(n + 1) + 1;
     }
     int longestConsecutive(vector<int>& nums) {
         int n = nums.size(), res = 0;
@@ -18,7 +18,7 @@ public:
         }
         for (int i = 0; i < n; i++)
         {
-            res = max(res, dfs(nums[i]));
+            res = max(res, findParent(nums[i]));
         }
         return res;
     }
