@@ -1,8 +1,7 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        vector<int> res;
-        vector<char> ms(26,0), mp(26,0);
+        vector<int> ms(26,0), mp(26,0), res;
         for(char &c : p){
             mp[c - 'a']++;
         }
@@ -10,12 +9,11 @@ public:
         for (int i = 0; i < s.size(); i++)
         {
             ms[s[i] - 'a']++;
-            if(i+1-j == p.size()){
+            if(i + 1 >= p.size()){
                 if(ms == mp){
                     res.push_back(j);
                 }
-                ms[s[j] - 'a']--;
-                j++;
+                ms[s[j++] - 'a']--;
             }
         }
         return res;
