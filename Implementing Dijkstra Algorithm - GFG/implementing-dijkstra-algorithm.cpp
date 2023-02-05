@@ -7,23 +7,26 @@ class Solution
 {
 	public:
     vector <int> dijkstra(int n, vector<vector<int>> adj[], int src){
-        vector<int> distTo(n, 1e9);
-        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        distTo[src] = 0;
-        pq.push({0, src});
-        while(pq.size()){
-            int dist = pq.top().first, prev = pq.top().second;
-            pq.pop();
-            for(auto &it : adj[prev]){
-                int next = it[0];
-                int nextDist = it[1];
-                if(distTo[next] > dist + nextDist){
-                    distTo[next] = dist + nextDist;
-                    pq.push({distTo[next], next});
+        vector<int> dist(n, 1e9);
+        set<pair<int, int>> st;
+        dist[src] = 0;
+        st.insert({0, src}); // dist, node
+        while(st.size()){
+            auto it = *st.begin();
+            int prev = it.first, i = it.second;
+            st.erase(it);
+            for(auto &it : adj[i]){
+                int j = it[0], wt = it[1];
+                if(dist[j] > prev + wt){
+                    if(dist[j] != 1e9){ // edge check
+                        st.erase({dist[j], j}); // longer distance not needed
+                    }
+                    dist[j] = prev + wt;
+                    st.insert({dist[j], j});
                 }
             }
         }
-        return distTo;
+        return dist;
     }
 };
 
