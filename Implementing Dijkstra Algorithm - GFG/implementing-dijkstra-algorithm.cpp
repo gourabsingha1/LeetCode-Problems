@@ -6,17 +6,7 @@ using namespace std;
 class Solution
 {
 	public:
-    vector <int> dijkstra(int n, vector<vector<int>> edges[], int src){
-        vector<pair<int, int>> adj[n];
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < edges[i].size(); j++)
-            {
-                int u = i, v = edges[i][j][0], wt = edges[i][j][1];
-                adj[u].push_back({v, wt});
-                adj[v].push_back({u, wt});
-            }
-        }
+    vector <int> dijkstra(int n, vector<vector<int>> adj[], int src){
         vector<int> distTo(n, 1e9);
         priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
         distTo[src] = 0;
@@ -25,8 +15,8 @@ class Solution
             int dist = pq.top().first, prev = pq.top().second;
             pq.pop();
             for(auto &it : adj[prev]){
-                int next = it.first;
-                int nextDist = it.second;
+                int next = it[0];
+                int nextDist = it[1];
                 if(distTo[next] > dist + nextDist){
                     distTo[next] = dist + nextDist;
                     pq.push({distTo[next], next});
