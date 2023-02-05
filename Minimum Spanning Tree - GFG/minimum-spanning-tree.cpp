@@ -3,31 +3,70 @@
 using namespace std;
 
 // } Driver Code Ends
+class DisjointSet{
+public:
+    int parent[100001], rank[100001];
+    void makeSet(int n){
+        for (int i = 0; i < n; i++)
+        {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int findParent(int node){
+        if(node == parent[node]){
+            return node;
+        }
+        return parent[node] = findParent(parent[node]); // path compression
+    }
+    bool Union(int u, int v){
+        u = findParent(u);
+        v = findParent(v);
+        if(u == v){
+            return 1;
+        }
+        if(rank[u] < rank[v]){
+            parent[u] = v;
+        }
+        else if(rank[u] > rank[v]){
+            parent[v] = u;
+        }
+        else{
+            parent[v] = u;
+            rank[u]++;
+        }
+        return 0;
+    }
+};
+
 class Solution
 {
 	public:
+    static bool sortbyvector(const vector<int> &a, const vector<int> &b){
+        return a[2] < b[2];
+    }
     int spanningTree(int n, vector<vector<int>> adj[]){
-        int res = 0;
-        vector<int> parent(n);
-        vector<bool> vis(n);
-        priority_queue <pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-        parent[0] = -1;
-        pq.push({0, 0}); // dist, node
-        while(pq.size()){
-            int prev = pq.top().first, u = pq.top().second;
-            pq.pop();
-            if(vis[u]) continue;
-            vis[u] = 1;
-            res += prev;
-            for(auto &it : adj[u]){
-                int v = it[0], wt = it[1];
-                if(!vis[v]){
-                    parent[v] = u;
-                    pq.push({wt, v});
-                }
+        vector<vector<int>> edges;
+        for (int i = 0; i < n; i++)
+        {
+            for(auto &it : adj[i]){
+                edges.push_back({i, it[0], it[1]});
             }
         }
-        return res;
+        sort(edges.begin(), edges.end(), sortbyvector);
+        vector<int> parent(n);
+        int cost = 0;
+        DisjointSet DS;
+        DS.makeSet(n);
+        for(auto &it : edges){
+            int u = it[0], v = it[1], wt = it[2];
+            if(DS.findParent(u) != DS.findParent(v)){
+                cost += wt;
+                parent[u] = v;
+                DS.Union(u, v);
+            }
+        }
+        return cost;
     }
 };
 
