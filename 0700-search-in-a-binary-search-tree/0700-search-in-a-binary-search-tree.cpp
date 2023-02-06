@@ -1,22 +1,19 @@
 class Solution {
 public:
     TreeNode* res;
-    void dfs(TreeNode* root, int val){
+    TreeNode* searchBST(TreeNode* root, int val) {
         if(!root){
-            return;
+            return root;
         }
         if(root->val < val){
-            searchBST(root->right, val);
+            res = searchBST(root->right, val);
         }
         else if(root->val > val){
-            searchBST(root->left, val);
+            res = searchBST(root->left, val);
         }
         else{
-            res = root;
+            return root;
         }
-    }
-    TreeNode* searchBST(TreeNode* root, int val) {
-        dfs(root, val);
         return res;
     }
 };
