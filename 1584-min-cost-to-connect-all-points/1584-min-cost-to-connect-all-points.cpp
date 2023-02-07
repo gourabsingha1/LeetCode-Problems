@@ -5,11 +5,12 @@ public:
         vector<bool> vis(n);
         priority_queue <pair<int, int>, vector<pair<int, int>>, greater<>> pq;
         pq.push({0, 0}); // dist, node
-        while(pq.size()){
+        while(connected--){
             int prev = pq.top().first, u = pq.top().second;
-            pq.pop();
-            if(vis[u]) continue;
             vis[u] = 1;
+            while(pq.size() && vis[pq.top().second]){
+                pq.pop();
+            }
             cost += prev;
             for (int i = 0; i < n; i++)
             {
