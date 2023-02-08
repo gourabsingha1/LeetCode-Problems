@@ -123,11 +123,11 @@ void dfs(vector<int> &temp, vector<vector<int>> &res, Node* root){
         return;
     }
     temp.push_back(root->data);
-    dfs(temp, res, root->left);
-    dfs(temp, res, root->right);
     if(!root->left && !root->right){
         res.push_back(temp);
     }
+    dfs(temp, res, root->left);
+    dfs(temp, res, root->right);
     temp.pop_back();
 }
 vector<vector<int>> Paths(Node* root)
