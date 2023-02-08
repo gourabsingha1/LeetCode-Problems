@@ -110,47 +110,32 @@ int main() {
 
 
 // } Driver Code Ends
-
-
-/* A binary tree node
-
-struct Node
-{
-    int data;
-    struct Node* left;
-    struct Node* right;
-    
-    Node(int x){
-        data = x;
-        left = right = NULL;
-    }
-};
- */
-
 vector<int> levelorderTraversal(Node *root){
-    vector<int> res;
-    if(root == NULL){ // base case
+        vector<int> res;
+        if(!root){
+            return res;
+        }
+        queue<Node*> q;
+        q.push(root);
+        while (q.size()) {
+            int t = q.size();
+            for (int i = 0; i < t; i++)
+            {
+                Node* node = q.front();
+                q.pop();
+                if(i == 0){
+                    res.push_back(node->data);
+                }
+                if (node->left){
+                    q.push(node->left);
+                }
+                if (node->right){
+                    q.push(node->right);
+                }
+            }
+        }
         return res;
     }
-    queue<Node*> q;
-    q.push(root);
-    while (q.size()) { // in second loop, q = 2,3
-        int n = q.size(); // 2
-        for (int i = 0; i < n; i++) {
-            if(!i){
-                res.push_back(q.front()->data); // 2
-            }
-            Node* node = q.front(); // 2
-            q.pop();
-            
-            // check for left and right subtree
-            if (node->left) q.push(node->left); // q = 3,4
-            if (node->right) q.push(node->right); // q = 3,4,5
-        }
+    vector<int> leftView(Node* root) {
+        return levelorderTraversal(root);
     }
-    return res;
-}
-vector<int> leftView(Node *root)
-{
-    return levelorderTraversal(root);
-}
