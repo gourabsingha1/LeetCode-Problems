@@ -1,29 +1,31 @@
 class Solution {
-    public:
+public:
     vector<int> levelorderTraversal(TreeNode *root){
         vector<int> res;
-        if(root == NULL){ // base case
+        if(!root){
             return res;
         }
         queue<TreeNode*> q;
         q.push(root);
-        while (q.size()) { // in second loop, q = 2,3
-            int n = q.size(); // 2
-            for (int i = 0; i < n; i++) {
-                if(i == n-1){
-                    res.push_back(q.front()->val); // 2
-                }
-                TreeNode* node = q.front(); // 2
+        while (q.size()) {
+            int t = q.size();
+            for (int i = 0; i < t; i++)
+            {
+                TreeNode* node = q.front();
                 q.pop();
-                
-                // check for left and right subtree
-                if (node->left) q.push(node->left); // q = 3,4
-                if (node->right) q.push(node->right); // q = 3,4,5
+                if(i + 1 == t){
+                    res.push_back(node->val);
+                }
+                if (node->left){
+                    q.push(node->left);
+                }
+                if (node->right){
+                    q.push(node->right);
+                }
             }
         }
         return res;
     }
-
     vector<int> rightSideView(TreeNode* root) {
         return levelorderTraversal(root);
     }
