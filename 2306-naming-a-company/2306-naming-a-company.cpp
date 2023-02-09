@@ -23,9 +23,9 @@ public:
                         a--, b--;
                     }
                 }
-                res += 2 * a * b;
+                res += a * b;
             }
         }
-        return res;
+        return res * 2;
     }
 };
