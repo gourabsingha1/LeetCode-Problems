@@ -1,43 +1,39 @@
 class Solution {
 public:
-    int bfs(vector<vector<int>> grid){
-        int levels = -1, n = grid.size();
-        queue<pair<int, int>> q;
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                if(grid[i][j]){
-                    q.push({i, j});
+    int maxDistance(vector<vector<int>>& grid){
+        int res = 0, one = 0, m = grid.size(), n = grid[0].size(), inf = m + n;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j]) {
+                    one++;
+                    continue;
                 }
+                int top = inf, left = inf;
+                if (i - 1 >= 0){
+                    top = grid[i - 1][j];
+                }
+                if (j - 1 >= 0){
+                    left = grid[i][j - 1];
+                }
+                grid[i][j] = min(top, left) + 1;
             }
         }
-        if(!q.size() || q.size() == n * n){
+        if(!one || one == n * n){
             return -1;
         }
-        vector<int> dir = {0, 1, 0, -1, 0};
-        while(q.size()){
-            levels++;
-            int t = q.size();
-            while(t--){
-                auto [x, y] = q.front();
-                q.pop();
-                for (int i = 0; i < 4; i++)
-                {
-                    int dx = x + dir[i], dy = y + dir[i + 1];
-                    if(isValid(dx, dy, n, n) && !grid[dx][dy]){
-                        q.push({dx, dy});
-                        grid[dx][dy] = 1;
-                    }
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int bottom = inf, right = inf;
+                if (i + 1 < m){
+                    bottom = grid[i + 1][j];
                 }
+                if (j + 1 < n){
+                    right = grid[i][j + 1];
+                }
+                grid[i][j] = min(grid[i][j], min(bottom, right) + 1);
+                res = max(res, grid[i][j]);
             }
         }
-        return levels;
-    }
-    bool isValid(int &i, int &j, int &n, int &m){
-        return i >= 0 && j >= 0 && i < n && j < m;
-    }
-    int maxDistance(vector<vector<int>>& grid) {
-        return bfs(grid);
+        return res - 1;
     }
 };
