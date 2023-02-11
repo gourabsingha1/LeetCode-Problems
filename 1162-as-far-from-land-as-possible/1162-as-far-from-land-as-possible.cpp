@@ -23,6 +23,7 @@ public:
         }
         for (int i = m - 1; i >= 0; i--) {
             for (int j = n - 1; j >= 0; j--) {
+                if (grid[i][j] == 1) continue;
                 int bottom = inf, right = inf;
                 if (i + 1 < m){
                     bottom = grid[i + 1][j];
