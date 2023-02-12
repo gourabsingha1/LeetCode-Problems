@@ -1,8 +1,9 @@
-class Solution {
+class DisjointSet{
 public:
-    int parent[100001], rank[100001];
-    void makeSet(int n){
-        for (int i = 0; i < n; i++)
+    vector<int> parent, rank;
+    DisjointSet(int n){
+        parent.resize(n + 1), rank.resize(n + 1);
+        for (int i = 0; i <= n; i++)
         {
             parent[i] = i;
             rank[i] = 0;
@@ -32,29 +33,32 @@ public:
         }
         return 0;
     }
+};
+class Solution {
+public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
-        makeSet(n);
+        DisjointSet ds(n);
         vector<bool> vis(n);
         for (int i = 0; i < n; i++)
         {
             int u = leftChild[i], v = rightChild[i];
             if(u >= 0){
-                if(Union(u, i) || vis[u]){
+                if(ds.Union(u, i) || vis[u]){
                     return 0;
                 }
                 vis[u] = 1;
             }
             if(v >= 0){
-                if(Union(v, i) || vis[v]){
+                if(ds.Union(v, i) || vis[v]){
                     return 0;
                 }
                 vis[v] = 1;
             }
         }
-        int root = findParent(0);
+        int root = ds.findParent(0);
         for (int i = 1; i < n; i++)
         {
-            if(root != findParent(i)){
+            if(root != ds.findParent(i)){
                 return 0;
             }
         }
