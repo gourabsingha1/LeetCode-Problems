@@ -12,7 +12,7 @@ public:
             right = 0;
         }
         int temp = max(left, right) + 1;
-        res = max({res, left + right});
+        res = max(res, left + right);
         return temp;
     }
     int longestUnivaluePath(TreeNode* root) {
