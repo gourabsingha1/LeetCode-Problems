@@ -1,18 +1,17 @@
 class Solution {
 public:
     int res = -1;
-    bool vis[100000], dfsVis[100000];
     int soFar[100000] = {};
-    void dfs(int curr, int u, vector<int> adj[]){
+    void dfs(int curr, int u, vector<bool> &vis, vector<bool> &dfsVis, vector<int> adj[]){
         vis[u] = 1;
         dfsVis[u] = 1;
+        soFar[u] = curr;
         for(auto &v : adj[u]){
             if(!vis[v]){
-                soFar[v] = curr;
-                dfs(curr + 1, v, adj);
+                dfs(curr + 1, v, vis, dfsVis, adj);
             }
             else if(dfsVis[v]){
-                res = max(res, curr - soFar[v]);
+                res = max(res, curr - soFar[v] + 1);
             }
         }
         dfsVis[u] = 0;
@@ -20,6 +19,7 @@ public:
     int longestCycle(vector<int>& edges) {
         int n = edges.size();
         vector<int> adj[n];
+        vector<bool> vis(n), dfsVis(n);
         for (int i = 0; i < n; i++)
         {
             if(edges[i] >= 0){
@@ -29,8 +29,8 @@ public:
         for (int i = 0; i < n; i++)
         {
             if(!vis[i]){
-                int curr = 1;
-                dfs(curr, i, adj);
+                int curr = 0;
+                dfs(curr, i, vis, dfsVis, adj);
             }
         }
         return res;
