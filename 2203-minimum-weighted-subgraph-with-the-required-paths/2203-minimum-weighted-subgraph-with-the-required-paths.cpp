@@ -32,6 +32,7 @@ public:
         vector<long long> xToDest = dijkstra(dest, n, revAdj);
         for (int i = 0; i < n; i++)
         {
+            if(src1ToX[i] == 1e18 || src1ToX[i] == 1e18 || src1ToX[i] == 1e18) continue;
             res = min(res, src1ToX[i] + src2ToX[i] + xToDest[i]);
         }
         if(res == 1e18) res = -1;
