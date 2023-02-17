@@ -66,11 +66,10 @@ public:
             }
         }
         for(auto &[i, st] : mp){
-            vector<string> temp = {accounts[i][0]};
+            res.push_back({accounts[i][0]});
             for(auto &s : st){
-                temp.push_back(s);
+                res.back().push_back(s);
             }
-            res.push_back(temp);
         }
         return res;
     }
