@@ -1,8 +1,7 @@
 class Solution {
 public:
     vector<int> findOriginalArray(vector<int>& changed) {
-        vector<int> res;
-        int n = changed.size();
+        int n = changed.size(), j = 0;
         unordered_map<int, int> m;
         for (int i = 0; i < n; i++)
         {
@@ -13,12 +12,12 @@ public:
         {
             if(m[changed[i]] && m[2 * changed[i]]){
                 m[changed[i]]--, m[2 * changed[i]]--;
-                res.push_back(changed[i]);
+                changed[j++] = changed[i];
             }
         }
         for(auto &[x, y] : m){
             if(y) return {};
         }
-        return res;
+        return {changed.begin(), changed.begin() + j};
     }
 };
