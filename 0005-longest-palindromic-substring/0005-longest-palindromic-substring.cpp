@@ -1,26 +1,28 @@
 class Solution {
 public:
-    bool isPal(string &s, int start, int end){
-        while(start <= end){
-            if(s[start++] != s[end--]){
-                return 0;
-            }
-        }
-        return 1;
-    }
     string longestPalindrome(string s) {
-        int n = s.size();
-        string res;
-        for (int i = 0; i < n && res.size() < n - i; i++)
+        int n = s.size(), j = 0, size = 0;
+        for (int i = 0; i < n; i++)
         {
-            for (int j = i; j < n; j++)
-            {
-                int size = j - i + 1;
-                if(size > res.size() && isPal(s, i, j)){
-                    res = s.substr(i, size);
-                }
+            // odd length
+            int l = i, r = i, curr = -1;
+            while(l >= 0 && r < n && s[l] == s[r]){
+                curr += 2, l--, r++;
+            }
+            if(curr > size){
+                size = curr;
+                j = l + 1;
+            }
+            // even length
+            l = i, r = i + 1, curr = 0;
+            while(l >= 0 && r < n && s[l] == s[r]){
+                curr += 2, l--, r++;
+            }
+            if(curr > size){
+                size = curr;
+                j = l + 1;
             }
         }
-        return res;
+        return s.substr(j, size);
     }
 };
