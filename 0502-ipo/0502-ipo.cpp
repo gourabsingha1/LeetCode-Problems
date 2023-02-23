@@ -1,10 +1,9 @@
 class Solution {
 public:
     int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
-        int n = profits.size();
         priority_queue<int> maxHeap;
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < profits.size(); i++)
         {
             minHeap.push({capital[i], profits[i]});
         }
@@ -13,10 +12,11 @@ public:
                 maxHeap.push(minHeap.top().second);
                 minHeap.pop();
             }
-            if(maxHeap.size()){
-                w += maxHeap.top();
-                maxHeap.pop();
+            if(!maxHeap.size()){
+                break;
             }
+            w += maxHeap.top();
+            maxHeap.pop();
         }
         return w;
     }
