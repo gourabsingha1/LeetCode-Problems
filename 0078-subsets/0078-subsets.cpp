@@ -7,7 +7,7 @@ public:
         {
             for (int j = 0; j < n; j++)
             {
-                if((i >> j) & 1) {
+                if(i & (1 << j)) {
                     res[i].push_back(nums[j]);
                 }
             }
