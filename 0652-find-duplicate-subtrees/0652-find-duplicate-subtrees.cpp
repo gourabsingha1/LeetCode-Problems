@@ -2,29 +2,19 @@ class Solution {
 public:
     vector<TreeNode*> res;
     unordered_map<string, int> m;
-    void hashSubTree(string& hash, TreeNode* root) {
-        if(!root){
-            hash += "#";
-            return;
+    string serialize(TreeNode* root) {
+        if(!root) {
+            return "n";
         }
-        hash += to_string(root->val) + "*";
-        hashSubTree(hash, root->left);
-        hashSubTree(hash, root->right);
-    }
-    void dfs(TreeNode* root) {
-        if(!root) return;
-        string hash;
-        hashSubTree(hash, root);
-        m[hash]++;
-        if(m[hash] > 1) {
+        string s = "[" + serialize(root->left) + "," + to_string(root->val) + "," + serialize(root->right) + "]";
+        if(m[s] == 1) {
             res.push_back(root);
-            m[hash] = -1e9;
         }
-        dfs(root->left);
-        dfs(root->right);
+        m[s]++;
+        return s;
     }
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
-        dfs(root);
+        serialize(root);
         return res;
     }
 };
