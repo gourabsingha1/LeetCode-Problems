@@ -19,7 +19,7 @@ public:
                 if(y == x) {
                     return level;
                 }
-                if(y + a < 6000 && !visFor[y + a]) {
+                if(y + a < 5998 && !visFor[y + a]) {
                     q.push({y + a, 0});
                     visFor[y + a] = 1;
                 }
