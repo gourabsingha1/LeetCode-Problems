@@ -13,10 +13,10 @@ public:
         }
         vector<string> res;
         for(string &s : temp){
-            for (int i = 0; i < keypad[ch - '2'].length(); i++)
+            for (int i = 0; i < keypad[ch - '2'].size(); i++)
             {
                 char c = keypad[ch - '2'][i];
-                res.push_back(c+s);
+                res.push_back(c + s);
             }
         }
         return res;
