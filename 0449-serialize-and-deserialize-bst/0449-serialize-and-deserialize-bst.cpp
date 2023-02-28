@@ -9,20 +9,18 @@ public:
     }
     TreeNode* Deserialize(int& i, string& data) {
         int n = data.size();
+        if(i < n && data[i] == ',') i++;
         if(i >= n || !isdigit(data[i])) {
             i++;
             return NULL;
         }
-        int num = 0;
+        int j = i;
         while(i < n && isdigit(data[i])) {
-            num = num * 10 + data[i++] - '0';
+            i++;
         }
-        TreeNode* root = new TreeNode(num);
-        if(i < n && data[i] == ',') i++;
+        TreeNode* root = new TreeNode(stoi(data.substr(j, i - j)));
         root->left = Deserialize(i, data);
-        if(i < n && data[i] == ',') i++;
         root->right = Deserialize(i, data);
-        if(i < n && data[i] == ',') i++;
         return root;
     }
     TreeNode* deserialize(string data) {
