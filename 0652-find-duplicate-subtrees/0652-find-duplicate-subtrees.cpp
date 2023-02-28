@@ -6,7 +6,7 @@ public:
         if(!root) {
             return "n";
         }
-        string s = "[" + serialize(root->left) + "," + to_string(root->val) + "," + serialize(root->right) + "]";
+        string s = "[" + to_string(root->val) + "," + serialize(root->left) + "," + serialize(root->right) + "]";
         if(m[s] == 1) {
             res.push_back(root);
         }
