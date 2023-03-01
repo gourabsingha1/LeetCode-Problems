@@ -4,16 +4,16 @@ public:
         int res = 0;
         char a[4] = {'A', 'C', 'G', 'T'};
         unordered_map<string, bool> m;
-        for(auto &s : bank) m[s] = 1;
+        for(auto& s : bank) m[s] = 1;
         if(!m[endGene]) return -1;
         queue<string> q;
         q.push(startGene);
+        m[startGene] = 0;
         while(q.size()){
             int t = q.size();
             while(t--){
                 string s = q.front();
                 q.pop();
-                m[s] = 0;
                 if(s == endGene){
                     return res;
                 }
@@ -25,6 +25,7 @@ public:
                         s[i] = a[j];
                         if(m[s]){
                             q.push(s);
+                            m[s] = 0;
                         }
                     }
                     s[i] = temp;
