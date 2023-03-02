@@ -35,13 +35,8 @@ public:
                     cnt--;
                 }
             }
-            if(cnt) {
-                reverse(res.begin(), res.end());
-                while(cnt--) {
-                    res += '1';
-                }
-                reverse(res.begin(), res.end());
-            }
+            string temp(cnt, '1');
+            res = temp + res;
         }
         return binToDec(res);
     }
