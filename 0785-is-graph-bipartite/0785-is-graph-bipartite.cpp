@@ -1,32 +1,32 @@
 class Solution {
 public:
-    void bfs(int i, int &res, vector<int> &color, vector<vector<int>> &adj){
+    bool bfs(int i, vector<int>& color, vector<vector<int>>& adj){
         queue<int> q;
         q.push(i);
         while(q.size()){
-            int t = q.front();
+            int u = q.front();
             q.pop();
-            for(auto &it : adj[t]){
-                if(color[it] == -1){
-                    color[it] = 1 - color[t];
-                    q.push(it); 
+            for(auto& v : adj[u]){
+                if(color[v] == -1){
+                    color[v] = 1 - color[u];
+                    q.push(v); 
                 }
-                else if(color[it] == color[t]){
-                    res = 0;
-                    return;
+                else if(color[v] == color[u]){
+                    return 0;
                 }
             }
         }
+        return 1;
     }
-
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size(), res = 1;
         vector<int> color(n, -1);
         for(int i = 0; i < n; i++){
             if(color[i] == -1){
                 color[i] = 0;
-                bfs(i, res, color, graph);
-                if(!res) return 0;
+                if(!bfs(i, color, graph)) {
+                    return 0;
+                }
             }
         }
         return 1;
