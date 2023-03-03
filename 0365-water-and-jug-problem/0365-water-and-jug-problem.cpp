@@ -9,13 +9,13 @@ public:
         while(q.size()) {
             int x = q.front();
             q.pop();
-            if(x == targetCapacity) {
-                return 1;
-            }
             for (int i = 0; i < 4; i++)
             {
                 int dx = x + dir[i];
                 if(dx > 0 && dx <= jug1Capacity + jug2Capacity && !seen[dx]) {
+                    if(dx == targetCapacity) {
+                        return 1;
+                    }
                     q.push(dx);
                     seen[dx] = 1;
                 }
