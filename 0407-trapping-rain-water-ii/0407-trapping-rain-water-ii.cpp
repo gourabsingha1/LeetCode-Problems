@@ -18,8 +18,9 @@ public:
         }
         // process the minimum height first
         while (q.size()) {
-            int x = q.top()[1], y = q.top()[2];
+            auto cur = q.top();
             q.pop();
+            int x = cur[1], y = cur[2];
             for (int i = 0; i < 4; i++)
             {
                 int dx = x + dir[i], dy = y + dir[i + 1];
