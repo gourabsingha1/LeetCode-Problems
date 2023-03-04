@@ -1,21 +1,27 @@
 class Solution {
 public:
     unordered_map<int, vector<int>> adj;
-    void treeToGraph(TreeNode* parent, TreeNode* root) {
-        if(!root) {
-            return;
-        }
-        int u = parent->val, v = root->val;
-        if(u != v) {
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-        treeToGraph(root, root->left);
-        treeToGraph(root, root->right);
+    void createGraph(TreeNode* root){
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, -1});
+        while(q.size()){
+            auto [node, parent] = q.front();
+            q.pop();
+            if(parent != -1){
+                adj[parent].push_back(node->val);
+                adj[node->val].push_back(parent);
+            }
+            if(node->left) {
+                q.push({node->left, node->val});
+            }
+            if(node->right) {
+                q.push({node->right, node->val});
+            }
+        }   
     }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         vector<int> res;
-        treeToGraph(root, root);
+        createGraph(root);
         unordered_map<int, bool> vis;
         queue<int> q;
         q.push(target->val);
