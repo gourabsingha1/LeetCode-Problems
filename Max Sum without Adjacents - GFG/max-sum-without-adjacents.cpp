@@ -8,20 +8,17 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:
-    // tabulation
+    // space optimization
     int findMaxSum(int *arr, int n) {
-        vector<int> dp(n);
-        dp[0] = arr[0];
-        int prev1 = arr[1], prev2 = 0;
+        int prev1 = arr[0], prev2 = 0;
         for (int i = 1; i < n; i++)
         {
-            if(i > 1) {
-                prev1 = arr[i] + dp[i - 2];
-            }
-            prev2 = 0 + dp[i - 1];
-            dp[i] = max(prev1, prev2);
+            int take = arr[i] + prev2;
+            int notTake = 0 + prev1;
+            prev2 = prev1;
+            prev1 = max(take, notTake);
         }
-        return dp[n - 1];
+        return prev1;
     }
 };
 
