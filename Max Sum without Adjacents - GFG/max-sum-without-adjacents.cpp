@@ -8,24 +8,20 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:
-    // memoization
-    int helper(int i, int* nums, vector<int>& dp) {
-        if(i == 0) {
-            return nums[0];
-        }
-        else if(i < 0) {
-            return 0;
-        }
-        else if(dp[i] != -1) {
-            return dp[i];
-        }
-        int prev1 = nums[i] + helper(i - 2, nums, dp);
-        int prev2 = 0 + helper(i - 1, nums, dp);
-        return dp[i] = max(prev1, prev2);
-    }
+    // tabulation
     int findMaxSum(int *arr, int n) {
-        vector<int> dp(n, -1);
-        return helper(n - 1, arr, dp);
+        vector<int> dp(n);
+        dp[0] = arr[0];
+        int prev1 = arr[1], prev2 = 0;
+        for (int i = 1; i < n; i++)
+        {
+            if(i > 1) {
+                prev1 = arr[i] + dp[i - 2];
+            }
+            prev2 = 0 + dp[i - 1];
+            dp[i] = max(prev1, prev2);
+        }
+        return dp[n - 1];
     }
 };
 
