@@ -6,24 +6,20 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // memoization
-    int helper(vector<int>& height, int n, int k, vector<int>& dp) {
-        if(n == 0) {
-            return 0;
-        }
-        else if(dp[n] != -1) {
-            return dp[n];
-        }
-        int curr = 1e9;
-        for (int i = 1; i <= k && n - i >= 0; i++)
-        {
-            curr = min(curr, helper(height, n - i, k, dp) + abs(height[n] - height[n - i]));
-        }
-        return dp[n] = curr;
-    }
+    // tabulation
     int minimizeCost(vector<int>& height, int n, int k) {
-        vector<int> dp(n, -1);
-        return helper(height, n - 1, k, dp);
+        vector<int> dp(n);
+        dp[0] = 0;
+        for (int i = 1; i < n; i++)
+        {
+            int curr = 1e9;
+            for (int j = 1; j <= k && i - j >= 0; j++)
+            {
+                curr = min(curr, dp[i - j] + abs(height[i] - height[i - j]));
+            }
+            dp[i] = curr;
+        }
+        return dp[n - 1];
     }
 };
 
