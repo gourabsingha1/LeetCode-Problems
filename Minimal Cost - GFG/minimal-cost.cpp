@@ -6,6 +6,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
+    // memoization
     int helper(vector<int>& height, int n, int k, vector<int>& dp) {
         if(n == 0) {
             return 0;
