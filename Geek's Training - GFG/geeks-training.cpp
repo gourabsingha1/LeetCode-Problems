@@ -5,31 +5,25 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // memoization
-    int helper(int day, int last, vector<vector<int>>& points, vector<vector<int>>& dp) {
-        if(day < 0) {
-            return 0;
-        }
-        if(dp[day][last]) {
-            return dp[day][last];
-        }
-        int res = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            if(i != last) {
-                res = max(res, points[day][i] + helper(day - 1, i, points, dp));
-            }
-        }
-        return dp[day][last] = res;
-    }
+    // tabulation
     int maximumPoints(vector<vector<int>>& points, int n) {
         vector<vector<int>> dp(n, vector<int> (3));
-        int res = 0;
-        for (int i = 0; i < 3; i++)
+        dp[0][0] = max(points[0][1], points[0][2]);
+        dp[0][1] = max(points[0][0], points[0][2]);
+        dp[0][2] = max(points[0][0], points[0][1]);
+        for (int day = 1; day < n; day++)
         {
-            res = max(res, helper(n - 1, i, points, dp));
+            for (int last = 0; last < 3; last++)
+            {
+                for (int task = 0; task < 3; task++)
+                {
+                    if(last != task) {
+                        dp[day][last] = max(dp[day][last], points[day][task] + dp[day - 1][task]);
+                    }
+                }
+            }
         }
-        return res;
+        return max({dp[n - 1][0], dp[n - 1][1], dp[n - 1][2]});
     }
 };
 
