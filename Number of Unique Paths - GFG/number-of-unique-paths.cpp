@@ -9,30 +9,32 @@ using namespace std;
 class Solution
 {
     public:
-    // tabulation
+    // space optimization
     int NumberOfPath(int n, int m)
     {
-        vector<vector<int>> dp(n, vector<int> (m));
+        vector<int> prev(m, 0);
         for (int i = 0; i < n; i++)
         {
+            vector<int> curr(m, 0);
             for (int j = 0; j < m; j++)
             {
-                int up = 0, left = 0;
                 if(i == 0 && j == 0) {
-                    dp[i][j] = 1;
+                    curr[j] = 1;
                 }
                 else {
+                    int up = 0, left = 0;
                     if(i > 0) {
-                        up = dp[i - 1][j];
+                        up = prev[j];
                     }
                     if(j > 0) {
-                        left = dp[i][j - 1];
+                        left = curr[j - 1];
                     }
-                    dp[i][j] = up + left;
+                    curr[j] = up + left;
                 }
             }
+            prev = curr;
         }
-        return dp[n - 1][m - 1];
+        return prev[m - 1];
     }
 };
 
