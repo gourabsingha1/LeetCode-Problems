@@ -6,23 +6,28 @@ using namespace std;
 class Solution {
   public:
     // memoization
-    int helper(int row, int col, vector<vector<int>>& points, int n, vector<vector<int>>& dp) {
-        if(row == n) {
+    int helper(int day, int last, vector<vector<int>>& points, vector<vector<int>>& dp) {
+        if(day < 0) {
             return 0;
         }
-        if(dp[row][col]) {
-            return dp[row][col];
+        if(dp[day][last]) {
+            return dp[day][last];
         }
-        int one = helper(row + 1, (col + 1) % 3, points, n, dp);
-        int two = helper(row + 1, (col + 2) % 3, points, n, dp);
-        return dp[row][col] = max(one, two) + points[row][col];
-    }
-    int maximumPoints(vector<vector<int>>& points, int n) {
         int res = 0;
-        vector<vector<int>> dp(n, vector<int> (3));
         for (int i = 0; i < 3; i++)
         {
-            res = max(res, helper(0, i, points, n, dp));
+            if(i != last) {
+                res = max(res, points[day][i] + helper(day - 1, i, points, dp));
+            }
+        }
+        return dp[day][last] = res;
+    }
+    int maximumPoints(vector<vector<int>>& points, int n) {
+        vector<vector<int>> dp(n, vector<int> (3));
+        int res = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            res = max(res, helper(n - 1, i, points, dp));
         }
         return res;
     }
