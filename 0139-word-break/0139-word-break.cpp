@@ -1,21 +1,21 @@
 class Solution {
 public:
     // memoization
-    bool helper(int currInd, string& s, unordered_map<string, bool>& dict, vector<int>& dp) {
-        if(currInd == s.size()) {
+    bool helper(int n, string& s, unordered_map<string, bool>& dict, vector<int>& dp) {
+        if(n < 0) {
             return 1;
         }
-        if(dp[currInd] != -1) {
-            return dp[currInd];
+        if(dp[n] != -1) {
+            return dp[n];
         }
         bool res = 0;
-        for (int i = currInd; i < s.size(); i++)
+        for (int i = n; i >= 0; i--)
         {
-            if(dict[s.substr(currInd, i + 1 - currInd)]) {
-                res |= helper(i + 1, s, dict, dp);
+            if(dict[s.substr(i, n + 1 - i)]) {
+                res |= helper(i - 1, s, dict, dp);
             }
         }
-        return dp[currInd] = res;
+        return dp[n] = res;
     }
     bool wordBreak(string s, vector<string>& wordDict) {
         unordered_map<string, bool> dict;
@@ -23,6 +23,6 @@ public:
         for(auto& s : wordDict) {
             dict[s] = 1;
         }
-        return helper(0, s, dict, dp);
+        return helper(s.size() - 1, s, dict, dp);
     }
 };
