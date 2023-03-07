@@ -4,7 +4,7 @@ public:
         long long res = LONG_LONG_MAX, low = 0, high = 1e14;
         while(low <= high) {
             long long mid = (low + high) / 2, currTotal = 0;
-            for (int i = 0; i < time.size(); i++)
+            for (int i = 0; i < time.size() && currTotal < totalTrips; i++)
             {
                 currTotal += mid / time[i];
             }
