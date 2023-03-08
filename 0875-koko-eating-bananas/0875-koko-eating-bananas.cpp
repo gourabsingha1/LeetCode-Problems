@@ -1,19 +1,19 @@
 class Solution {
 public:
-    int minEatingSpeed(vector<int>& piles, int n) {
-        int l = 1, h = 1e9;
-        while(l <= h){
-            int m = h + (l-h)/2, sum = 0;
-            for(int &x : piles){
-                sum += ((x+m-1)/m);
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int low = 1, high = 1e9;
+        while(low < high) {
+            int mid = (low + high) / 2, curr = 0;
+            for(auto& pile : piles) {
+                curr += (pile + mid - 1) / mid;
             }
-            if(sum > n){
-                l = m + 1;
+            if(curr > h) {
+                low = mid + 1;
             }
-            else{
-                h = m - 1;
+            else {
+                high = mid;
             }
         }
-        return l;
+        return high;
     }
 };
