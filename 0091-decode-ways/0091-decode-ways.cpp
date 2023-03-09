@@ -1,24 +1,26 @@
 class Solution {
 public:
-    // memoization
-    int helper(int n, string& s, vector<int>& dp) {
-        if(n < 0) {
-            return 1;
-        }
-        if(dp[n] != -1) {
-            return dp[n];
-        }
-        int one = 0, two = 0;
-        if(s[n] != '0') {
-            one = helper(n - 1, s, dp);
-        }
-        if(n - 1 >= 0 && (s[n - 1] == '1' || s[n - 1] == '2' && s[n] <= '6')) {
-            two = helper(n - 2, s, dp);
-        }
-        return dp[n] = one + two;
-    }
+    // tabulation
     int numDecodings(string s) {
-        vector<int> dp(s.size(), -1);
-        return helper(s.size() - 1, s, dp);
+        int n = s.size();
+        vector<int> dp(n, -1);
+        dp[0] = s[0] != '0';
+        for (int i = 1; i < n; i++)
+        {
+            int one = 0, two = 0;
+            if(s[i] != '0') {
+                one = dp[i - 1];
+            }
+            if(i - 1 >= 0 && (s[i - 1] == '1' || s[i - 1] == '2' && s[i] <= '6')) {
+                if(i - 1 == 0) {
+                    two = dp[i - 1];
+                }
+                else {
+                    two = dp[i - 2];
+                }
+            }
+            dp[i] = one + two;
+        }
+        return dp[n - 1];
     }
 };
