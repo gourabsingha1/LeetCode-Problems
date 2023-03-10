@@ -9,23 +9,23 @@ class Solution
     public:
     // memoization
     int helper(int W, int wt[], int val[], int n, vector<vector<int>>& dp) {
-        if(n < 0) {
+        if(n == 0 || W == 0) {
             return 0;
         }
         if(dp[n][W]) {
             return dp[n][W];
         }
         int take = INT_MIN;
-        if(W - wt[n] >= 0) {
-            take = helper(W - wt[n], wt, val, n - 1, dp) + val[n];
+        if(W - wt[n - 1] >= 0) {
+            take = helper(W - wt[n - 1], wt, val, n - 1, dp) + val[n - 1];
         }
         int notTake = helper(W, wt, val, n - 1, dp);
         return dp[n][W] = max(take, notTake);
     }
     int knapSack(int W, int wt[], int val[], int n) 
     {
-        vector<vector<int>> dp(n, vector<int> (W + 1, 0));
-        return helper(W, wt, val, n - 1, dp);
+        vector<vector<int>> dp(n + 1, vector<int> (W + 1, 0));
+        return helper(W, wt, val, n, dp);
     }
 };
 
