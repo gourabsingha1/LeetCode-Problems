@@ -10,24 +10,20 @@ class Solution
     // tabulation
     int knapSack(int W, int wt[], int val[], int n) 
     {
-        vector<vector<int>> dp(n, vector<int> (W + 1, 0));
-        for (int j = wt[0]; j <= W; j++)
+        vector<vector<int>> dp(n + 1, vector<int> (W + 1, 0));
+        for (int i = 1; i <= n; i++)
         {
-            dp[0][j] = val[0];
-        }
-        for (int i = 1; i < n; i++)
-        {
-            for (int j = 0; j <= W; j++)
+            for (int j = 1; j <= W; j++)
             {
                 int take = INT_MIN;
-                if(j - wt[i] >= 0) {
-                    take = dp[i - 1][j - wt[i]] + val[i];
+                if(j - wt[i - 1] >= 0) {
+                    take = dp[i - 1][j - wt[i - 1]] + val[i - 1];
                 }
                 int notTake = dp[i - 1][j];
                 dp[i][j] = max(take, notTake);
             }
         }
-        return dp[n - 1][W];
+        return dp[n][W];
     }
 };
 
