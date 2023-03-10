@@ -9,7 +9,7 @@ class Solution
     public:
     // memoization
     int helper(int W, int wt[], int val[], int n, vector<vector<int>>& dp) {
-        if(n < 0 || W == 0) {
+        if(n < 0) {
             return 0;
         }
         if(dp[n][W]) {
