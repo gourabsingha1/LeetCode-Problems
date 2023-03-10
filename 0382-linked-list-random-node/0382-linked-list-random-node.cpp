@@ -1,14 +1,22 @@
 class Solution {
 public:
-    vector<int> nums;
+    ListNode* head;
+    int n = 0;
     Solution(ListNode* head) {
+        this->head = head;
         while(head) {
-            nums.push_back(head->val);
+            n++;
             head = head->next;
         }
     }
     
     int getRandom() {
-        return nums[rand() % nums.size()];
+        int ind = rand() % n;
+        ListNode* temp = head;
+        for (int i = 0; i < ind; i++)
+        {
+            temp = temp->next;
+        }
+        return temp->val;
     }
 };
