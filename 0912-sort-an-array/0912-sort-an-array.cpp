@@ -5,27 +5,34 @@ public:
         if(low >= high) {
             return;
         }
-
         // divide
         int mid = (low + high) / 2;
         mergeSort(low, mid, nums);
         mergeSort(mid + 1, high, nums);
-
         // merge
         merge(low, mid, high, nums);
     }
     void merge(int low, int mid, int high, vector<int>& nums) {
-        if (low >= high) return;
-        int l = low, r = mid + 1, k = 0, size = high - low + 1;
-        vector<int> sorted(size, 0);
-        while (l <= mid and r <= high)
-            sorted[k++] = nums[l] < nums[r] ? nums[l++] : nums[r++];
-        while (l <= mid) 
-            sorted[k++] = nums[l++];
-        while (r <= high) 
-            sorted[k++] = nums[r++];
-        for (k = 0; k < size; k++)
-            nums[k + low] = sorted[k];
+        int left = low, right = mid + 1, size = high - low + 1;
+        vector<int> temp;
+        while (left <= mid && right <= high) {
+            if (nums[left] <= nums[right]){
+                temp.push_back(nums[left++]);
+            }
+            else {
+                temp.push_back(nums[right++]);
+            }
+        }
+        while (left <= mid) {
+            temp.push_back(nums[left++]);
+        }
+        while(right <= high) {
+            temp.push_back(nums[right++]);
+        }
+        for (int i = 0; i < temp.size(); i++)
+        {
+            nums[low + i] = temp[i];
+        }
     }
     vector<int> sortArray(vector<int>& nums) {
         mergeSort(0, nums.size() - 1, nums);
