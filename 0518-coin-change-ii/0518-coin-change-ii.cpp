@@ -1,26 +1,28 @@
 class Solution {
 public:
-    // tabulation
+    // space optimization
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int> (amount + 1, -1));
+        vector<int> prev(amount + 1);
         for (int i = 0; i < n; i++)
         {
+            vector<int> cur(amount + 1);
             for (int j = 0; j <= amount; j++)
             {
                 if(i == 0) {
-                    dp[i][j] = j % coins[i] == 0;
+                    cur[j] = j % coins[i] == 0;
                 }
                 else {
                     int take = 0;
                     if(j - coins[i] >= 0) {
-                        take = dp[i][j - coins[i]];
+                        take = cur[j - coins[i]];
                     }
-                    int notTake = dp[i - 1][j];
-                    dp[i][j] = take + notTake;
+                    int notTake = prev[j];
+                    cur[j] = take + notTake;
                 }
             }
+            prev = cur;
         }
-        return dp[n - 1][amount];
+        return prev[amount];
     }
 };
