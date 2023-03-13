@@ -1,56 +1,41 @@
 class Solution {
 public:
     // merge sort
-    void mergeSort(int low, int high, vector<int>& nums) {
-        if(low >= high) {
-            return;
-        }
-        // divide
-        int mid = (low + high) / 2;
-        mergeSort(low, mid, nums);
-        mergeSort(mid + 1, high, nums);
-        // merge
-        merge(low, mid, high, nums);
-    }
-    void merge(int low, int mid, int high, vector<int>& nums) {
-        if (low >= high){
-            return;
-        }
-        int left = low, right = mid + 1, size = high - low + 1;
-        vector<int> temp;
-        while (left <= mid && right <= high) {
-            if (nums[left] <= nums[right]){
-                temp.push_back(nums[left++]);
+    ListNode* merge(ListNode* low, ListNode* mid) {
+        ListNode* left = low, *right = mid, *temp = new ListNode(0), *head = temp;
+        while (left && right) {
+            if (left->val < right->val){
+                temp->next = left;
+                left = left->next;
             }
             else {
-                temp.push_back(nums[right++]);
+                temp->next = right;
+                right = right->next;
             }
+            temp = temp->next;
         }
-        while (left <= mid) {
-            temp.push_back(nums[left++]);
+        if (left) {
+            temp->next = left;
         }
-        while(right <= high) {
-            temp.push_back(nums[right++]);
+        if(right) {
+            temp->next = right;
         }
-        for (int i = 0; i < temp.size(); i++)
-        {
-            nums[low + i] = temp[i];
-        }
+        return head->next;
     }
     ListNode* sortList(ListNode* head) {
-        vector<int> nums;
-        ListNode* temp = head;
-        while(temp) {
-            nums.push_back(temp->val);
-            temp = temp->next;
+        // base case
+        if(!head || !head->next) {
+            return head;
         }
-        mergeSort(0, nums.size() - 1, nums);
-        temp = head;
-        for (int i = 0; i < nums.size(); i++)
-        {
-            temp->val = nums[i];
-            temp = temp->next;
+        // divide
+        ListNode* slow = head, *fast = head;
+        while(fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        return head;
+        ListNode* mid = slow->next;
+        slow->next = NULL;
+        // merge
+        return merge(sortList(head), sortList(mid));
     }
 };
