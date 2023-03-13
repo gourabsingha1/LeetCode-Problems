@@ -1,31 +1,35 @@
-// fore korum
 class Solution {
 public:
-    ListNode *mergeKLists(vector<ListNode *> &lists) {
-        if(lists.empty()){
-            return nullptr;
+    // merge sort
+    ListNode* merge(ListNode* low, ListNode* mid) {
+        ListNode* left = low, *right = mid, *temp = new ListNode(0), *head = temp;
+        while (left && right) {
+            if (left->val < right->val){
+                temp->next = left;
+                left = left->next;
+            }
+            else {
+                temp->next = right;
+                right = right->next;
+            }
+            temp = temp->next;
         }
-        while(lists.size() > 1){
-            lists.push_back(mergeTwoLists(lists[0], lists[1]));
-            lists.erase(lists.begin());
-            lists.erase(lists.begin());
+        if (left) {
+            temp->next = left;
         }
-        return lists.front();
+        if(right) {
+            temp->next = right;
+        }
+        return head->next;
     }
-    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
-        if(l1 == nullptr){
-            return l2;
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(!lists.size()) {
+            return NULL;
         }
-        if(l2 == nullptr){
-            return l1;
+        for (int i = 1; i < lists.size(); i++)
+        {
+            lists[0] = merge(lists[0], lists[i]);
         }
-        if(l1->val <= l2->val){
-            l1->next = mergeTwoLists(l1->next, l2);
-            return l1;
-        }
-        else{
-            l2->next = mergeTwoLists(l1, l2->next);
-            return l2;
-        }
+        return lists[0];
     }
 };
