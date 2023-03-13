@@ -13,7 +13,7 @@ public:
         merge(low, mid, high, nums);
     }
     void merge(int low, int mid, int high, vector<int>& nums) {
-        int left = low, right = mid + 1, size = high - low + 1;
+        int left = low, right = mid + 1;
         vector<int> temp;
         while (left <= mid && right <= high) {
             if (nums[left] <= nums[right]){
