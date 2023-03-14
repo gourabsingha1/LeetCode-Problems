@@ -1,31 +1,19 @@
 class Solution {
 public:
     int res = 0;
-    void sumRTL(TreeNode* root, int sum){
-        // base condition
+    void dfs(TreeNode* root, int sum){
         if(!root){
             return;
         }
-        
-        // induction
-        sum = sum*10 + root->val;
+        sum = sum * 10 + root->val;
         if(!root->left && !root->right){
             res += sum;
         }
-
-        // hypothesis
-        sumRTL(root->left, sum);
-        sumRTL(root->right, sum);
-
-        return;
+        dfs(root->left, sum);
+        dfs(root->right, sum);
     }
     int sumNumbers(TreeNode* root) {
-        if(!root){
-            return 0;
-        }
-
-        int sum = 0;
-        sumRTL(root, sum);
+        dfs(root, 0);
         return res;
     }
 };
