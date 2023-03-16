@@ -17,10 +17,10 @@ public:
         {
             for (int j = num2.size() - 1; j >= 0 ; j--)
             {
-                int x = (num1[i] - '0')*(num2[j] - '0') + carry + res[k] - '0';
-                res[k--] = (x)%10 + '0';
+                int x = (num1[i] - '0') * (num2[j] - '0') + carry + res[k] - '0';
+                res[k--] = x % 10 + '0';
 
-                carry = x/10;
+                carry = x / 10;
             }
             if(carry){
                 res[k] = carry + '0';
