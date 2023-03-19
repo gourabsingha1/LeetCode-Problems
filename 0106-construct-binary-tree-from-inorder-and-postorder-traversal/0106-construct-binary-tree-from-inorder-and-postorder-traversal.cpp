@@ -1,29 +1,22 @@
-// dhut bal fore korum
-
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        if(inorder.size() != postorder.size())
-        {
+    TreeNode* helper(int i, int left, int right, unordered_map<int, int>& mp, vector<int>& postorder, vector<int>& inorder) {
+        if(left > right) {
             return NULL;
         }
-        map<int, int> mp;
-        for(int i=0; i<inorder.size(); i++)
+        int mid = mp[postorder[i]];
+        TreeNode* root = new TreeNode(postorder[i]);
+        root->left = helper(i - 1 - right + mid, left, mid - 1, mp, postorder, inorder);
+        root->right = helper(i - 1, mid + 1, right, mp, postorder, inorder);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        unordered_map<int, int> mp;
+        int n = inorder.size();
+        for (int i = 0; i < n; i++)
         {
             mp[inorder[i]] = i;
-
         }
-        return buildTreePosIn(inorder,0,inorder.size()-1,postorder,0,postorder.size()-1,mp);
-    }
-    TreeNode* buildTreePosIn(vector<int> &inorder,int is,int ie,vector<int> &postorder,int ps,int pe,map<int,int> &mp){
-        if(ps > pe || is > ie ) return NULL;
-        TreeNode* root = new TreeNode(postorder[pe]);
-
-        int inRoot = mp[postorder[pe]];
-        int numsLeft = inRoot - is;
-
-        root -> left = buildTreePosIn(inorder,is,inRoot-1,postorder,ps,ps + numsLeft - 1,mp);
-        root -> right = buildTreePosIn(inorder,inRoot+1,ie,postorder,ps + numsLeft,pe-1,mp);
-        return root;
+        return helper(n - 1, 0, n - 1, mp, postorder, inorder);
     }
 };
