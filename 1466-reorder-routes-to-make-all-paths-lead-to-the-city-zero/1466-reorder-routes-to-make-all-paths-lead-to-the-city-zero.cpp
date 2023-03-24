@@ -5,7 +5,7 @@ public:
         vis[u] = 1;
         for (auto &v : adj[u]) {
             if(!vis[abs(v)]){
-                res += v >= 0;
+                res += v > 0;
                 dfs(abs(v), vis, adj);
             }
         }
