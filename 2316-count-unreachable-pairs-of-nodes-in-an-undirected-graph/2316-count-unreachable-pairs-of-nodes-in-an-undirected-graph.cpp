@@ -10,7 +10,7 @@ public:
         }
     }
     long long countPairs(int n, vector<vector<int>>& edges) {
-        long long res = 0;
+        long long res = 0, sum = n;
         vector<int> adj[n];
         for (int i = 0; i < edges.size(); i++)
         {
@@ -26,13 +26,9 @@ public:
                 int vertices = 0;
                 dfs(vertices, i, vis, adj);
                 nums.push_back(vertices);
+                sum -= vertices;
+                res += 1LL * vertices * sum;
             }
-        }
-        int sum = n;
-        for (int i = 0; i < nums.size(); i++)
-        {
-            sum -= nums[i];
-            res += 1LL * nums[i] * sum;
         }
         return res;
     }
