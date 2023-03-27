@@ -1,13 +1,13 @@
 class Solution {
 public:
-    TreeNode* dfs(TreeNode* root, int p, int q) {
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if(!root) {
             return NULL;
         }
-        if(root->val == p || root->val == q) {
+        if(root->val == p->val || root->val == q->val) {
             return root;
         }
-        TreeNode *left = dfs(root->left, p, q), *right = dfs(root->right, p, q);
+        TreeNode *left = lowestCommonAncestor(root->left, p, q), *right = lowestCommonAncestor(root->right, p, q);
         if(left && right) {
             return root;
         }
@@ -15,8 +15,5 @@ public:
             return left;
         }
         return right;
-    }
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        return dfs(root, p->val, q->val);
     }
 };
