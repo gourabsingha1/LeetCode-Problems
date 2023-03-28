@@ -13,9 +13,7 @@ public:
             return dp[i];
         }
         int j = i;
-        while(i < days.size() && days[i] < days[j] + pass[costInd]) {
-            i++;
-        }
+        i = lower_bound(days.begin(), days.end(), days[j] + pass[costInd]) - days.begin();
         int take = costs[costInd] + helper(i, 0, days, costs, dp);
         int notTake = helper(j, costInd + 1, days, costs, dp);
         return dp[j] = min(take, notTake);
