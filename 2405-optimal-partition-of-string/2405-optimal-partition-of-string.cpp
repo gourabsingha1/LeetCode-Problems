@@ -1,14 +1,16 @@
 class Solution {
 public:
     int partitionString(string s) {
-        int res = 0, m[26] = {}, last = 0;
+        int res = 1, m[26] = {}, j = 0;
         for (int i = 0; i < s.size(); i++)
         {
-            if(m[s[i] - 'a'] >= last){
+            m[s[i] - 'a']++;
+            if(m[s[i] - 'a'] > 1){
                 res++;
-                last = i + 1;
+                while(j < i) {
+                    m[s[j++] - 'a']--;
+                }
             }
-            m[s[i] - 'a'] = i + 1;
         }
         return res;
     }
