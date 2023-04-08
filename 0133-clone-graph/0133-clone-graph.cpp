@@ -1,6 +1,7 @@
 class Solution {
 public:
     Node* dfs(Node* node, unordered_map<Node*, Node*>& mp) {
+        if(!node) return NULL;
         Node* newNode = new Node(node->val);
         mp[node] = newNode;
         vector<Node*> newNei;
@@ -16,9 +17,7 @@ public:
         return newNode;
     }
     Node* cloneGraph(Node* node) {
-        if(!node) return NULL;
         unordered_map<Node*, Node*> mp;
-        dfs(node, mp);
-        return mp[node];
+        return dfs(node, mp);
     }
 };
