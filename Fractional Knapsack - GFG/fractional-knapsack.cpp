@@ -21,23 +21,28 @@ struct Item{
 class Solution
 {
     public:
-    double fractionalKnapsack(int W, Item arr[], int n)
-    {
-        double res = 0;
-        vector<pair<double, int>> valuePerWt;
-        for (int i = 0; i < n; i++)
-        {
-            double x = arr[i].value, y = arr[i].weight;
-            valuePerWt.push_back({x / y, arr[i].weight});
+    static bool compare(Item a, Item b) {
+        double r1 = (double)a.value / (double)a.weight;
+        double r2 = (double)b.value / (double)b.weight;
+        return r1 > r2;
+    }
+    
+    double fractionalKnapsack(int W, Item arr[], int n) {
+        sort(arr, arr + n, compare);
+        int curWeight = 0;
+        double finalValue = 0.0;
+        for (int i = 0; i < n; i++) {
+            if (curWeight + arr[i].weight <= W) {
+                curWeight += arr[i].weight;
+                finalValue += arr[i].value;
+            }
+            else {
+                int remain = W - curWeight;
+                finalValue += arr[i].value * ((double) remain / (double) arr[i].weight);
+                break;
+            }
         }
-        sort(valuePerWt.rbegin(), valuePerWt.rend());
-        for (int i = 0; i < n && W; i++)
-        {
-            double x = valuePerWt[i].first, y = valuePerWt[i].second, z = min(y, (double)W);
-            res += x * z;
-            W -= z;
-        }
-        return res;
+        return finalValue;
     }
 };
 
