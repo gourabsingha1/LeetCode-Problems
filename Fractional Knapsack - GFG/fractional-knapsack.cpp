@@ -22,8 +22,8 @@ class Solution
 {
     public:
     static bool compare(Item a, Item b) {
-        double r1 = (double)a.value / (double)a.weight;
-        double r2 = (double)b.value / (double)b.weight;
+        double r1 = (double)a.value / a.weight;
+        double r2 = (double)b.value / b.weight;
         return r1 > r2;
     }
     
