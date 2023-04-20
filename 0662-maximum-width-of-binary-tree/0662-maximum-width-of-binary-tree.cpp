@@ -1,22 +1,22 @@
 class Solution {
 public:
     int levelorderTraversal(TreeNode *root){
-        long res = 1;
-        queue<pair<TreeNode*, long>> q;
+        int res = 1;
+        queue<pair<TreeNode*, int>> q;
         q.push({root, 1});
         while (q.size()) {
-            long t = q.size(), l = q.front().second, r;
+            int t = q.size(), l = q.front().second, r;
             while(t--) {
-                auto [node, ind] = q.front();
+                TreeNode* node = q.front().first;
+                int ind = q.front().second - l;
                 q.pop();
-                ind -= l;
                 r = ind;
 
                 if (node->left){
-                    q.push({node->left, ind * 2});
+                    q.push({node->left, 1LL * ind * 2});
                 }
                 if (node->right){
-                    q.push({node->right, ind * 2 + 1});
+                    q.push({node->right, 1LL * ind * 2 + 1});
                 }
             }
             res = max(res, r + 1);
