@@ -1,7 +1,8 @@
 class Solution {
 public:
     // memoization
-    int helper(int n, vector<int>& nums, int target, unordered_map<string, int>& dp) {
+    unordered_map<string, int> dp;
+    int helper(int n, vector<int>& nums, int target) {
         if(n < 0) {
             return !target;
         }
@@ -10,12 +11,11 @@ public:
             return dp[memo];
         }
 
-        int neg = helper(n - 1, nums, target - nums[n], dp);
-        int pos = helper(n - 1, nums, target + nums[n], dp);
+        int neg = helper(n - 1, nums, target - nums[n]);
+        int pos = helper(n - 1, nums, target + nums[n]);
         return dp[memo] = neg + pos;
     }
     int findTargetSumWays(vector<int>& nums, int target) {
-        unordered_map<string, int> dp;
-        return helper(nums.size() - 1, nums, target, dp);
+        return helper(nums.size() - 1, nums, target);
     }
 };
