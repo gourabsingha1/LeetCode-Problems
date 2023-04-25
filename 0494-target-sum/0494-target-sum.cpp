@@ -10,7 +10,7 @@ public:
             return dp[memo];
         }
 
-        int neg = neg = helper(n - 1, nums, target - nums[n], dp);
+        int neg = helper(n - 1, nums, target - nums[n], dp);
         int pos = helper(n - 1, nums, target + nums[n], dp);
         return dp[memo] = neg + pos;
     }
