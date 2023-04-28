@@ -1,7 +1,9 @@
 class DisjointSet{
 public:
     vector<int> parent, rank;
+    int n;
     DisjointSet(int n){
+        this->n = n;
         parent.resize(n + 1), rank.resize(n + 1);
         for (int i = 0; i <= n; i++)
         {
@@ -9,12 +11,14 @@ public:
             rank[i] = 0;
         }
     }
+
     int findParent(int node){
         if(node == parent[node]){
             return node;
         }
         return parent[node] = findParent(parent[node]); // path compression
     }
+
     bool Union(int u, int v){
         u = findParent(u), v = findParent(v);
         if(u == v){
@@ -30,7 +34,12 @@ public:
             parent[v] = u;
             rank[u]++;
         }
+        n--;
         return 0;
+    }
+
+    int size() {
+        return n;
     }
 };
 
@@ -55,27 +64,6 @@ public:
                 }
             }
         }
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = i + 1; j < n; j++)
-            {
-                int cnt = 0;
-                for (int k = 0; k < strs[0].size(); k++)
-                {
-                    if(strs[i][k] != strs[j][k]) {
-                        cnt++;
-                    }
-                }
-                if(cnt == 0 || cnt == 2){
-                    ds.Union(i, j);
-                }
-            }
-        }
-        unordered_set<int> st;
-        for (int i = 0; i < n; i++)
-        {
-            st.insert(ds.parent[i]);
-        }
-        return st.size();
+        return ds.size();
     }
 };
