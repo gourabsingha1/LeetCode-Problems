@@ -1,19 +1,15 @@
 class Solution {
 public:
-    // memoization
-    long long helper(int i, vector<vector<int>>& questions, vector<long long>& dp) {
-        if(i >= questions.size()) {
-            return 0;
-        }
-        if(dp[i] != -1) {
-            return dp[i];
-        }
-        long long take = questions[i][0] + helper(i + 1 + questions[i][1], questions, dp);
-        long long notTake = helper(i + 1, questions, dp);
-        return dp[i] = max(take, notTake);
-    }
+    // tabulation
     long long mostPoints(vector<vector<int>>& questions) {
-        vector<long long> dp(questions.size(), -1);
-        return helper(0, questions, dp);
+        int n = questions.size();
+        vector<long long> dp(n + 1, 0);
+        for (int i = n - 1; i >= 0; i--)
+        {
+            long long take = questions[i][0] + dp[min(i + 1 + questions[i][1], n)];
+            long long notTake = dp[i + 1];
+            dp[i] = max(take, notTake);
+        }
+        return dp[0];
     }
 };
