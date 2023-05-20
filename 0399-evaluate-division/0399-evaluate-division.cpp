@@ -21,7 +21,7 @@ public:
     }
     
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        vector<double> res;
+        vector<double> res(queries.size(), -1);
         unordered_map<string, vector<node>> adj;
         unordered_map<string, bool> seen;
         for (int i = 0; i < equations.size(); i++)
@@ -31,24 +31,19 @@ public:
             adj[var2].push_back({var1, 1 / values[i]});
             seen[var1] = seen[var2] = 1;
         }
-        for(auto&q : queries) {
-            string var1 = q[0], var2 = q[1];
-            if(var1 == var2) {
-                if(seen[var1]) {
-                    res.push_back(1);
-                }
-                else {
-                    res.push_back(-1);
-                }
+        for (int i = 0; i < queries.size(); i++)
+        {
+            string var1 = queries[i][0], var2 = queries[i][1];
+            if(var1 == var2 && seen[var1]) {
+                res[i] = 1;
                 continue;
             }
             unordered_map<string, bool> vis;
             double ans = 1;
             bool found = 0;
             dfs(found, ans, 1, var1, var2, vis, adj);
-            res.push_back(ans);
-            if(!found) {
-                res.back() = -1;
+            if(found) {
+                res[i] = ans;
             }
         }
         return res;
