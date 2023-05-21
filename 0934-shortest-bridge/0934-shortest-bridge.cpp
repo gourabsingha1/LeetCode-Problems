@@ -1,3 +1,4 @@
+// use dfs to mark an island and push them in queue then start bfs from it to find the other island in shortest distance
 class Solution {
 public:
     vector<int> dir = {0, 1, 0, -1, 0};
