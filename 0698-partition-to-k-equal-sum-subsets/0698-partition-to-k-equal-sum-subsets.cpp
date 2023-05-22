@@ -16,7 +16,6 @@ public:
             if(vis[i] || cur + nums[i] > target) continue;
             vis[i] = 1;
             res |= helper(i + 1, cur + nums[i], target, vis, nums, k);
-            if(res) return res;
             vis[i] = 0;
         }
         return res;
