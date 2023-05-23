@@ -1,15 +1,17 @@
+// Counting sort
 class Solution {
 public:
     bool uniqueOccurrences(vector<int>& arr) {
-        unordered_map<int, int> mp, seen;
+        int n = 2001, mp[2001] = {};
         for(auto& num : arr) {
-            mp[num]++;
+            mp[num + 1000]++;
         }
-        for(auto& [key, val] : mp) {
-            if(seen[val]) {
+        sort(mp, mp + n);
+        for (int i = 1; i < n; i++)
+        {
+            if(mp[i] && mp[i - 1] == mp[i]) {
                 return 0;
             }
-            seen[val] = 1;
         }
         return 1;
     }
