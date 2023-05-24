@@ -14,11 +14,12 @@ public:
                 }
 
                 i++;
-                int right = 1, temp = i;
-                while(temp < nums.size() && nums[temp] % 2 == 0) {
-                    right++, temp++;
+                int right = 1;
+                while(i < nums.size() && nums[i] % 2 == 0) {
+                    right++, i++;
                 }
                 res += left * right;
+                
                 j++, cnt--, i--;
             }
         }
