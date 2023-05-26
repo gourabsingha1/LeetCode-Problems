@@ -1,4 +1,3 @@
-// 4D DP \U0001f480
 class Solution {
 public:
     bool helper(int alice, int bob, int i, int n, vector<int>& piles, vector<vector<int>>& dp) {
