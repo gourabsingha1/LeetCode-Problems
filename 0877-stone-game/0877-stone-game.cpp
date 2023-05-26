@@ -15,8 +15,8 @@ public:
         return dp[i][n] = res;
     }
     bool stoneGame(vector<int>& piles) {
-        int sum = accumulate(piles.begin(), piles.end(), 0), n = piles.size();
+        int n = piles.size();
         vector<vector<int>> dp(n, vector<int> (n, -1));
-        return helper(0, 0, 0, piles.size() - 1, piles, dp);
+        return helper(0, 0, 0, n - 1, piles, dp);
     }
 };
