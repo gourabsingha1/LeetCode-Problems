@@ -9,14 +9,14 @@ public:
         }
         int res = INT_MIN, sum = 0;
         if(!alice) res = INT_MAX;
-        for (int i = ind; i < ind + 3 && i < stoneValue.size(); i++)
+        for (int i = 0; i < 3 && i + ind < stoneValue.size(); i++)
         {
-            sum += stoneValue[i];
+            sum += stoneValue[i + ind];
             if(alice) {
-                res = max(res, sum + helper(i + 1, !alice, stoneValue, dp));
+                res = max(res, sum + helper(i + ind + 1, !alice, stoneValue, dp));
             }
             else {
-                res = min(res, helper(i + 1, !alice, stoneValue, dp)); // the helper function returns alice's score and we dont add her score to bob's. thats why we dont add the sum. bob minimizes alice's score
+                res = min(res, helper(i + ind + 1, !alice, stoneValue, dp)); // the helper function returns alice's score and we dont add her score to bob's. thats why we dont add the sum. bob minimizes alice's score
             }
         }
         return dp[ind][alice] = res;
