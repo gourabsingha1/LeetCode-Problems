@@ -24,13 +24,15 @@ public:
         for (int i = 0; i < n; i++)
         {
             int x1 = bombs[i][0], y1 = bombs[i][1], r1 = bombs[i][2];
-            for (int j = 0; j < n; j++)
+            for (int j = i + 1; j < n; j++)
             {
-                if(i == j) continue;
-                int x2 = bombs[j][0], y2 = bombs[j][1];
+                int x2 = bombs[j][0], y2 = bombs[j][1], r2 = bombs[j][2];
                 double dist = findDist(x1, y1, x2, y2);
                 if(dist <= r1) {
                     adj[i].push_back(j);
+                }
+                if(dist <= r2) {
+                    adj[j].push_back(i);
                 }
             }
         }
