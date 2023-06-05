@@ -2,15 +2,15 @@
 class Solution {
 public:
     bool helper(int n, int m, string& s, string& p, vector<vector<int>>& dp) {
-        if(n < 0 || m < 0) {
-            if(m >= 0) {
-                for (int i = 0; i <= m; i++)
-                {
-                    if(p[i] != '*') return 0;
-                }
-                return 1;
+        if(m < 0) {
+            return n < 0;
+        }
+        if(n < 0) {
+            for (int i = 0; i <= m; i++)
+            {
+                if(p[i] != '*') return 0;
             }
-            return n < 0 && m < 0;
+            return 1;
         }
         if(dp[n][m] != -1) {
             return dp[n][m];
@@ -21,9 +21,9 @@ public:
             res = helper(n - 1, m - 1, s, p, dp);
         }
         else if(p[m] == '*') {
-            for (int i = n; i >= -1; i--)
+            for (int i = n + 1; i >= 0; i--)
             {
-                res |= helper(i, m - 1, s, p, dp);
+                res |= helper(i - 1, m - 1, s, p, dp);
             }
         }
         return dp[n][m] = res;
