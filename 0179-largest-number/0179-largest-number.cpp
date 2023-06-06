@@ -1,25 +1,17 @@
 class Solution {
 public:
-    static bool cmp(string& s1, string& s2) {
+    static bool cmp(int& x, int& y) {
+        string s1 = to_string(x), s2 = to_string(y);
         return s1 + s2 > s2 + s1;
     }
     string largestNumber(vector<int>& nums) {
         string res;
-        int zero = 0; // [0, 0]
-        vector<string> temp;
+        sort(nums.begin(), nums.end(), cmp);
         for(auto& num : nums) {
-            temp.push_back(to_string(num));
-            if(num == 0) {
-                zero++;
-            }
+            res += to_string(num);
         }
-        if(zero == nums.size()) {
+        if(res[0] == '0') {
             return "0";
-        }
-        
-        sort(temp.begin(), temp.end(), cmp);
-        for(auto& s : temp) {
-            res += s;
         }
         return res;
     }
