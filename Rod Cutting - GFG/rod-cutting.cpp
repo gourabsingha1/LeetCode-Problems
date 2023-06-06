@@ -10,7 +10,7 @@ using namespace std;
 
 class Solution{
 public:
-    int helper(int n, int price[], int N, vector<int>& dp) {
+    int helper(int n, int price[], vector<int>& dp) {
         if(n < 0) {
             return 0;
         }
@@ -21,14 +21,14 @@ public:
         int res = 0;
         for (int i = 0; i <= n; i++)
         {
-            res = max(res, price[i] + helper(n - 1 - i, price, N, dp));
+            res = max(res, price[i] + helper(n - 1 - i, price, dp));
         }
         return dp[n] = res;
     }
 
     int cutRod(int price[], int n) {
         vector<int> dp(n, -1);
-        return helper(n - 1, price, n, dp);
+        return helper(n - 1, price, dp);
     }
 };
 
