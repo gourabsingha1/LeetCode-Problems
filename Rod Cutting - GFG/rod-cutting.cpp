@@ -18,7 +18,7 @@ public:
             return dp[n];
         }
 
-        int res = helper(n - 1, price, N, dp);
+        int res = 0;
         for (int i = 0; i <= n; i++)
         {
             res = max(res, price[i] + helper(n - 1 - i, price, N, dp));
