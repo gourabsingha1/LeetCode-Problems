@@ -7,27 +7,9 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
+// tabulation
 class Solution{
 public:
-    int helper(int i, int j, int arr[], vector<vector<int>>& dp) {
-        if(i == j) {
-            return 0;
-        }
-        if(dp[i][j] != -1) {
-            return dp[i][j];
-        }
-
-        int res = INT_MAX;
-        for (int k = i; k < j; k++)
-        {
-            int cost = arr[i - 1] * arr[k] * arr[j];
-            int left = helper(i, k, arr, dp);
-            int right = helper(k + 1, j, arr, dp);
-            res = min(res, cost + left + right);
-        }
-        return dp[i][j] = res;
-    }
-
     int matrixMultiplication(int N, int arr[])
     {
         vector<vector<int>> dp(N, vector<int> (N, 0));
