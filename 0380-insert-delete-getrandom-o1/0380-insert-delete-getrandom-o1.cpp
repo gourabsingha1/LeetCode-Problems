@@ -26,7 +26,7 @@ public:
         int last = nums.back();
         int ind = mp[val] - 1;
         nums[ind] = last;
-        mp[last] = ind + 1;
+        mp[last] = mp[val];
         mp[val] = 0;
         nums.pop_back();
 
