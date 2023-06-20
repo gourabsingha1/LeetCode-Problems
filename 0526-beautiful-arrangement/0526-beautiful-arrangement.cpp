@@ -1,27 +1,25 @@
+// bitmask
+
 class Solution {
 public:
-    void helper2(int currInd, vector<int>& nums, int &res){
-        int n = nums.size();
-        if(currInd == n){
-            res++;
-            return;
+    int helper(int i, int n, int seen){
+        if(i > n){
+            return 1;
         }
-        for (int i = currInd; i < n; i++)
-        {
-            if(nums[i] % (currInd + 1) && (currInd + 1) % nums[i]) continue;
-            swap(nums[i], nums[currInd]);
-            helper2(currInd + 1, nums, res);
-            swap(nums[i], nums[currInd]);
-        }
-    }
-    int countArrangement(int n) {
+        
         int res = 0;
-        vector<int> nums;
-        for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
         {
-            nums.push_back(i);
+            int bit = 1 << (j - 1);
+            if(seen & bit) continue;
+            if(i % j == 0 || j % i == 0) {
+                res = res + helper(i + 1, n, seen | bit);
+            }
         }
-        helper2(0, nums, res);
         return res;
+    }
+
+    int countArrangement(int n) {
+        return helper(1, n, 0);
     }
 };
