@@ -3,9 +3,9 @@
 class Solution {
 public:
     int M = 1e9 + 7;
-    int helper(int i, int ind, vector<int>& nums, vector<vector<int>>& dp, int mask){
+    int helper(int i, vector<int>& nums, vector<vector<int>>& dp, int mask){
         int n = nums.size();
-        if(ind == n){
+        if(mask == (1 << n) - 1){
             return 1;
         }
         if(dp[i][mask] != -1) {
@@ -17,7 +17,7 @@ public:
         {
             if(mask & (1 << j)) continue; // if vis[i] then continue
             if(mask == 0 || nums[i] % nums[j] == 0 || nums[j] % nums[i] == 0) {
-                res = (res + helper(j, ind + 1, nums, dp, mask | (1 << j))) % M;
+                res = (res + helper(j, nums, dp, mask | (1 << j))) % M;
             }
         }
         return dp[i][mask] = res;
@@ -25,6 +25,6 @@ public:
 
     int specialPerm(vector<int>& nums) {
         vector<vector<int>> dp(nums.size(), vector<int> (1 << 14, -1));
-        return helper(0, 0, nums, dp, 0);
+        return helper(0, nums, dp, 0);
     }
 };
