@@ -1,4 +1,4 @@
-// bitmask
+// dp + bitmask
 
 class Solution {
 public:
@@ -10,7 +10,7 @@ public:
            return 0;
         }
         if(cur == target) {
-            return helper(0, 0, target, seen, nums, k - 1, dp);
+            return dp[curInd][seen] = helper(0, 0, target, seen, nums, k - 1, dp);
         }
         if(dp[curInd][seen] != -1) {
             return dp[curInd][seen];
