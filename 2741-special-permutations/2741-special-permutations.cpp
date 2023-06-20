@@ -24,7 +24,8 @@ public:
     }
 
     int specialPerm(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size(), vector<int> (1 << 14, -1));
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int> (1 << n, -1));
         return helper(0, nums, dp, 0);
     }
 };
