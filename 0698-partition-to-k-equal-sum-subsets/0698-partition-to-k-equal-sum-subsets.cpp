@@ -1,6 +1,8 @@
+// bitmask
+
 class Solution {
 public:
-    bool helper(int curInd, int cur, int& target, vector<bool>& vis, vector<int>& nums, int k) {
+    bool helper(int curInd, int cur, int& target, int seen, vector<int>& nums, int k) {
         if(k == 1) {
             return 1;
         }
@@ -8,16 +10,16 @@ public:
            return 0;
         }
         if(cur == target) {
-            return helper(0, 0, target, vis, nums, k - 1);
+            return helper(0, 0, target, seen, nums, k - 1);
         }
+        
         bool res = 0;
         for (int i = curInd; i < nums.size(); i++)
         {
-            if(vis[i] || cur + nums[i] > target) continue;
-            vis[i] = 1;
-            res |= helper(i + 1, cur + nums[i], target, vis, nums, k);
+            int bit = 1 << i;
+            if(seen & bit || cur + nums[i] > target) continue;
+            res |= helper(i + 1, cur + nums[i], target, seen | bit, nums, k);
             if(res) return res;
-            vis[i] = 0;
         }
         return res;
     }
@@ -26,8 +28,6 @@ public:
         if(sum % k) {
             return 0;
         }
-        sort(nums.rbegin(), nums.rend());
-        vector<bool> vis(nums.size(), 0);
-        return helper(0, 0, target, vis, nums, k);
+        return helper(0, 0, target, 0, nums, k);
     }
 };
