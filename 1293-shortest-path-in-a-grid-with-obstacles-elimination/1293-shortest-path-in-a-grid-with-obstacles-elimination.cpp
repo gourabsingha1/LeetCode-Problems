@@ -1,39 +1,34 @@
 class Solution {
 public:
     vector<int> dir = {1, 0, -1, 0, 1}; // right, down, left, up
-    int dp[41][41][1661][4];
 
-    int helper(int x, int y, vector<vector<bool>>& vis, vector<vector<int>>& grid, int k, int direction) {
-        if(x == grid.size() - 1 && y == grid[0].size() - 1) {
-            return 0;
-        }
-        if(k == -1) {
-            return 1661;
-        }
-        if(dp[x][y][k][direction]) {
-            return dp[x][y][k][direction];
-        }
+    int bfs(vector<vector<int>>& grid, int k) {
+        int n = grid.size(), m = grid[0].size();
+        queue<vector<int>> q;
+        vector<vector<vector<bool>>> vis(n, vector<vector<bool>> (m, vector<bool> (k + 1, 0)));
+        q.push({0, 0, k, 0}); // x, y, k, cur
+        vis[0][0][k] = 1;
+        while(q.size()) {
+            int x = q.front()[0], y = q.front()[1], z = q.front()[2], cur = q.front()[3];
+            q.pop();
+            if(x == n - 1 && y == m - 1) {
+                return cur;
+            }
 
-        vis[x][y] = 1;
-        int res = 1661;
-        for (int i = 0; i < 4; i++)
-        {
-            int dx = x + dir[i], dy = y + dir[i + 1];
-            if(dx >= 0 && dy >= 0 && dx < grid.size() && dy < grid[0].size() && !vis[dx][dy]){
-                res = min(res, 1 + helper(dx, dy, vis, grid, k - grid[dx][dy], i));
+            for (int i = 0; i < 4; i++)
+            {
+                int dx = x + dir[i], dy = y + dir[i + 1];
+                if(dx >= 0 && dy >= 0 && dx < grid.size() && dy < grid[0].size() && z - grid[dx][dy] >= 0 && !vis[dx][dy][z - grid[dx][dy]]){
+                    int dz = z - grid[dx][dy];
+                    q.push({dx, dy, dz, cur + 1});
+                    vis[dx][dy][dz] = 1;
+                }
             }
         }
-        vis[x][y] = 0;
-        return dp[x][y][k][direction] = res;
+        return -1;
     }
 
     int shortestPath(vector<vector<int>>& grid, int k) {
-        int n = grid.size(), m = grid[0].size();
-        vector<vector<bool>> vis(n, vector<bool> (m, 0));
-        int res = helper(0, 0, vis, grid, k, 0);
-        if(res == 1661) {
-            return -1;
-        }
-        return res;
+        return bfs(grid, k);
     }
 };
