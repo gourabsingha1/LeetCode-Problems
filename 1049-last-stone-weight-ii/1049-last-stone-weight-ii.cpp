@@ -1,3 +1,5 @@
+// minimum difference bw sum of two subsets of array
+
 class Solution {
 public:
     int helper(int n, int x, int y, vector<int>& stones, vector<vector<int>>& dp) {
@@ -9,9 +11,9 @@ public:
             return dp[n][diff];
         }
 
-        int newX = helper(n - 1, x + stones[n], y, stones, dp);
-        int newY = helper(n - 1, x, y + stones[n], stones, dp);
-        return dp[n][diff] = min(newX, newY);
+        int diff1 = helper(n - 1, x + stones[n], y, stones, dp);
+        int diff2 = helper(n - 1, x, y + stones[n], stones, dp);
+        return dp[n][diff] = min(diff1, diff2);
     }
 
     int lastStoneWeightII(vector<int>& stones) {
