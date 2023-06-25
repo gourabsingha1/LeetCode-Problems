@@ -3,7 +3,7 @@ public:
     int M = 1e9 + 7;
     int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
         int n = locations.size();
-        vector<vector<int>> dp(locations.size(), vector<int> (fuel + 1, 0));
+        vector<vector<int>> dp(n, vector<int> (fuel + 1, 0));
         for (int f = 0; f <= fuel; f++)
         {
             for (int i = 0; i < n; i++)
