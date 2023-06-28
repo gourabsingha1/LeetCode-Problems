@@ -1,10 +1,12 @@
+// Use reverse dijkstras
+
 class Solution {
 public:
     double dijkstras(int src, int n, vector<vector<pair<int, double>>> &adj, int end){
         vector<double> dist(n, 0);
-        priority_queue <pair<double, int>> pq;
+        priority_queue <pair<double, int>> pq; // dist, node
         dist[src] = 0;
-        pq.push({1, src}); // dist, node
+        pq.push({1, src});
         while(pq.size()){
             auto [prev, u] = pq.top();
             pq.pop();
