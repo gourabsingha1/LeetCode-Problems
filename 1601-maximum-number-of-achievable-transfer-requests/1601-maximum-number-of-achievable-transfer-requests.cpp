@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-    bool isAchievable(int& subset, int n, vector<vector<int>>& requests) {
+    bool isAchievable(int& subset, int& n, vector<vector<int>>& requests) {
         vector<int> buildings(n, 0);
         for (int i = 0; i < requests.size(); i++)
         {
@@ -21,7 +21,7 @@ public:
         return 1;
     }
 
-    int helper(int subset, int ind, int& n, vector<vector<int>>& requests, vector<vector<int>>& dp) {
+    int helper(int& subset, int ind, int& n, vector<vector<int>>& requests, vector<vector<int>>& dp) {
         if(ind < 0) {
             if(!isAchievable(subset, n, requests)) {
                 return 0;
@@ -34,7 +34,9 @@ public:
         }
 
         int mask = 1 << ind;
-        int take = helper(subset | mask, ind - 1, n, requests, dp);
+        subset += mask;
+        int take = helper(subset, ind - 1, n, requests, dp);
+        subset -= mask;
         int notTake = helper(subset, ind - 1, n, requests, dp);
         return dp[subset][ind] = max(take, notTake);
     }
@@ -42,6 +44,7 @@ public:
     int maximumRequests(int n, vector<vector<int>>& requests) {
         int m = requests.size();
         vector<vector<int>> dp((1 << m) + 1, vector<int> (m, -1));
-        return helper(0, requests.size() - 1, n, requests, dp);
+        int subset = 0;
+        return helper(subset, requests.size() - 1, n, requests, dp);
     }
 };
