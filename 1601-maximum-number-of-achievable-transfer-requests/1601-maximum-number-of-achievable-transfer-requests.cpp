@@ -2,12 +2,15 @@
 
 class Solution {
 public:
-    bool isAchievable(vector<int>& subset, int n, vector<vector<int>>& requests) {
+    bool isAchievable(int& subset, int n, vector<vector<int>>& requests) {
         vector<int> buildings(n, 0);
-        for (int i = 0; i < subset.size(); i++)
+        for (int i = 0; i < requests.size(); i++)
         {
-            int from = requests[subset[i]][0], to = requests[subset[i]][1];
-            buildings[from]--, buildings[to]++;
+            int mask = 1 << i;
+            if(subset & mask) {
+                int from = requests[i][0], to = requests[i][1];
+                buildings[from]--, buildings[to]++;
+            }
         }
         for (int i = 0; i < n; i++)
         {
@@ -18,22 +21,27 @@ public:
         return 1;
     }
 
-    int helper(vector<int>& subset, int ind, int n, vector<vector<int>>& requests) {
+    int helper(int subset, int ind, int& n, vector<vector<int>>& requests, vector<vector<int>>& dp) {
         if(ind < 0) {
             if(!isAchievable(subset, n, requests)) {
                 return 0;
             }
-            return subset.size();
+            int size = __builtin_popcount(subset);
+            return size;
         }
-        subset.push_back(ind);
-        int take = helper(subset, ind - 1, n, requests);
-        subset.pop_back();
-        int notTake = helper(subset, ind - 1, n, requests);
-        return max(take, notTake);
+        if(dp[subset][ind] != -1) {
+            return dp[subset][ind];
+        }
+
+        int mask = 1 << ind;
+        int take = helper(subset | mask, ind - 1, n, requests, dp);
+        int notTake = helper(subset, ind - 1, n, requests, dp);
+        return dp[subset][ind] = max(take, notTake);
     }
     
     int maximumRequests(int n, vector<vector<int>>& requests) {
-        vector<int> subset;
-        return helper(subset, requests.size() - 1, n, requests);
+        int m = requests.size();
+        vector<vector<int>> dp((1 << m) + 1, vector<int> (m, -1));
+        return helper(0, requests.size() - 1, n, requests, dp);
     }
 };
