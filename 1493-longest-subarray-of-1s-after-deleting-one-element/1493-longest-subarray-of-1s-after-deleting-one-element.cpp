@@ -6,7 +6,7 @@ public:
     int longestSubarray(vector<int>& nums) {
         int n = nums.size(), res = 0;
         bool foundZero = 0; // case: 1, 1, 1
-        vector<pair<int, int>> mp(n); // index = [count of ones, start]
+        vector<pair<int, int>> mp(n); // index = [count of ones, start] start = -1 for index 2 of eg: 1, 0, 1, 0 when left and right are same
         for (int i = 0; i < n; i++)
         {
             if(nums[i] == 0) {
@@ -34,12 +34,10 @@ public:
 
         for (int i = 1; i < n - 1; i++)
         {
-
             if(mp[i - 1].second != 1 && mp[i + 1].second != 0 ) {
                 res = max(res, mp[i - 1].first + mp[i + 1].first);
             }
         }
-        cout<<endl;
         return res;
     }
 };
