@@ -1,26 +1,23 @@
-// Max Consecutive Ones III but reverse
+// make a window with the most frequent characters
+// subtract extra characters
+// if no of extra characters exceed k, shrink the window
 
 class Solution {
 public:
     int characterReplacement(string s, int k) {
         int res = 0;
-        for (char ch = 'A'; ch <= 'Z'; ch++)
+        vector<int> mp(26, 0);
+        for (int i = 0, j = 0; i < s.size(); i++)
         {
-            int cnt = 0;
-            for (int i = 0, j = 0; i < s.size(); i++)
-            {
-                if(s[i] != ch) {
-                    cnt++;
-                }
-                while(cnt > k) {
-                    if(s[j] != ch) {
-                        cnt--;
-                    }
-                    j++;
-                }
-                int size = i - j + 1;
-                res = max(res, size);
+            mp[s[i] - 'A']++;
+            int size = i - j + 1;
+            int cnt = size - *max_element(mp.begin(), mp.end());
+            while(cnt > k) {
+                mp[s[j++] - 'A']--;
+                size = i - j + 1;
+                cnt = size - *max_element(mp.begin(), mp.end());
             }
+            res = max(res, size);
         }
         return res;
     }
