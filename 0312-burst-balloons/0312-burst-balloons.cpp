@@ -3,13 +3,13 @@
 class Solution {
 public:
     int maxCoins(vector<int>& nums) {
+        int n = nums.size();
         nums.insert(nums.begin(), 1);
         nums.push_back(1);
-        int n = nums.size();
-        vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
-        for (int i = n - 2; i >= 1; i--)
+        vector<vector<int>> dp(n + 2, vector<int> (n + 2, 0));
+        for (int i = n; i >= 1; i--)
         {
-            for (int j = 1; j + 1 < n; j++)
+            for (int j = 1; j <= n; j++)
             {
                 if(i > j) continue;
                 int res = INT_MIN;
@@ -23,6 +23,6 @@ public:
                 dp[i][j] = res;
             }
         }
-        return dp[1][n - 2];
+        return dp[1][n];
     }
 };
