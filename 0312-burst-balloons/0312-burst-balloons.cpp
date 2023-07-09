@@ -2,30 +2,27 @@
 
 class Solution {
 public:
-    int helper(int i, int j, vector<int>& nums, vector<vector<int>>& dp) {
-        if(i > j) {
-            return 0;
-        }
-        if(dp[i][j] != -1) {
-            return dp[i][j];
-        }
-
-        int res = INT_MIN;
-        for (int k = i; k <= j; k++)
-        {
-            int left = helper(i, k - 1, nums, dp);
-            int right = helper(k + 1, j, nums, dp);
-            int cost = nums[i - 1] * nums[k] * nums[j + 1] + left + right;
-            res = max(res, cost);
-        }
-        return dp[i][j] = res;
-    }
-
     int maxCoins(vector<int>& nums) {
         nums.insert(nums.begin(), 1);
         nums.push_back(1);
         int n = nums.size();
-        vector<vector<int>> dp(n, vector<int> (n, -1));
-        return helper(1, n - 2, nums, dp);
+        vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
+        for (int i = n - 2; i >= 1; i--)
+        {
+            for (int j = 1; j + 1 < n; j++)
+            {
+                if(i > j) continue;
+                int res = INT_MIN;
+                for (int k = i; k <= j; k++)
+                {
+                    int left = dp[i][k - 1];
+                    int right = dp[k + 1][j];
+                    int cost = nums[i - 1] * nums[k] * nums[j + 1] + left + right;
+                    res = max(res, cost);
+                }
+                dp[i][j] = res;
+            }
+        }
+        return dp[1][n - 2];
     }
 };
