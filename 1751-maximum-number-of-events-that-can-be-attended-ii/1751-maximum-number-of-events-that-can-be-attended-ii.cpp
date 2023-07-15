@@ -16,26 +16,28 @@ public:
         }
         return low;
     }
-
-    int helper(int i, vector<vector<int>>& events, int k, vector<vector<int>>& dp) {
-        if(i >= events.size() || k == 0) {
-            return 0;
-        }
-        if(dp[i][k] != -1) {
-            return dp[i][k];
-        }
-
-        int value = events[i][2];
-        int j = nextIndex(i, events);
-        int take = value + helper(j, events, k - 1, dp);
-        int notTake = helper(i + 1, events, k, dp);
-        return dp[i][k] = max(take, notTake);
-    }
-
+    
     int maxValue(vector<vector<int>>& events, int k) {
         int n = events.size();
         sort(events.begin(), events.end());
-        vector<vector<int>> dp(n, vector<int> (k + 1, -1));
-        return helper(0, events, k, dp);
+        vector<vector<int>> dp(n + 1, vector<int> (k + 1, 0));
+
+        for (int i = n - 1; i >= 0; i--)
+        {
+            for (int j = 0; j <= k; j++)
+            {
+                if(j == 0) {
+                    dp[i][j] = 0;
+                }
+                else {
+                    int value = events[i][2];
+                    int ind = nextIndex(i, events);
+                    int take = value + dp[ind][j - 1];
+                    int notTake = dp[i + 1][j];
+                    dp[i][j] = max(take, notTake);
+                }
+            }
+        }
+        return dp[0][k];
     }
 };
