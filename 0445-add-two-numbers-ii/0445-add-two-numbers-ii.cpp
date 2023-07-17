@@ -14,7 +14,7 @@ public:
     ListNode* addTwoNumbersI(ListNode* l1, ListNode* l2) {
         ListNode* dummy = new ListNode(0), *res = dummy;
         int carry = 0;
-        while(l1 || l2) {
+        while(l1 || l2 || carry) {
             int val1 = 0, val2 = 0;
             if(l1) val1 = l1->val;
             if(l2) val2 = l2->val;
@@ -26,7 +26,6 @@ public:
             if(l1) l1 = l1->next;
             if(l2) l2 = l2->next;
         }
-        if(carry) res->next = new ListNode(1);
         return reverse(dummy->next);
     }
     
