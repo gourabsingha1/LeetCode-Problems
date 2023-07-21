@@ -1,17 +1,28 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        vector<int> LIS = {nums[0]};
-        for (int i = 1; i < nums.size(); i++)
-        {
-            int lb = lower_bound(LIS.begin(), LIS.end(), nums[i]) - LIS.begin();
-            if(lb == LIS.size()) {
-                LIS.push_back(nums[i]);
-            }
-            else {
-                LIS[lb] = nums[i];
-            }
+    int helper(int j, int i, vector<int>& nums, vector<vector<int>>& dp) {
+        if(j == nums.size()) {
+            return 1;
         }
-        return LIS.size();
+        if(dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
+        int take = 0;
+        if(nums[i] < nums[j]) {
+            take = 1 + helper(j + 1, j, nums, dp);
+        }
+        int notTake = helper(j + 1, i, nums, dp);
+        return dp[i][j] = max(take, notTake);
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int res = 0, n = nums.size();
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        for (int i = 0; i < n; i++)
+        {
+            res = max(res, helper(i + 1, i, nums, dp));
+        }
+        return res;
     }
 };
