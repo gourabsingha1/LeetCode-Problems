@@ -11,10 +11,12 @@ public:
         }
 
         int take = 0, notTake = 0;
+        // if last node was not taken (flag == 0), either take current node or dont
         if(!flag) {
             take = root->val + helper(!flag, root->left) + helper(!flag, root->right);
             notTake = helper(flag, root->left) + helper(flag, root->right);
         }
+        // if last node was taken, let the next call decide whether take/notTake
         else {
             notTake = helper(!flag, root->left) + helper(!flag, root->right);
         }
