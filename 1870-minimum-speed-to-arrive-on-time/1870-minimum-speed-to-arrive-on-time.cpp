@@ -1,11 +1,14 @@
+// binary search on speed
+// add ceil values of time (dist / speed) till n - 1 index
+// because we are rouding up the time till n - 1 index
+
 class Solution {
 public:
     int minSpeedOnTime(vector<int>& dist, double hour) {
         int low = 1, high = 1e7 + 1;
-        double totalHour = 0;
         while(low < high) {
             int mid = (low + high) / 2;
-            totalHour = 0;
+            double totalHour = 0;
             for (int i = 0; i < dist.size() - 1; i++)
             {
                 totalHour += (dist[i] + mid - 1) / mid;
