@@ -1,3 +1,9 @@
+// count value of the characters to be removed
+// if characters are same. move both iterators
+// else try both combo
+// base case: when one string is scanned,
+// return sum of remaining characters of the other string
+
 class Solution {
 public:
     int helper(int n, int m, string& s1, string& s2, vector<vector<int>>& dp) {
