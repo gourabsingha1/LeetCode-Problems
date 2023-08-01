@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void helper(int k, int n, int currInd, vector<int> v, vector<vector<int>> &res){
+    void helper(int currInd, vector<int> v, vector<vector<int>> &res, int& n, int& k){
         if(v.size() == k){
             res.push_back(v);
             return;
@@ -8,14 +8,14 @@ public:
         for (int i = currInd; i <= n; i++)
         {
             v.push_back(i);
-            helper(k, n, i+1, v, res);
+            helper(i + 1, v, res, n, k);
             v.pop_back();
         }
     }
 
     vector<vector<int>> combine(int n, int k) {
         vector<vector<int>> res;
-        helper(k, n, 1, {}, res);
+        helper(1, {}, res, n, k);
         return res;
     }
 };
