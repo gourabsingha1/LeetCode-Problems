@@ -13,8 +13,10 @@ public:
         vector<TreeNode*> res;
         for (int val = left; val <= right; val++)
         {
-            for(auto& leftTree : helper(left, val - 1)) {
-                for(auto& rightTree : helper(val + 1, right)) {
+            vector<TreeNode*> leftHelper = helper(left, val - 1);
+            vector<TreeNode*> rightHelper = helper(val + 1, right);
+            for(auto& leftTree : leftHelper) {
+                for(auto& rightTree : rightHelper) {
                     TreeNode* root = new TreeNode(val, leftTree, rightTree);
                     res.push_back(root);
                 }
