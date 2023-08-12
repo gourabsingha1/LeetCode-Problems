@@ -11,7 +11,10 @@ public:
         if(dp[n][m] != -1) {
             return dp[n][m];
         }
-        return dp[n][m] = helper(n - 1, m, obstacleGrid, dp) + helper(n, m - 1, obstacleGrid, dp);
+        
+        int left = helper(n - 1, m, obstacleGrid, dp);
+        int up = helper(n, m - 1, obstacleGrid, dp);
+        return dp[n][m] = left + up;
     }
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int n = obstacleGrid.size(), m = obstacleGrid[0].size();
