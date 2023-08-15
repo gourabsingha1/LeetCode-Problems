@@ -1,31 +1,46 @@
+
+// lesserHead = list of nodes with val < x
+// greaterHead = list of nodes with val >= x
+// return lesserHead + greaterHead
+
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode* temp = head;
-        ListNode* ahead = new ListNode(0);
-        ListNode* bhead = head;
-        while(bhead && bhead->val < x){
-            bhead = bhead->next;
+        if(!head) {
+            return NULL;
         }
-        ListNode* a = ahead;
-        ListNode* b = bhead;
-        while(temp){
-            if(temp->val < x){
-                a->next = temp;
-                a = a->next;
-                temp = temp->next;
-                a->next = NULL;
-            }
-            else{
-                if(temp != bhead){
-                    b->next = temp;
-                    b = b->next;
+        
+        ListNode* temp = head, *lesserHead = NULL, *greaterHead = NULL;
+        ListNode*lesserCur = NULL, *greaterCur = NULL;
+        while(temp) {
+            ListNode* newNode = new ListNode(temp->val);
+            if(temp->val < x) {
+                if(!lesserCur) {
+                    lesserHead = lesserCur = newNode;
                 }
-                temp = temp->next;
-                b->next = NULL;
+                else {
+                    lesserCur->next = newNode;
+                    lesserCur = lesserCur->next;
+                }
             }
+            else {
+                if(!greaterCur) {
+                    greaterHead = greaterCur = newNode;
+                }
+                else {
+                    greaterCur->next = newNode;
+                    greaterCur = greaterCur->next;
+                }
+            }
+            temp = temp->next;
         }
-        a->next = bhead;
-        return ahead->next;
+        
+        if(lesserCur) {
+            lesserCur->next = greaterHead;
+            return lesserHead;
+        }
+        else {
+            return greaterHead;
+        }
     }
 };
