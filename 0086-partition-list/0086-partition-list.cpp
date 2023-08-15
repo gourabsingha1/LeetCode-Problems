@@ -6,10 +6,6 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        if(!head) {
-            return NULL;
-        }
-        
         ListNode* temp = head, *lesserHead = NULL, *greaterHead = NULL;
         ListNode*lesserCur = NULL, *greaterCur = NULL;
         while(temp) {
