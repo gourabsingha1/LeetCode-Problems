@@ -70,7 +70,9 @@ public:
         }
         
         for (int i = 0; i < n; ++i) {
-            if (DS.findParent(i) != DS.findParent(0)) return 1e9+7;
+            if (DS.findParent(i) != DS.findParent(0)) {
+                return 1e6;
+            }
         }
         return cost;
     }
