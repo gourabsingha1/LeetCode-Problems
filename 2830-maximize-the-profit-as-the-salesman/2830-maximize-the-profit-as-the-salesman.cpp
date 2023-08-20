@@ -8,7 +8,7 @@ public:
             return dp[i];
         }
         
-        int j = lower_bound(temp.begin(), temp.end(), offers[i][1] + 1) - temp.begin();
+        int j = upper_bound(temp.begin(), temp.end(), offers[i][1]) - temp.begin();
         int take = offers[i][2] + helper(temp, j, offers, dp);
         int notTake = helper(temp, i + 1, offers, dp);
         return dp[i] = max(take, notTake);
