@@ -55,9 +55,6 @@ public:
         else if(kmp.strStr(s + a, b) != -1) {
             return res + 1;
         }
-        else if(kmp.strStr(s + a + a, b) != -1) {
-            return res + 2;
-        }
         return -1;
     }
 };
