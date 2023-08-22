@@ -1,18 +1,34 @@
+// store the index of the elements that are 1 in the set
+// whenever we come across 0 find the lower and upper bound and correspondingly store the maximum distance to the closest person
+
 class Solution {
 public:
     int maxDistToClosest(vector<int>& seats) {
-        int res = 1, n = seats.size(), first = -1, last = n;
+        int res = 1, n = seats.size();
+        set<int> st;
         for (int i = 0; i < n; i++)
         {
             if(seats[i]) {
-                res = max(res, (i - last) / 2);
-                last = i;
-                if(first == -1) {
-                    first = i;
-                }
+                st.insert(i);
             }
         }
-        res = max({res, first, n - 1 - last});
+        for (int i = 0; i < n; i++)
+        {
+            if(seats[i] == 0) {
+                auto lb = st.lower_bound(i);
+                int lbVal = n;
+                if(lb != st.begin()) {
+                    lbVal = i - *(--lb);
+                }
+
+                auto ub = st.upper_bound(i);
+                int ubVal = n;
+                if(ub != st.end()) {
+                    ubVal = *ub - i;
+                }
+                res = max(res, min(lbVal, ubVal));
+            }
+        }
         return res;
     }
 };
