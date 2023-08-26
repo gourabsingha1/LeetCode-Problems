@@ -1,3 +1,8 @@
+// start from z to find the lexicographically largest string
+// add ith char while freq[i] <= repeatLimit
+// when it cross repeatLimit, add the second largest char
+// if there is no second largest char, then break
+
 class Solution {
 public:
     string repeatLimitedString(string s, int repeatLimit) {
