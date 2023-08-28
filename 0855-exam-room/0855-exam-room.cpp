@@ -8,22 +8,13 @@ public:
     }
     
     int seat() {
-        int res = 0;
         if(st.size() == 0) {
-            st.insert(res);
-            return res;
-        }
-        else if(st.size() == 1) {
-            int num = *st.begin();
-            if(num < n - num) {
-                res = n;
-            }
-            st.insert(res);
-            return res;
+            st.insert(0);
+            return 0;
         }
 
         // O(N) to find a nice option
-        int mx = 0;
+        int res = 0, mx = 0;
         auto it = st.begin();
         it++;
         while(it != st.end()) {
