@@ -9,11 +9,11 @@ public:
         }
 
         int take = 1e9;
+        string temp;
         for (int i = ind; i < s.size(); i++)
         {
-            int size = i - ind + 1;
-            string ss = s.substr(ind, size);
-            if(seen[ss]) {
+            temp += s[i];
+            if(seen[temp]) {
                 take = min(take, helper(i + 1, s, seen, dp));
             }
         }
