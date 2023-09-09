@@ -1,20 +1,19 @@
 class Solution {
 public:
-    void dfs(vector<int>& res, Node* root) {
-        if(!root) {
-            return;
-        }
-        
-        res.push_back(root->val);
-        for (int i = 0; i < root->children.size(); i++)
-        {
-            dfs(res, root->children[i]);
-        }
-    }
-    
     vector<int> preorder(Node* root) {
         vector<int> res;
-        dfs(res, root);
+        stack<Node*> st;
+        st.push(root);
+        while(st.size()) {
+            Node* node = st.top();
+            st.pop();
+            if(!node) continue;
+            res.push_back(node->val);
+            for (int i = node->children.size() - 1; i >= 0; i--)
+            {
+                st.push(node->children[i]);
+            }
+        }
         return res;
     }
 };
