@@ -1,30 +1,32 @@
 class Solution {
 public:
-    void dfs(int i, int j, int n, int m, vector<vector<int>>& grid, int &res){
-        if(i < 0 || j < 0 || i == n || j == m || !grid[i][j]){
-            return;
+    vector<int> dir = {1, 0, -1, 0, 1}; // right, down, left, up
+
+    void dfs(int& cnt, int x, int y, vector<vector<int>>& grid){
+        grid[x][y] = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            int dx = x + dir[i], dy = y + dir[i + 1];
+            if(dx >= 0 && dy >= 0 && dx < grid.size() && dy < grid[0].size() && grid[dx][dy]){
+                cnt++;
+                dfs(cnt, dx, dy, grid);
+            }
         }
-        res++;
-        grid[i][j] = 0;
-        dfs(i-1, j, n, m, grid, res);
-        dfs(i, j-1, n, m, grid, res);
-        dfs(i+1, j, n, m, grid, res);
-        dfs(i, j+1, n, m, grid, res);
     }
 
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        int n = grid.size(), m = grid[0].size(), ans = 0;
-        for (int i = 0; i < n; i++)
+        int res = 0;
+        for (int i = 0; i < grid.size(); i++)
         {
-            for (int j = 0; j < m; j++)
+            for (int j = 0; j < grid[0].size(); j++)
             {
                 if(grid[i][j]){
-                    int res = 0;
-                    dfs(i, j, n, m, grid, res);
-                    ans = max(ans, res);
+                    int cnt = 1;
+                    dfs(cnt, i, j, grid);
+                    res = max(res, cnt);
                 }
             }
         }
-        return ans;
+        return res;
     }
 };
