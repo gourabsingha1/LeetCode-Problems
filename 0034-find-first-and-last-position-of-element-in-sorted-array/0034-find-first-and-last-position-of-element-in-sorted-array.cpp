@@ -26,13 +26,12 @@ public:
 
     vector<int> searchRange(vector<int>& nums, int target) {
         int n = nums.size();
-        int mid = findPosition(1, 0, n - 1, nums, target);
-        if(mid == n || nums[mid] != target) {
+        int left = findPosition(1, 0, n - 1, nums, target);
+        if(left == n || nums[left] != target) {
             return {-1, -1};
         }
         
-        int left = findPosition(1, 0, mid, nums, target);
-        int right = findPosition(0, mid, n - 1, nums, target);
+        int right = findPosition(0, left, n - 1, nums, target);
         return {left, right};
     }
 };
