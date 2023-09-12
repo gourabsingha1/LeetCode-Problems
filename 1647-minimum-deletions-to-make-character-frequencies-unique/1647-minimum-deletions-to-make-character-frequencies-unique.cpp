@@ -12,9 +12,7 @@ public:
         for (int i = 1; i < 26; i++)
         {
             mn = max(0, min(mn - 1, freq[i]));
-            if(mn <= freq[i]) {
-                res += freq[i] - mn;
-            }
+            res += freq[i] - mn;
         }
         return res;
     }
