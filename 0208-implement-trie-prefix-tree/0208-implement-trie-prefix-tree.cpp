@@ -3,7 +3,7 @@ public:
     struct Node
     {
         Node* links[26];
-        bool flag = false;
+        bool isEnd; // 1 if word exists, 0 if doesn't exist
 
         // checks if a node contains a character
         bool containsKey(char ch) {
@@ -11,23 +11,13 @@ public:
         }
 
         // puts a node
-        void putKey(char ch, Node* node) {
-            links[ch - 'a'] = node;
+        void putKey(char ch, Node* newNode) {
+            links[ch - 'a'] = newNode;
         }
 
         // next node
         Node* next(char ch) {
             return links[ch - 'a'];
-        }
-
-        // 1 = word exists, 0 = word doesn't exist
-        void setEnd() {
-            flag = 1;
-        }
-
-        // check if flag == 1
-        bool isEnd() {
-            return flag;
         }
     };
     
@@ -46,7 +36,7 @@ public:
             // go to its reference node
             node = node->next(ch);
         }
-        node->setEnd();
+        node->isEnd = 1;
     }
     
     bool search(string word) {
@@ -58,7 +48,7 @@ public:
             // go to its reference node
             node = node->next(ch);
         }
-        return node->isEnd();
+        return node->isEnd;
     }
     
     bool startsWith(string prefix) {
