@@ -6,40 +6,65 @@ using namespace std;
 
 // } Driver Code Ends
 // User function Template for C++
-class Solution {
-  public:
-    vector <int> dijkstra(int src, int n, vector<vector<int>> adj[]){
+
+// **** Shortest Path in DAG with Weights - O(n + e), O(n) ****
+class ShortestPathDAGraph{
+public:
+    void tSortDFS(int u, vector<bool>& vis, vector<int>& st, vector<vector<int>> adj[]){
+        vis[u] = 1;
+        for(auto& it : adj[u]){
+            int v = it[0];
+            if(!vis[v]){
+                tSortDFS(v, vis, st, adj);
+            }
+        }
+        st.push_back(u);
+    }
+    
+    vector<int> topoSort(int n, vector<vector<int>> adj[]){
+        vector<int> st;
+        vector<bool> vis(n);
+        for (int u = 0; u < n; u++)
+        {
+            if(!vis[u]){
+                tSortDFS(u, vis, st, adj);
+            }
+        }
+        // reverse(st.begin(), st.end());
+        return st;
+    }
+
+    vector<int> shortestPath(int src, int n, vector<vector<int>> adj[]){
+        vector<int> st = topoSort(n, adj);
         vector<int> dist(n, 1e9);
-        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
         dist[src] = 0;
-        pq.push({0, src}); // dist, node
-        while(pq.size()){
-            int prev = pq.top().first, i = pq.top().second;
-            pq.pop();
-            for(auto &it : adj[i]){
-                int j = it[0], wt = it[1];
-                if(dist[j] > prev + wt){
-                    dist[j] = prev + wt;
-                    pq.push({dist[j], j});
+        while(st.size()){
+            int u = st.back();
+            st.pop_back();
+            if(dist[u] != 1e9){
+                for(auto& it : adj[u]){
+                    int v = it[0], wt = it[1];
+                    dist[v] = min(dist[v], dist[u] + wt);
                 }
             }
         }
-        for (int i = 0; i < n; i++)
-        {
-            if(dist[i] == 1e9){
-                dist[i] = -1;
-            }
+        for(auto& x : dist) {
+            if(x == 1e9) x = -1;
         }
         return dist;
     }
-    vector<int> shortestPath(int n, int m, vector<vector<int>>& edges){
+};
+
+class Solution {
+  public:
+     vector<int> shortestPath(int n, int M, vector<vector<int>>& edges){
         vector<vector<int>> adj[n];
-        for (int i = 0; i < m; i++)
-        {
-            int u = edges[i][0], v = edges[i][1], wt = edges[i][2];
+        for(auto& edge : edges) {
+            int u = edge[0], v = edge[1], wt = edge[2];
             adj[u].push_back({v, wt});
         }
-        return dijkstra(0, n, adj);
+        ShortestPathDAGraph SP;
+        return SP.shortestPath(0, n, adj);
     }
 };
 
