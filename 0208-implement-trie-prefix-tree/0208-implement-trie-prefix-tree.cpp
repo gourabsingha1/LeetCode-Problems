@@ -1,76 +1,74 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Trie {
-    struct TrieNode {
-        TrieNode* links[26];
-        bool flag = 0;
+public:
+    struct Node
+    {
+        Node* links[26];
+        bool flag = false;
 
-        // if trie doesn't contain character, put it
+        // checks if a node contains a character
         bool containsKey(char ch) {
-            return links[ch - 'a'] != NULL;
-        }
-
-        void put(char ch, TrieNode* node) {
-            links[ch - 'a'] = node;
-        }
-
-        TrieNode* get(char ch) {
             return links[ch - 'a'];
         }
 
-        // last character of a word
+        // puts a node
+        void putKey(char ch, Node* node) {
+            links[ch - 'a'] = node;
+        }
+
+        // next node
+        Node* next(char ch) {
+            return links[ch - 'a'];
+        }
+
+        // 1 = word exists, 0 = word doesn't exist
         void setEnd() {
             flag = 1;
         }
 
-        // check if word is found
+        // check if flag == 1
         bool isEnd() {
             return flag;
         }
     };
+    
+    Node* root;
 
-    TrieNode* root;
-
-public:
     Trie() {
-        root = new TrieNode();
+        root = new Node();
     }
-
+    
     void insert(string word) {
-        TrieNode* node = root;
-        for (int i = 0; i < word.size(); i++)
-        {
-            if(!node->containsKey(word[i])) {
-                node->put(word[i], new TrieNode());
+        Node* node = root;
+        for(auto& ch : word) {
+            if(!node->containsKey(ch)) {
+                node->putKey(ch, new Node());
             }
-            // moves to the reference trie
-            node = node->get(word[i]);
+            // go to its reference node
+            node = node->next(ch);
         }
-        // last reference trie
         node->setEnd();
     }
-
+    
     bool search(string word) {
-        TrieNode* node = root;
-        for (int i = 0; i < word.size(); i++)
-        {
-            if(!node->containsKey(word[i])) {
+        Node* node = root;
+        for(auto& ch : word) {
+            if(!node->containsKey(ch)) {
                 return 0;
             }
-            node = node->get(word[i]);
+            // go to its reference node
+            node = node->next(ch);
         }
         return node->isEnd();
     }
-
+    
     bool startsWith(string prefix) {
-        TrieNode* node = root;
-        for (int i = 0; i < prefix.size(); i++)
-        {
-            if(!node->containsKey(prefix[i])) {
+        Node* node = root;
+        for(auto& ch : prefix) {
+            if(!node->containsKey(ch)) {
                 return 0;
             }
-            node = node->get(prefix[i]);
+            // go to its reference node
+            node = node->next(ch);
         }
         return 1;
     }
