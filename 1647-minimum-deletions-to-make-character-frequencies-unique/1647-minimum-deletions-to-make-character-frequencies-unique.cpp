@@ -1,22 +1,20 @@
 class Solution {
 public:
     int minDeletions(string s) {
-        int res = 0;
-        vector<int> mp(26, 0), v;
-        int mLast;
-        for(char &c : s) mp[c-'a']++;
-        for (int i = 0; i < 26; i++){
-            if(mp[i]) v.push_back(mp[i]);
+        int res = 0, n = s.size();
+        vector<int> freq(26, 0);
+        for (int i = 0; i < n; i++)
+        {
+            freq[s[i] - 'a']++;
         }
-        sort(v.rbegin(), v.rend());
-        mLast = v[0];
-        for (int i = 1; i < v.size(); i++){
-            if(mLast <= v[i]){
-                if(v[i-1] == 0) v[i-1]++;
-                res += v[i] - v[i-1] + 1;
-                v[i] = v[i-1] - 1;
+        sort(freq.rbegin(), freq.rend());
+        int mn = freq[0];
+        for (int i = 1; i < 26; i++)
+        {
+            mn = max(0, min(mn - 1, freq[i]));
+            if(mn <= freq[i]) {
+                res += freq[i] - mn;
             }
-            mLast = v[i];
         }
         return res;
     }
