@@ -15,17 +15,15 @@ public:
                     high = mid - 1;
                 }
             }
-            if(pq.size() == k) {
-                if(pq.top().first > low) {
-                    pq.pop();
-                    pq.push({low, i});
-                }
+            if(pq.size() < k) {
+                pq.push({low, i});
             }
-            else {
+            else if(pq.top().first > low) {
+                pq.pop();
                 pq.push({low, i});
             }
         }
-        while(k-- && pq.size()) {
+        while(k--) {
             res[k] = pq.top().second;
             pq.pop();
         }
