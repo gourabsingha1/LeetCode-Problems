@@ -1,5 +1,7 @@
-// keep track of minimum fees till a particular node from node 0
+// keep track of minimum cost and minimum time till a particular node from node 0
 // if current time is within the maxTime, add in the queue
+// prioritize cost first. if new cost is less, then cost[v] is updated but time[v] is not updated
+// because there may be a different path where it takes less time to reach
 
 class Solution {
 public: 
