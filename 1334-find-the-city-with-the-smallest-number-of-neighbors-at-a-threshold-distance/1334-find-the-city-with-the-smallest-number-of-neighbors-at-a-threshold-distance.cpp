@@ -31,8 +31,9 @@ public:
         for (int i = 0; i < n; i++)
         {
             int steps = 0;
-            for(auto &it : Dijkstras(i, n, adj)){
-                if(it <= distanceThreshold){
+            vector<int> dist = Dijkstras(i, n, adj);
+            for(auto& d : dist){
+                if(d <= distanceThreshold){
                     steps++;
                 }
             }
