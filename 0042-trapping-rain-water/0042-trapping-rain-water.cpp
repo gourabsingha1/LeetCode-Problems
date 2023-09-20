@@ -2,19 +2,19 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int n = height.size(), res = 0;
-        stack<int> decStack;
-        for (int i = 0; i < n; i++)
+        stack<int> minStack;
+        for (int r = 0; r < n; r++)
         {
-            while (decStack.size() && height[decStack.top()] <= height[i]) {
-                int last = height[decStack.top()];
-                decStack.pop();
-                if(decStack.size()){
-                    res += (min(height[decStack.top()], height[i]) - last) * (i - decStack.top() - 1);
-                    last = height[decStack.top()];
+            int rightBoundary = height[r];
+            while(minStack.size() && height[minStack.top()] <= rightBoundary) {
+                int mid = height[minStack.top()];
+                minStack.pop();
+                if(minStack.size()) {
+                    int l = minStack.top(), leftBoundary = height[l];
+                    res += (min(leftBoundary, rightBoundary) - mid) * (r - l - 1);
                 }
             }
-            decStack.push(i);
-            // cout<<res<<' ';
+            minStack.push(r);
         }
         return res;
     }
