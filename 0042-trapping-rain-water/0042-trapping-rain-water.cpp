@@ -2,19 +2,17 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int n = height.size(), res = 0;
-        stack<int> minStack;
-        for (int r = 0; r < n; r++)
+        vector<int> leftBoundary(n), rightBoundary(n);
+        leftBoundary[0] = height[0], rightBoundary[n - 1] = height[n - 1];
+        for (int i = 1; i < n; i++)
         {
-            int rightBoundary = height[r];
-            while(minStack.size() && height[minStack.top()] <= rightBoundary) {
-                int mid = height[minStack.top()];
-                minStack.pop();
-                if(minStack.size()) {
-                    int l = minStack.top(), leftBoundary = height[l];
-                    res += (min(leftBoundary, rightBoundary) - mid) * (r - l - 1);
-                }
-            }
-            minStack.push(r);
+            leftBoundary[i] = max(leftBoundary[i - 1], height[i]);
+            rightBoundary[n - i - 1] = max(rightBoundary[n - i], height[n - i - 1]);
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            res += min(leftBoundary[i], rightBoundary[i]) - height[i];
         }
         return res;
     }
