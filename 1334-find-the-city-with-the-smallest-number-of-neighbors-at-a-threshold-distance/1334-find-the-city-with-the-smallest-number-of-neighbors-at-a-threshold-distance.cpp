@@ -1,23 +1,21 @@
 class Solution {
 public:
     vector<int> Dijkstras(int src, int n, vector<pair<int,int>> adj[]){
-        vector<int> distTo(n, 1e9);
-        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq; // ascending order
-        distTo[src] = 0;
+        vector<int> dist(n, 1e9);
+        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        dist[src] = 0;
         pq.push({0, src});
         while(pq.size()){
-            int dist = pq.top().first, prev = pq.top().second;
+            auto [prev, u] = pq.top();
             pq.pop();
-            for(auto &it : adj[prev]){
-                int next = it.first;
-                int nextDist = it.second;
-                if(distTo[next] > dist + nextDist){
-                    distTo[next] = dist + nextDist;
-                    pq.push({distTo[next], next});
+            for(auto &[v, cur] : adj[u]){
+                if(dist[v] > prev + cur){
+                    dist[v] = prev + cur;
+                    pq.push({dist[v], v});
                 }
             }
         }
-        return distTo;
+        return dist;
     }
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
         int res = 0, currMin = INT_MAX;
