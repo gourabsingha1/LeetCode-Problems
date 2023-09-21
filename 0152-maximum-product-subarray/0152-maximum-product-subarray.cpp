@@ -1,13 +1,19 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        int ma = nums[0], mi = nums[0], res = nums[0];
-        for (int i = 1; i < nums.size(); i++)
+        int mx = 1, mn = 1, res = nums[0];
+        for (int i = 0; i < nums.size(); i++)
         {
-            int dma = ma;
-            ma = max({ma*nums[i], mi*nums[i], nums[i]});
-            mi = min({dma*nums[i], mi*nums[i], nums[i]});
-            res = max(res, ma);
+            // to handle -ve case
+            if(nums[i] < 0) {
+                swap(mx, mn);
+            }
+
+            // to handle 0 case. consider new subarray
+            mx = max(mx * nums[i], nums[i]);
+            mn = min(mn * nums[i], nums[i]);
+            
+            res = max(res, mx);
         }
         return res;
     }
