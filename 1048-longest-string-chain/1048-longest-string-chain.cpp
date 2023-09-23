@@ -1,3 +1,6 @@
+// sort words first so that we can find predecessor by moving in one direction
+// then basic knapsack
+
 class Solution {
 public:
     bool isPredecessor(string& word1, string& word2) {
