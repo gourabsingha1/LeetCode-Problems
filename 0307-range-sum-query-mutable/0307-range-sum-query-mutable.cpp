@@ -5,7 +5,6 @@ public:
     NumArray(vector<int>& a) {
         this->a = a;
         seg.resize(4 * a.size());
-        lazy.resize(4 * a.size());
         build(0, 0, a.size() - 1);
     }
 
@@ -56,7 +55,7 @@ public:
     // single element update with val - O(logN)
     void pointUpdate(int ind, int low, int high, int index, int val) {
         if(low == high) {
-            seg[low] = val;
+            seg[ind] = val;
         }
         else {
             int mid = (low + high) / 2;
@@ -75,10 +74,10 @@ public:
     void rangeUpdate(int ind, int low, int high, int l, int r, int val) {
         int left = 2 * ind + 1, right = 2 * ind + 2;
         if(lazy[ind]) {
-            seg[ind] = (high - low + 1) * lazy[ind];
+            seg[ind] += (high - low + 1) * lazy[ind];
             if(low != high) {
-                lazy[left] = lazy[ind];
-                lazy[right] = lazy[ind];
+                lazy[left] += lazy[ind];
+                lazy[right] += lazy[ind];
             }
             lazy[ind] = 0;
         }
@@ -86,10 +85,10 @@ public:
             return;
         }
         if(l <= low && r >= high) {
-            seg[ind] = (high - low + 1) * val;
+            seg[ind] += (high - low + 1) * val;
             if(low != high) {
-                lazy[left] = lazy[ind];
-                lazy[right] = lazy[ind];
+                lazy[left] += lazy[ind];
+                lazy[right] += lazy[ind];
             }
             return;
         }
@@ -124,7 +123,7 @@ public:
 
 
     void update(int index, int val) {
-        rangeUpdate(0, 0, a.size() - 1, index, index, val);
+        pointUpdate(0, 0, a.size() - 1, index, val);
     }
 
     int sumRange(int left, int right) {
