@@ -1,6 +1,6 @@
 // while checking for the next greater element (NGE) of num
 // we are also checking the NGE of elements that comes after num and are <= num
-// we store the elements in decStack and set all their values as NGE once we find the NGE
+// we store the elements in minStack and set all their values as NGE once we find the NGE
 
 class Solution {
 public:
@@ -13,15 +13,15 @@ public:
             mp[nums1[i]] = i;
         }
 
-        stack<int> st;
+        stack<int> minStack;
         for(auto& num : nums2){
-            while(st.size() && num > st.top()){
-                int ind = mp[st.top()];
+            while(minStack.size() && num > minStack.top()){
+                int ind = mp[minStack.top()];
                 res[ind] = num;
-                st.pop();
+                minStack.pop();
             }
             if(mp.find(num) != mp.end()){
-                st.push(num);
+                minStack.push(num);
             }
         }
         return res;
