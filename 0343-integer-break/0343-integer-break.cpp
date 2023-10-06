@@ -1,15 +1,22 @@
 class Solution {
 public:
     int integerBreak(int n) {
-        if(n < 4){
+        if(n < 4) {
             return n - 1;
         }
-        int res = pow(3, n / 3);
-        if(n % 3 == 1){
-            res = (res / 3) * 4;
+        
+        int res = n % 3;
+        n -= res;
+        if(res == 0) {
+            res = 1;
         }
-        else if(n % 3 == 2){
-            res *= 2;
+        else if(res == 1) {
+            res += 3;
+            n -= 3;
+        }
+        while(n) {
+            res *= 3;
+            n -= 3;
         }
         return res;
     }
