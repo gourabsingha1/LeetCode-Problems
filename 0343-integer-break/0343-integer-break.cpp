@@ -5,19 +5,13 @@ public:
             return n - 1;
         }
         
-        int res = n % 3;
-        n -= res;
-        if(res == 0) {
-            res = 1;
+        int exp = pow(3, n / 3);
+        if(n % 3 == 0) {
+            return exp;
         }
-        else if(res == 1) {
-            res += 3;
-            n -= 3;
+        else if(n % 3 == 1) {
+            return 4 * (exp / 3);
         }
-        while(n) {
-            res *= 3;
-            n -= 3;
-        }
-        return res;
+        return 2 * exp;
     }
 };
