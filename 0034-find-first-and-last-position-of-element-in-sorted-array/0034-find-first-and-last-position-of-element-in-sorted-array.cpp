@@ -18,10 +18,7 @@ public:
                 high = mid - 1;
             }
         }
-        if(left) {
-            return low;
-        }
-        return high;
+        return low;
     }
 
     vector<int> searchRange(vector<int>& nums, int target) {
@@ -31,7 +28,7 @@ public:
             return {-1, -1};
         }
         
-        int right = findPosition(0, left, n - 1, nums, target);
+        int right = findPosition(0, left, n - 1, nums, target) - 1;
         return {left, right};
     }
 };
