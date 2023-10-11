@@ -1,9 +1,9 @@
 class Solution {
 public:
-    int dp[100001][2][2];
+    int dp[100001][2][3];
 
     int helper(int i, bool hold, int transactions, vector<int>& prices) {
-        if(i == prices.size() || transactions == -1) {
+        if(i == prices.size() || transactions == 0) {
             return 0;
         }
         if(dp[i][hold][transactions] != -1) {
@@ -23,6 +23,6 @@ public:
 
     int maxProfit(vector<int>& prices) {
         memset(dp, -1, sizeof(dp));
-        return helper(0, 0, 1, prices);
+        return helper(0, 0, 2, prices);
     }
 };
