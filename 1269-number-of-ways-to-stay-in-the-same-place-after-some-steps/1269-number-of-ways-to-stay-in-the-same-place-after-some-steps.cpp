@@ -1,3 +1,7 @@
+// ind cannot be greater than steps
+// because we need to travel count(steps) to reach ind
+// hence we can reduce space
+
 class Solution {
 public:
     int M = 1e9 + 7;
