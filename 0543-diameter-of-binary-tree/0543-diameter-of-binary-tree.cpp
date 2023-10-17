@@ -1,27 +1,19 @@
 class Solution {
 public:
-    int diameter(TreeNode* root, int &res) {
-        // base condition
-        if(!root){
+    int res = 0;
+    int helper(TreeNode* root) {
+        if(!root) {
             return 0;
         }
 
-        // hypothesis
-        int lHeight = diameter(root->left, res);
-        int rHeight = diameter(root->right, res);
-
-        // induction
-        int temp = max(lHeight, rHeight) + 1; // the current node may not be the root of the diameter
-        int ans = lHeight + rHeight; // the current node may be the root of the diameter
-        res = max(res, ans); // finding the correct diamter
-
-        return temp; // pass on the max height + 1 to check for the next nodes
+        int leftHeight = helper(root->left);
+        int rightHeight = helper(root->right);
+        res = max(res, leftHeight + rightHeight);
+        return max(leftHeight, rightHeight) + 1;
     }
-    
+
     int diameterOfBinaryTree(TreeNode* root) {
-        int res = 0;
-        diameter(root, res);
+        helper(root);
         return res;
     }
-    
 };
