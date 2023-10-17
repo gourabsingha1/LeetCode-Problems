@@ -1,23 +1,26 @@
+// **** Disjoint set ****
 class DisjointSet{
 public:
     vector<int> parent, rank;
+    int n;
     DisjointSet(int n){
-        parent.resize(n + 1), rank.resize(n + 1);
+        this->n = n;
+        parent.resize(n + 1), rank.resize(n + 1, 0);
         for (int i = 0; i <= n; i++)
         {
             parent[i] = i;
-            rank[i] = 0;
         }
     }
-    int findParent(int node){
-        if(node == parent[node]){
-            return node;
+
+    int findParent(int u){
+        if(u == parent[u]){
+            return u;
         }
-        return parent[node] = findParent(parent[node]); // path compression
+        return parent[u] = findParent(parent[u]); // path compression
     }
+
     bool Union(int u, int v){
-        u = findParent(u);
-        v = findParent(v);
+        u = findParent(u), v = findParent(v);
         if(u == v){
             return 1;
         }
@@ -31,9 +34,15 @@ public:
             parent[v] = u;
             rank[u]++;
         }
+        n--;
         return 0;
     }
+
+    int size() {
+        return n;
+    }
 };
+
 class Solution {
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
@@ -55,13 +64,6 @@ public:
                 vis[v] = 1;
             }
         }
-        int root = ds.findParent(0);
-        for (int i = 1; i < n; i++)
-        {
-            if(root != ds.findParent(i)){
-                return 0;
-            }
-        }
-        return 1;
+        return ds.size() == 1;
     }
 };
