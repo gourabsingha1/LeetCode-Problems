@@ -1,33 +1,34 @@
-// dp[i] = maxTime till ith node
-
 class Solution {
 public:
-    int dfs(int u, vector<int> adj[], vector<int>& time, vector<int>& dp) {
-        if(dp[u]) {
-            return dp[u];
-        }
-
-        int res = time[u - 1];
-        for(auto& v : adj[u]) {
-            res = max(res, time[u - 1] + dfs(v, adj, time, dp));
-        }
-        return dp[u] = res;
-    }
-
     int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
         vector<int> adj[n + 1], indegree(n + 1, 0);
         for(auto& edge : relations) {
             adj[edge[0]].push_back(edge[1]);
             indegree[edge[1]]++;
         }
-
-        vector<int> dp(n + 1, 0);
+        queue<int> q;
+        vector<int> maxTime(n + 1, 0);
         for (int u = 1; u <= n; u++)
         {
             if(indegree[u] == 0) {
-                dfs(u, adj, time, dp);
+                q.push(u);
+                maxTime[u] = time[u - 1];
             }
         }
-        return *max_element(dp.begin(), dp.end());
+        
+        while(q.size()) {
+            int size = q.size();
+            while(size--) {
+                int u = q.front();
+                q.pop();
+                for(auto& v : adj[u]) {
+                    maxTime[v] = max(maxTime[v], maxTime[u] + time[v - 1]);
+                    if(--indegree[v] == 0) {
+                        q.push(v);
+                    }
+                }
+            }
+        }
+        return *max_element(maxTime.begin(), maxTime.end());
     }
 };
