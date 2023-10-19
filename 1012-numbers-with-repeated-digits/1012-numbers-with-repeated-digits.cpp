@@ -11,34 +11,15 @@ public:
             return dp[pos][tight][seen][found];
         }
 
-        int res = 0;
-        if(tight == 1) {
-            for (int i = 0; i <= s[pos] - '0'; i++)
-            {
-                if(seen == 0 && i == 0) { // leading zero
-                    res += helper(s, pos + 1, 0, seen, found);
-                    continue;
-                }
-                
-                int mask = (1 << i);
-                if(i == s[pos] - '0') {
-                    res += helper(s, pos + 1, 1, seen | mask, found | (seen & mask));
-                }
-                else {
-                    res += helper(s, pos + 1, 0, seen | mask, found | (seen & mask));
-                }
+        int res = 0, ub = tight ? s[pos] - '0' : 9;
+        for (int i = 0; i <= ub; i++)
+        {
+            int mask = (1 << i);
+            if(seen == 0 && i == 0) { // leading zero
+                res += helper(s, pos + 1, tight & (i == ub), seen, found);
             }
-        }
-        else {
-            for (int i = 0; i <= 9; i++)
-            {
-                if(seen == 0 && i == 0) { // leading zero
-                    res += helper(s, pos + 1, 0, seen, found);
-                    continue;
-                }
-                
-                int mask = (1 << i);
-                res += helper(s, pos + 1, 0, seen | mask, found | (seen & mask));
+            else {
+                res += helper(s, pos + 1, tight & (i == ub), seen | mask, found | (seen & mask));
             }
         }
         return dp[pos][tight][seen][found] = res;
