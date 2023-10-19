@@ -1,61 +1,23 @@
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        int i = s.size() - 1, j = t.size() - 1;
-        while(i >= 0 && j >= 0){
-            while(i >= 0 && s[i] == '#'){
-                int sHash = 1;
-                i--;
-                while(i >= 0 && sHash){
-                    if(s[i--] == '#'){
-                        sHash++;
-                    }
-                    else{
-                        sHash--;
-                    }
-                }
+        vector<char> st1, st2;
+        for(auto& ch : s) {
+            if(ch != '#') {
+                st1.push_back(ch);
             }
-            while(j >= 0 && t[j] == '#'){
-                int tHash = 1;
-                j--;
-                while(j >= 0 && tHash){
-                    if(t[j--] == '#'){
-                        tHash++;
-                    }
-                    else{
-                        tHash--;
-                    }
-                }
+            else if(st1.size()) {
+                st1.pop_back();
             }
-            if(i >= 0 && j >= 0 && s[i] != t[j] || i >= 0 && j < 0 || i < 0 && j >= 0){
-                return 0;
-            }
-            i--, j--;
         }
-        if(i >= 0){
-            int sHash = 0;
-            while(i >= 0){
-                if(s[i--] == '#'){
-                    sHash++;
-                }
-                else{
-                    sHash--;
-                }
+        for(auto& ch : t) {
+            if(ch != '#') {
+                st2.push_back(ch);
             }
-            return sHash >= 0;
-        }
-        else if(j >= 0){
-            int tHash = 0;
-            while(j >= 0){
-                if(t[j--] == '#'){
-                    tHash++;
-                }
-                else{
-                    tHash--;
-                }
+            else if(st2.size()) {
+                st2.pop_back();
             }
-            return tHash >= 0;
         }
-        return 1;
+        return st1 == st2;
     }
 };
