@@ -1,3 +1,6 @@
+// same as 1012. Numbers With Repeated Digits
+// except return !found
+
 class Solution {
 public:
     // pos, tight, seen, found
