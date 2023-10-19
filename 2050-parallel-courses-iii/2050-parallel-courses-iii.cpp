@@ -1,32 +1,33 @@
-// fore korum bal
+// dp[i] = maxTime till ith node
 
 class Solution {
 public:
+    int dfs(int u, vector<int> adj[], vector<int>& time, vector<int>& dp) {
+        if(dp[u]) {
+            return dp[u];
+        }
+
+        int res = time[u - 1];
+        for(auto& v : adj[u]) {
+            res = max(res, time[u - 1] + dfs(v, adj, time, dp));
+        }
+        return dp[u] = res;
+    }
+
     int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
-        vector<int> inDegree(n);
-        vector<vector<int>> graph(n, vector<int>());
-        for (auto& edge : relations) {
-            int prev = edge[0] - 1, next = edge[1] - 1;
-            graph[prev].push_back(next);
-            inDegree[next]++;
+        vector<int> adj[n + 1], indegree(n + 1, 0);
+        for(auto& edge : relations) {
+            adj[edge[0]].push_back(edge[1]);
+            indegree[edge[1]]++;
         }
-        
-        vector<int> dist(n);
-        queue<int> q;
-        for (int u = 0; u < n; ++u) {
-            if (inDegree[u] == 0) {
-                q.push(u);
-                dist[u] = time[u];
+
+        vector<int> dp(n + 1, 0);
+        for (int u = 1; u <= n; u++)
+        {
+            if(indegree[u] == 0) {
+                dfs(u, adj, time, dp);
             }
         }
-        while (!q.empty()) {
-            int u = q.front(); q.pop();
-            for (int v : graph[u]) {
-                dist[v] = max(dist[v], dist[u] + time[v]); // Update `dist[v]` using the maximum dist of the predecessor nodes
-                if (--inDegree[v] == 0) 
-                    q.push(v);
-            }
-        }
-        return *max_element(dist.begin(), dist.end());
+        return *max_element(dp.begin(), dp.end());
     }
 };
