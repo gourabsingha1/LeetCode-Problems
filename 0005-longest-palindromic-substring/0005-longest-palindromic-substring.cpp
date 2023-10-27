@@ -1,3 +1,6 @@
+// let s[i] is the middle element of palindrome
+// expand left and right
+
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -13,6 +16,7 @@ public:
                 size = curr;
                 j = l + 1;
             }
+            
             // even length
             l = i, r = i + 1, curr = 0;
             while(l >= 0 && r < n && s[l] == s[r]){
