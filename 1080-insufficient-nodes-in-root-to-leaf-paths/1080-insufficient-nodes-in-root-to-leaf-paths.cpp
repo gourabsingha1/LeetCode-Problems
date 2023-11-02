@@ -1,3 +1,6 @@
+// get the sum from up and down (left & right)
+// if sum + left < limit, root->left = NULL
+
 class Solution {
 public:
     int dfs(int sum, TreeNode* root, int& limit) {
@@ -7,14 +10,14 @@ public:
         
         int left = INT_MIN, right = INT_MIN;
         if(root->left) {
-            left = dfs(sum + root->val, root->left, limit);
-            if(root->val + sum + left < limit) {
+            left = dfs(sum + root->left->val, root->left, limit);
+            if(sum + left < limit) {
                 root->left = NULL;
             }
         }
         if(root->right) {
-            right = dfs(sum + root->val, root->right, limit);
-            if(root->val + sum + right < limit) {
+            right = dfs(sum + root->right->val, root->right, limit);
+            if(sum + right < limit) {
                 root->right = NULL;
             }
         }
@@ -23,7 +26,7 @@ public:
     }
 
     TreeNode* sufficientSubset(TreeNode* root, int limit) {
-        if(dfs(0, root, limit) < limit) {
+        if(dfs(root->val, root, limit) < limit) {
             return NULL;
         }
         return root;
