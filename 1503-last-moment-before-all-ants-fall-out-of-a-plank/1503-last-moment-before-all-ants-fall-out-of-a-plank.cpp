@@ -1,3 +1,6 @@
+// no difference bw ants
+// return max(left, n - right)
+
 class Solution {
 public:
     int getLastMoment(int n, vector<int>& left, vector<int>& right) {
