@@ -1,3 +1,8 @@
+// alternative: find the first element whose no of smaller elements on left + right >= k
+// otherwise answer will always be the max_element
+// at left, there can at max be 1 element since the bigger ones eat smaller ones
+// at right, we can do one pass since cur will eat the most elements
+
 class Solution {
 public:
     int getWinner(vector<int>& arr, int k) {
