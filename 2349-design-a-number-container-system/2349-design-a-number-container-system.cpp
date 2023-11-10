@@ -1,3 +1,6 @@
+// use map to check if there is already a number in an index
+// replacing that number means deleting the index from it's set
+
 class NumberContainers {
 public:
     unordered_map<int, set<int>> mp; // number, indices
@@ -12,6 +15,7 @@ public:
         if(prevNum) {
             mp[prevNum].erase(mp[prevNum].find(index));
         }
+        
         mp[number].insert(index);
         indNum[index] = number;
     }
