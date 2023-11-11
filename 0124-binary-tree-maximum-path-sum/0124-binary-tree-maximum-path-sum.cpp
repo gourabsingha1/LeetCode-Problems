@@ -1,26 +1,24 @@
+// for every node, consider that the path goes through it
+// return max(0, root->val + max(leftSum, rightSum)) to parent
+// 0 to exclude the path
+
 class Solution {
 public:
-    int maxPathSumNLeaf(TreeNode* root, int &res){
-        // base condition
-        if(!root){
+    int res = INT_MIN;
+
+    int helper(TreeNode* root) {
+        if(!root) {
             return 0;
         }
-
-        // hypothesis
-        int lHeight = max(0, maxPathSumNLeaf(root->left, res)); // want maximum
-        int rHeight = max(0, maxPathSumNLeaf(root->right, res)); // want maximum
-
-        // induction
-        int temp = max(lHeight, rHeight) + root->val; // assuming root->val to be +ve. parent node will check whether or not
-        int ans = max(temp, lHeight + rHeight + root->val); // current node may be the root of the path which gives the maximum sum
-        res = max(res, ans);
-
-        return temp;
+        
+        int leftSum = helper(root->left);
+        int rightSum = helper(root->right);
+        res = max(res, leftSum + root->val + rightSum);
+        return max(0, root->val + max(leftSum, rightSum));
     }
 
     int maxPathSum(TreeNode* root) {
-        int res = INT_MIN;
-        maxPathSumNLeaf(root, res);
+        helper(root);
         return res;
     }
 };
