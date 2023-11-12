@@ -11,16 +11,18 @@ public:
                 adj[routes[i][j]].push_back(i);
             }
         }
+        
         q.push({source, 0});
         while(q.size()){
             int t = q.size();
             while(t--){
                 auto [stop, bus] = q.front();
+                q.pop();
+                visStop[stop] = 1;
                 if(stop == target){
                     return bus;
                 }
-                visStop[stop] = 1;
-                q.pop();
+                
                 for(auto &it : adj[stop]){
                     if(visBus[it]) continue;
                     for (int i = 0; i < routes[it].size(); i++)
