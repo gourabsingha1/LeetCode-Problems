@@ -1,3 +1,7 @@
+// number of seats(s) should be even and greater than 0
+// x plants divides corridor in x + 1 ways
+// if there has been valid no of seats before those plants
+
 class Solution {
 public:
     int numberOfWays(string corridor) {
