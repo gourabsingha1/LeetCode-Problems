@@ -1,3 +1,7 @@
+// classic sliding window
+// when no of pairs >= k, we can find no of subsets which include
+// the subset from j to i in O(1) i.e n - i
+
 class Solution {
 public:
     long long countGood(vector<int>& nums, int k) {
@@ -9,10 +13,8 @@ public:
             while(pairs >= k) {
                 res += (n - i);
                 pairs -= --mp[nums[j++]];
-                // cout<<'x';
             }
         }
-        // cout<<endl;
         return res;
     }
 };
