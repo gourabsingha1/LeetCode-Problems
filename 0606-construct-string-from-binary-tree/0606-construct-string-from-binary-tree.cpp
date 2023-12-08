@@ -1,23 +1,22 @@
+// strong recursion background required
+
 class Solution {
 public:
     string helper(TreeNode* root) {
-        string res = "(" + to_string(root->val);
-        bool left = 0;
+        string res = to_string(root->val);
         if(root->left) {
-            res += helper(root->left) + ")";
-            left = 1;
+            res += "(" + helper(root->left) + ")";
         }
         if(root->right) {
-            if(!left) {
+            if(!root->left) {
                 res += "()";
             }
-            res += helper(root->right) + ")";
+            res += "(" + helper(root->right) + ")";
         }
         return res;
     }
 
     string tree2str(TreeNode* root) {
-        string res = helper(root);
-        return res.substr(1, res.size() - 1);
+        return helper(root);
     }
 };
