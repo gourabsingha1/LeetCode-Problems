@@ -1,8 +1,13 @@
 var maxProduct = function(nums) {
-    nums = nums.sort(function(a, b) {
-        return a - b
-    });
-    
-    let n = nums.length;
-    return (nums[n - 1] - 1) * (nums[n - 2] - 1);
+    let max = 0, secondMax = 0;
+    for(let i = 0; i < nums.length; i++) {
+        if(max < nums[i]) {
+            secondMax = max;
+            max = nums[i];
+        }
+        else if(secondMax < nums[i]) {
+            secondMax = nums[i];
+        }
+    }
+    return (max - 1) * (secondMax - 1);
 };
