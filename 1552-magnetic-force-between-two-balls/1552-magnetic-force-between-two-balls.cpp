@@ -8,7 +8,7 @@ public:
     bool isPossible(int force, vector<int>& position, int m) {
         int last = position[0];
         while(m > 0) {
-            auto lb = upper_bound(position.begin(), position.end(), last + force);
+            auto lb = lower_bound(position.begin(), position.end(), last + force);
             if(lb != position.end()) {
                 m--;
                 last = *lb;
@@ -32,6 +32,6 @@ public:
                 high = force - 1;
             }
         }
-        return low;
+        return high;
     }
 };
