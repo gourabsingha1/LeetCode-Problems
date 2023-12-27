@@ -1,25 +1,19 @@
+// for a consecutive balloon subarray, calculate sum of their neededTimes - max(neededTimes)
+// because greedy choice would be to leave the maximum neededTime as it is
+
 class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
-        int n = colors.size(), sum = 0, ma = 0;
+        int n = colors.size(), res = 0;
         for (int i = 1; i < n; i++)
         {
-            if(colors[i] == colors[i-1]){
-                if(!ma){
-                    sum += neededTime[i-1];
-                    ma = neededTime[i-1];
-                }
-                sum += neededTime[i];
-                ma = max(ma, (int)neededTime[i]);
+            int mx = neededTime[i - 1], cur = neededTime[i - 1];
+            while(i < n && colors[i - 1] == colors[i]){
+                mx = max(mx, neededTime[i]);
+                cur += neededTime[i++];
             }
-            else{
-                sum -= ma;
-                ma = 0;
-            }
+            res += cur - mx;
         }
-        if(colors[n-1] == colors[n-2]){
-            sum -= ma;
-        }
-        return sum;
+        return res;
     }
 };
