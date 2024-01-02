@@ -1,27 +1,35 @@
-// since constraints are small, iterate j from 1 to 201
-// if j exists in nums, push it in the latest index of res and decrement its count
+// res.size() = max freq of nums[i]
+// after sorting, if adjacent nums are same, move res iterator (j)
+// else initialize j with 0
 
 class Solution {
 public:
     vector<vector<int>> findMatrix(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> mp(201, 0);
-        int ma = 0;
-        for (int i = 0; i < nums.size(); i++)
+        sort(nums.begin(), nums.end());
+        int n = nums.size(), sz = 1, cnt = 1;
+        for (int i = 1; i < n; i++)
         {
-            ma = max(ma, ++mp[nums[i]]);
-        }
-        for (int i = 0; i < ma; i++)
-        {
-            vector<int> temp;
-            for (int j = 1; j < 201; j++)
-            {
-                if(mp[j]) {
-                    temp.push_back(j);
-                    mp[j]--;
-                }
+            if(nums[i - 1] == nums[i]) {
+                cnt++;
             }
-            res.push_back(temp);
+            else {
+                cnt = 1;
+            }
+            sz = max(sz, cnt);
+        }
+        
+        vector<vector<int>> res(sz);
+        int j = 0;
+        res[j].push_back(nums[0]);
+        for (int i = 1; i < n; i++)
+        {
+            if(nums[i - 1] == nums[i]) {
+                res[++j].push_back(nums[i]);
+            }
+            else {
+                j = 0;
+                res[j].push_back(nums[i]);
+            }
         }
         return res;
     }
