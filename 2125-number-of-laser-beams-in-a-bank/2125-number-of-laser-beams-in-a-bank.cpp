@@ -8,9 +8,7 @@ public:
         for(auto& b : bank) {
             int cur = 0;
             for(auto& cell : b) {
-                if(cell == '1') {
-                    cur++;
-                }
+                cur += cell == '1';
             }
             if(cur) {
                 res += last * cur;
