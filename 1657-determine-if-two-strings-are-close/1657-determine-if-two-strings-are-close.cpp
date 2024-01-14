@@ -4,11 +4,11 @@ public:
         if(word1.size() != word2.size()){
             return 0;
         }
+        
         vector<int> w1(26, 0), w2(26, 0), a, b;
         for (int i = 0; i < word1.size(); i++)
         {
-            w1[word1[i]-'a']++;
-            w2[word2[i]-'a']++;
+            w1[word1[i] - 'a']++, w2[word2[i] - 'a']++;
         }
         for (int i = 0; i < 26; i++)
         {
@@ -17,7 +17,6 @@ public:
             if(w2[i]) b.push_back(w2[i]);
         }
         sort(a.begin(), a.end()), sort(b.begin(), b.end());
-        
         return a == b;
     }
 };
