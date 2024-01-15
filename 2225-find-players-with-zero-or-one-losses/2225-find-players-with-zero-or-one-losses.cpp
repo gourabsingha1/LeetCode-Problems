@@ -16,7 +16,7 @@ public:
         for(auto& match : matches) {
             if(!lostFreq[match[0]]) {
                 zero.push_back(match[0]);
-                lostFreq[match[0]] = 1;
+                lostFreq[match[0]] = 1; // don't want duplicates
             }
         }
         sort(zero.begin(), zero.end());
