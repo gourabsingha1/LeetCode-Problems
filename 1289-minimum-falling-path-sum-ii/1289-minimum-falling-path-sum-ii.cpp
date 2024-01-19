@@ -1,4 +1,4 @@
-// for mat[i][j], store its val + min of top, topAdjLeft & topAdjRight
+// for mat[i][j], store its val + min of mat[i - 1][k] fot all k != j
 
 class Solution {
 public:
