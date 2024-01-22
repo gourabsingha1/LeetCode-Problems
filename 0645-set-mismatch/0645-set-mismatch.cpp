@@ -12,7 +12,7 @@ public:
         {
             int ind = abs(nums[i]) - 1;
             if(nums[ind] > 0){
-                nums[ind] = -nums[ind];
+                nums[ind] *= -1;
             }
             else{
                 a = ind + 1;
