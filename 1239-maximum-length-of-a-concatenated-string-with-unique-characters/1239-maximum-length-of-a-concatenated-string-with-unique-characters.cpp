@@ -13,7 +13,6 @@ public:
             return dp[{n, seen}];
         }
 
-        int notTake = helper(n - 1, seen, arr);
         int temp = seen;
         for(auto& ch : arr[n]) {
             int mask = 1 << (ch - 'a');
@@ -21,10 +20,12 @@ public:
                 seen |= mask;
             }
             else {
-                return dp[{n, temp}] = notTake;
+                seen = temp;
+                break;
             }
         }
         int take = helper(n - 1, seen, arr);
+        int notTake = helper(n - 1, temp, arr);
         return dp[{n, seen}] = max(take, notTake);
     }
 
