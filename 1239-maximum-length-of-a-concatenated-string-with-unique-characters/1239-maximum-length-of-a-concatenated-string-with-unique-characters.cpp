@@ -14,12 +14,13 @@ public:
         }
 
         int notTake = helper(n - 1, vis, arr);
+        vector<bool> temp = vis;
         for(auto& ch : arr[n]) {
             if(!vis[ch - 'a']) {
                 vis[ch - 'a'] = 1;
             }
             else {
-                return notTake;
+                return dp[{n, temp}] = notTake;
             }
         }
         int take = helper(n - 1, vis, arr);
