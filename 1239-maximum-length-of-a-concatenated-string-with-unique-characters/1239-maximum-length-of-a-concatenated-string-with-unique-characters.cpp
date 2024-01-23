@@ -1,34 +1,34 @@
-// brute force
+// dp + bit mask
 // take only if none of the characters were taken before
 
 class Solution {
 public:
-    map<pair<int, vector<bool>>, int> dp;
+    map<pair<int, int>, int> dp;
         
-    int helper(int n, vector<bool> vis, vector<string>& arr) {
+    int helper(int n, int seen, vector<string>& arr) {
         if(n < 0) {
-            return accumulate(vis.begin(), vis.end(), 0);
+            return __builtin_popcount(seen);
         }
-        if(dp.find({n, vis}) != dp.end()) {
-            return dp[{n, vis}];
+        if(dp.find({n, seen}) != dp.end()) {
+            return dp[{n, seen}];
         }
 
-        int notTake = helper(n - 1, vis, arr);
-        vector<bool> temp = vis;
+        int notTake = helper(n - 1, seen, arr);
+        int temp = seen;
         for(auto& ch : arr[n]) {
-            if(!vis[ch - 'a']) {
-                vis[ch - 'a'] = 1;
+            int mask = 1 << (ch - 'a');
+            if(!(seen & mask)) {
+                seen |= mask;
             }
             else {
                 return dp[{n, temp}] = notTake;
             }
         }
-        int take = helper(n - 1, vis, arr);
-        return dp[{n, vis}] = max(take, notTake);
+        int take = helper(n - 1, seen, arr);
+        return dp[{n, seen}] = max(take, notTake);
     }
 
     int maxLength(vector<string>& arr) {
-        vector<bool> vis(26, 0);
-        return helper(arr.size() - 1, vis, arr);
+        return helper(arr.size() - 1, 0, arr);
     }
 };
