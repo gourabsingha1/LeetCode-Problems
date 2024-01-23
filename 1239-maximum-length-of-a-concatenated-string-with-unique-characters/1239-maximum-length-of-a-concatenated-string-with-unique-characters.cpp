@@ -1,11 +1,16 @@
 // brute force
-// take only if none of the characters are taken before
+// take only if none of the characters were taken before
 
 class Solution {
 public:
+    map<pair<int, vector<bool>>, int> dp;
+        
     int helper(int n, vector<bool> vis, vector<string>& arr) {
         if(n < 0) {
             return accumulate(vis.begin(), vis.end(), 0);
+        }
+        if(dp.find({n, vis}) != dp.end()) {
+            return dp[{n, vis}];
         }
 
         int notTake = helper(n - 1, vis, arr);
@@ -18,7 +23,7 @@ public:
             }
         }
         int take = helper(n - 1, vis, arr);
-        return max(take, notTake);
+        return dp[{n, vis}] = max(take, notTake);
     }
 
     int maxLength(vector<string>& arr) {
