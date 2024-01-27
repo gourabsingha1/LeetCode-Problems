@@ -1,24 +1,27 @@
-// Tabulation - O(N * N * K), O(N * K)
+// Tabulation - O(N * N * K), O(K)
 
 class Solution {
 public:
     int kInversePairs(int n, int k) {
-        int dp[1001][1001] = {}, M = 1e9 + 7;
+        int M = 1e9 + 7;
+        vector<int> prev(k + 1, 0);
         for (int N = 1; N <= n; N++)
         {
+            vector<int> cur(k + 1, 0);
             for (int K = 0; K <= k; K++)
             {
                 for (int i = 0; i <= min(K, N - 1); i++)
                 {
                     if(K == 0) {
-                        dp[N][K] = 1;
+                        cur[K] = 1;
                     }
                     else {
-                        dp[N][K] = (dp[N][K] + dp[N - 1][K - i]) % M;
+                        cur[K] = (cur[K] + prev[K - i]) % M;
                     }
                 }
             }
+            prev = cur;
         }
-        return dp[n][k];
+        return prev[k];
     }
 };
