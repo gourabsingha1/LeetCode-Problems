@@ -23,7 +23,7 @@ public:
 
     int evalRPN(vector<string>& tokens) {
         for(string& s : tokens) {
-            if(s == "+" || s == "-" || s == "*" || s == "/"){
+            if(!isdigit(s.back())){
                 operation(s);
             }
             else{
