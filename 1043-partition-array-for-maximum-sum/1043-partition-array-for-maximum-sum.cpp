@@ -1,6 +1,12 @@
+// from the nth index find max element for every range from 1 to K (K goes from 1 to k)
+// set that max element and the number of times it was chosen
+// then move on
+
 class Solution {
 public:
-    int helper(int n, vector<int>& nums, int k, vector<int>& dp) {
+    int dp[501];
+
+    int helper(int n, vector<int>& nums, int& k) {
         if(n < 0) {
             return 0;
         }
@@ -8,17 +14,16 @@ public:
             return dp[n];
         }
         
-        int ma = nums[n], res = 0;
-        for (int i = n, cnt = 1; i >= max(0, n + 1 - k); i--, cnt++)
-        {
-            ma = max(ma, nums[i]);
-            res = max(res, ma * cnt + helper(i - 1, nums, k, dp));
+        int mx = nums[n], res = 0, K = 0;
+        while(n - K >= 0 && K < k) {
+            mx = max(mx, nums[n - K]);
+            res = max(res, mx * (++K) + helper(n - K, nums, k));
         }
         return dp[n] = res;
     }
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
         int n = arr.size();
-        vector<int> dp(n, -1);
-        return helper(n - 1, arr, k, dp);
+        memset(dp, -1, sizeof(dp));
+        return helper(n - 1, arr, k);
     }
 };
