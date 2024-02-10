@@ -1,41 +1,36 @@
+// Longest Divisible Subsequence (LDS)
 // 1, 2, 4, 8, 16, 32 ..
 
 class Solution {
 public:
-    unordered_map<int, vector<int>> dp;
-
-    vector<int> helper(int i, vector<int>& nums) {
-        if(i == nums.size()) {
-            return {};
-        }
-        if(dp.find(i) != dp.end()) {
-            return dp[i];
-        }
-        
-        vector<int> res = {nums[i]};
-        for (int j = i + 1; j < nums.size(); j++)
+    vector<int> longestDivisibleSubsequence(vector<int>& nums) {
+        int n = nums.size(), lis = 0, maxInd = 0;
+        vector<int> dp(n, 1), prev(n), res;
+        for (int i = 0; i < n; i++)
         {
-            if(nums[j] % nums[i] == 0) {
-                vector<int> take = helper(j, nums);
-                take.push_back(nums[i]);
-                if(res.size() < take.size()) {
-                    res = take;
+            prev[i] = i;
+            for (int j = 0; j < i; j++)
+            {
+                if(nums[i] % nums[j] == 0 && dp[i] < 1 + dp[j]){
+                    dp[i] = 1 + dp[j];
+                    prev[i] = j;
                 }
             }
+            if(lis < dp[i]) {
+                lis = dp[i];
+                maxInd = i;
+            }
         }
-        return dp[i] = res;
+        while(res.size() < lis) {
+            res.push_back(nums[maxInd]);
+            maxInd = prev[maxInd];
+        }
+        reverse(res.begin(), res.end());
+        return res;
     }
     
     vector<int> largestDivisibleSubset(vector<int>& nums) {
-        vector<int> res;
         sort(nums.begin(), nums.end());
-        for (int i = 0; i < nums.size(); i++)
-        {
-            vector<int> temp = helper(i, nums);
-            if(res.size() < temp.size()) {
-                res = temp;
-            }
-        }
-        return res;
+        return longestDivisibleSubsequence(nums);
     }
 };
