@@ -11,7 +11,7 @@ public:
             if(c1 == c2) {
                 return grid[r1][c1];
             }
-            return grid[n - 1][c1] + grid[n - 1][c2];
+            return grid[r1][c1] + grid[r1][c2];
         }
         if(dp[r1][c1][c2] != -1) {
             return dp[r1][c1][c2];
