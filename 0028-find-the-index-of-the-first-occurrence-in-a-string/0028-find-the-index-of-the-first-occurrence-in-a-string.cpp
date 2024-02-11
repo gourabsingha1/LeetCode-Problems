@@ -1,37 +1,44 @@
+// **** Z-Algorithm - O(N + M), O(N + M) ****
 class Solution {
 public:
-    vector<int> lps(string &s) {
-        int n = s.size(), i = 1, prevLPS = 0;
-        vector<int> LPS(n, 0);
-        while(i < n){
-            if(s[i] == s[prevLPS]){
-                LPS[i] = prevLPS + 1;
-                prevLPS++, i++;
+    vector<int> zAlgo(string& s) {
+        int n = s.size(), l = 0, r = 0;
+        vector<int> z(n);
+        for (int i = 1; i < n; i++)
+        {
+            if(i > r) {
+                l = r = i;
+                while(r < n && s[r - l] == s[r]) {
+                    r++;
+                }
+                z[i] = r - l;
+                r--;
             }
-            else if(prevLPS == 0){
-                LPS[i] = 0, i++;
-            }
-            else{
-                prevLPS = LPS[prevLPS - 1];
+            else {
+                int ind = i - l;
+                if(i + z[ind] <= r) {
+                    z[i] = z[ind];
+                }
+                else {
+                    l = i;
+                    while(r < n && s[r - l] == s[r]) {
+                        r++;
+                    }
+                    z[i] = r - l;
+                    r--;
+                }
             }
         }
-        return LPS;
+        return z;
     }
-    int strStr(string haystack, string needle) {
-        vector<int> LPS = lps(needle);
-        int i = 0, j = 0;
-        while(i < haystack.size()){
-            if(haystack[i] == needle[j]){
-                i++, j++;
-            }
-            else if(j == 0){
-                i++;
-            }
-            else{
-                j = LPS[j-1];
-            }
-            if(j == needle.size()){
-                return i - needle.size();
+
+    int strStr(string& haystack, string& needle) {
+        string tot = needle + "$" + haystack;
+        vector<int> z = zAlgo(tot);
+        for (int i = 0; i < z.size(); i++)
+        {
+            if(z[i] == needle.size()) {
+                return i - needle.size() - 1;
             }
         }
         return -1;
