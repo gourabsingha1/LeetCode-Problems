@@ -7,6 +7,7 @@ public:
                 cnt++;
             }
             else if(cnt == 0) {
+                cnt = 1;
                 res = num;
             }
             else {
