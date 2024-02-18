@@ -2,7 +2,7 @@
 class Solution {
 public:
     int mostBooked(int n, vector<vector<int>>& meetings) {
-        int rooms[101] = {};
+        vector<int> rooms(n);
         sort(meetings.begin(), meetings.end());
         priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>> > pq;
         for (int i = 0; i < n; i++)
@@ -21,6 +21,6 @@ public:
             pq.push({time + meetings[i][1] - meetings[i][0], room});
             rooms[room]++;
         }
-        return max_element(begin(rooms), end(rooms)) - begin(rooms);
+        return max_element(rooms.begin(), rooms.end()) - rooms.begin();
     }
 };
