@@ -1,6 +1,6 @@
 // sort meetings according time to go in one direction
-// if two meetings happen at the same time, this means if any person knows the secret
-// it will be shared among all persons
+// within the same time frame, all meetings can be grouped
+// if any one person in that group knows the secret, then it will be shared among all the persons
 
 class Solution {
 public:
@@ -24,23 +24,22 @@ public:
         knows[0] = 1, knows[firstPerson] = 1;
         int i = 0, m = meetings.size();
         while(i < m) {
-            int time = meetings[i][2], j = i, found = 0;
+            // groups meetings of same time
+            int time = meetings[i][2], j = i;
             unordered_map<int, vector<int>> adj;
             while(i < m && time == meetings[i][2]) {
                 int p1 = meetings[i][0], p2 = meetings[i++][1];
-                found |= knows[p1] | knows[p2];
                 adj[p1].push_back(p2);
                 adj[p2].push_back(p1);
             }
 
-            if(found) {
-                unordered_map<int, bool> vis;
-                for (int k = j; k < i; k++)
-                {
-                    int p1 = meetings[k][0], p2 = meetings[k][1];
-                    if(!vis[p1] && knows[p1] || !vis[p2] && knows[p2]) {
-                        dfs(p1, adj, vis, knows);
-                    }
+            // checks if any one knows the secret
+            unordered_map<int, bool> vis;
+            for (int k = j; k < i; k++)
+            {
+                int p1 = meetings[k][0], p2 = meetings[k][1];
+                if(!vis[p1] && knows[p1] || !vis[p2] && knows[p2]) {
+                    dfs(p1, adj, vis, knows);
                 }
             }
         }
