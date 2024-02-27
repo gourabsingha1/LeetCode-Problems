@@ -1,6 +1,7 @@
 class Solution {
 public:
     int res = 0;
+    
     int helper(TreeNode* root) {
         if(!root) {
             return 0;
